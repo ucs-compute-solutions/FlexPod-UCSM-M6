@@ -1,0 +1,13 @@
+---
+# UUID Pool Configuration for UCSM
+  - name: Configure UUID Pool
+    ucs_uuid_pool:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      org_dn: org-root/org-{{ organization }}
+      state: "{{ server_state }}"
+      name: "{{ uuid_pool_name }}"
+      order: "{{ server_assign_order}}"
+      first_uuid: "{{ uuid_start }}"
+      last_uuid: "{{ uuid_end }}"

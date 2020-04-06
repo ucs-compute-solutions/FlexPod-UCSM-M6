@@ -1,0 +1,19 @@
+---
+# Configure SAN Connectivity Policy if configure_fc is set
+#
+- name: Configure SAN Connectivity Policy
+  ucs_san_connectivity:
+    hostname: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    name: "{{ san_policy_name }}"
+    wwnn_pool: "{{ wwnn_pool_name }}"
+    org_dn: "org-root/org-{{ organization }}"
+    vhba_list:
+    - name: "{{ san_policy_vhba_a_name }}"
+      vhba_template: "{{ vhba_a_name }}"
+      adapter_policy: VMWare
+    - name: "{{ san_policy_vhba_b_name }}"
+      vhba_template: "{{ vhba_b_name }}"
+      adapter_policy: VMWare
+  when: configure_fc is defined

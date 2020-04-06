@@ -1,0 +1,10 @@
+---
+  ##
+  # Configure VLANs on the Nexus Switches
+  #
+  - name: Create VLANs
+    nxos_vlans:
+      config:
+        - vlan_id: "{{ item.id }}"
+          name: "{{ item.name }}"
+    with_list: "{{ vlan_list }}"

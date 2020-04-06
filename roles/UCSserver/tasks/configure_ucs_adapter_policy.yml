@@ -1,0 +1,53 @@
+---
+    # VMware Adapter Policy for High Traffic
+      - name: Create VMware Ethernet Adapter Policy for High Traffic
+        ucs_managed_objects:
+          hostname: "{{ inventory_hostname }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+          objects:
+          - {
+              "module": "ucsmsdk.mometa.adaptor.AdaptorHostEthIfProfile",
+              "class": "AdaptorHostEthIfProfile",
+              "properties": {
+                  "parent_mo_or_dn": "org-root",
+                  "name": "{{adapter_policy_name}}"
+              },
+              "children": [
+                {
+                  "module": "ucsmsdk.mometa.adaptor.AdaptorEthWorkQueueProfile",
+                  "class": "AdaptorEthWorkQueueProfile",
+                  "properties": {
+                    "count": '8'
+                  }
+                },
+                {
+                  "module": "ucsmsdk.mometa.adaptor.AdaptorEthRecvQueueProfile",
+                  "class": "AdaptorEthRecvQueueProfile",
+                  "properties": {
+                    "count": '8'
+                  }
+                },
+                {
+                  "module": "ucsmsdk.mometa.adaptor.AdaptorEthCompQueueProfile",
+                  "class": "AdaptorEthCompQueueProfile",
+                  "properties": {
+                    "count": '16'
+                  }
+                },
+                {
+                  "module": "ucsmsdk.mometa.adaptor.AdaptorEthInterruptProfile",
+                  "class": "AdaptorEthInterruptProfile",
+                  "properties": {
+                    "count": '18'
+                  }
+                },
+                {
+                  "module": "ucsmsdk.mometa.adaptor.AdaptorRssProfile",
+                  "class": "AdaptorRssProfile",
+                  "properties": {
+                    "receive_side_scaling": 'enabled'
+                  }
+                }
+              ]
+            }

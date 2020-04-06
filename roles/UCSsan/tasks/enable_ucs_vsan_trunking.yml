@@ -1,0 +1,28 @@
+---
+# Enable VSAN Trunking for uplink FC ports when configure_fc is set
+#
+  - name: Enable VSAN trunking for uplink FC ports
+    ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+      - {
+          "module": "ucsmsdk.mometa.fabric.FabricFcSan",
+          "class": "FabricFcSan",
+          "properties": {
+              "parent_mo_or_dn": "fabric/san",
+              "id": "A",
+              "uplink_trunking": "enabled"
+            }
+        }
+      - {
+          "module": "ucsmsdk.mometa.fabric.FabricFcSan",
+          "class": "FabricFcSan",
+          "properties": {
+              "parent_mo_or_dn": "fabric/san",
+              "id": "B",
+              "uplink_trunking": "enabled"
+            }
+        }
+    when: configure_fc is defined

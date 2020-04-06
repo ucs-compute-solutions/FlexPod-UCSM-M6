@@ -1,0 +1,63 @@
+#
+#This is the list of all the VLANs that will be defined on Nexus and UCS.
+#
+# VLAN Names are adjustable and can be modified in here
+#
+native_vlan_name: 'Native-Vlan' # Native VLAN
+oob_vlan_name: 'oob-mgmt' # Out of Band Mgmt VLAN
+ib_vlan_name: 'ib-mgmt' # IN BAND Management VLAN
+vm_vlan_name: 'vm-traffic' # VLAN to carry VM traffic on VDS
+vmotion_vlan_name: 'vmotion' # vMotion VLAN
+nfs_vlan_name: 'nfs-vlan' # NFS Traffic between ESXi and Storage
+iscsiA_vlan_name: 'iscsi-a' # iSCSI-A VLAN (if needed)
+iscsiB_vlan_name: 'iscsi-b' # iSCSI-B VLAN (if needed)
+#
+# lan_state should be set to 'present' to configure the objects
+# In future, this parameter will be used for deleting the configuration
+#
+lan_state : 'present'
+#
+vlan_list:
+  - name: "{{ native_vlan_name }}"
+    id: '2'
+    native: 'yes'
+    state: "{{lan_state}}"
+  - name: "{{ oob_vlan_name }}"
+    id: '11'
+    native: 'no'
+    state: "{{lan_state}}"
+  - name: "{{ ib_vlan_name }}"
+    id: '511'
+    native: 'no'
+    state: "{{lan_state}}"
+  - name: "{{ vm_vlan_name }}"
+    id: '611'
+    native: 'no'
+    state: "{{lan_state}}"
+  - name: "{{ vmotion_vlan_name }}"
+    id: '3000'
+    native: 'no'
+    state: "{{lan_state}}"
+  - name: "{{ nfs_vlan_name }}"
+    id: '3050'
+    native: 'no'
+    state: "{{lan_state}}"
+    # ISCSI A and B VLANs should be deleted for Fiber-Channel-Only deployments
+  - name: "{{ iscsiA_vlan_name }}"
+    id: '3010'
+    native: 'no'
+    state: "{{lan_state}}"
+  - name: "{{ iscsiB_vlan_name }}"
+    id: '3020'
+    native: 'no'
+    state: "{{lan_state}}"
+#
+# VLANs definition below will be used to setup trunk ports on Nexus Switches
+# all_vlans_list: for vpc_peer_link and UCS FI trunk ports
+all_vlans_list: "11,511,611,3000,3010,3020,3050"
+# storage_vlans_list: for vpc_peer_link and UCS FI trunk ports
+storage_vlans_list: "511,3010,3020,3050"
+# mgmt_vlans_list: for management switch trunk port
+mgmt_vlans_list: "11,511"
+#
+native_vlan_id: "2"

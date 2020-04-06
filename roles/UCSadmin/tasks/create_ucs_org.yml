@@ -1,0 +1,11 @@
+---
+  # This Task Adds a UCS Organization where a number of policies will be configured later
+  - name: Add UCS Organization
+    ucs_org:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      org_name: "{{ organization }}"
+      description: For Configuring {{ organization }} settings
+      state: present
+      delegate_to: localhost

@@ -1,0 +1,54 @@
+---
+# Setup UCS uplink Ports
+  - name: Configure UCS Uplink Ports
+    ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+            # Configure the port as uplink port
+            "module": "ucsmsdk.mometa.fabric.FabricEthLan",
+            "class": "FabricEthLan",
+            "properties": {
+              "parent_mo_or_dn": "fabric/lan",
+              "id": "{{ item.fabric_id }}"
+            },
+            "children": [
+              {
+                "module": "ucsmsdk.mometa.fabric.FabricEthLanEp",
+                "class": "FabricEthLanEp",
+                "properties": {
+                  "port_id": "{{ item.port_id }}",
+                  "slot_id": "{{ item.slot_id }}",
+                  "admin_state": "enabled",
+                  "auto_negotiate": "yes"
+                }
+              }
+            ]
+          }
+        - {
+            # Add the port to appropriate port-channel
+            "module": "ucsmsdk.mometa.fabric.FabricEthLanPc",
+            "class": "FabricEthLanPc",
+            "properties": {
+              "parent_mo_or_dn": "fabric/lan/{{ item.fabric_id }}",
+              "name": "{{ item.name }}",
+              "port_id": "{{ item.pc_id }}",
+              "admin_speed": "{{ item.admin_speed }}"
+            },
+            "children": [
+              {
+                "module": "ucsmsdk.mometa.fabric.FabricEthLanPcEp",
+                "class": "FabricEthLanPcEp",
+                "properties": {
+                  "slot_id": "{{ item.slot_id }}",
+                  "port_id": "{{ item.port_id }}"
+                }
+              }
+            ]
+          }
+
+
+
+    with_list: "{{ port_channel_list }}"

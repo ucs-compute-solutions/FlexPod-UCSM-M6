@@ -1,0 +1,66 @@
+---
+# Example Playbook: VLAN configuration using the [ucs] hosts group
+- hosts: ucs
+  connection: local
+  gather_facts: no
+#  vars_files:
+    # Global Variables which are used across all multiple roles
+#    - "ConfigUCS_vars.yml"
+  roles:
+    ### Setup Equipment related tasks in UCS
+    #
+    # Enable server auto-discovery policy
+    # Setup Server Ports to connect to Chassis and Rack Servers
+    # Setup Uplink Ports and Port-Channels
+    #- UCSequipment
+    #
+    ### Setup Admin tasks in UCS
+    #
+    # DNS Configuration (optional - skipped by default
+    # Timezone (optional - skipped by default)
+    # NTP server (optional - skipped by default)
+    # Organization - for defining UCS policies under defined org
+    #
+    # To configure the "optional" parameters, uncomment and update the variables
+    # under roles/admin/vars.
+    #- UCSadmin
+    #
+    #
+    ### Setup LAN Tasks in UCS
+    #
+    # Mgmt IP Pool
+    # iSCSI IP Pools (if required)
+    # VLANs
+    # MAC pools
+    # vNIC templates (except iSCSI vNIC templates)
+    # iSCSI vNIC templates (if required)
+    # Network Control Policy - Enable CDP and LLDP
+    # iSCSI LAN Connectivity Policy (if required)
+    # FC LAN Connectivity Policy (if required)
+    #- UCSlan
+    #
+    #
+    ### Create Configurations under SAN Tab in UCS
+    #
+    # IQN pools
+    # WWNN pools
+    # WWPN A and B Pools
+    # VSAN A and VSAN B (if required)
+    # vHBA Templates
+    # enable VSAN trunking for uplink ports (if required)
+    #- UCSsan
+    #
+    #
+    ### Create Configurations under Server Tab in UCS
+    #
+    # UUID pools
+    # Server Pool Configuration
+    # Power Control Policy - No Power CAP
+    # Modify default Maintenence policy - Add User Ack for reboot
+    # VMware High Traffic Adapter Policy for VDS
+    # Local Disk Policy - Ignore Local Disks
+    # BIOS Policy
+    # iSCSI Boot Policy (if required)
+    # iSCSI Service Profile Template (if required)
+    # FCP Boot Policy (if required)
+    #- UCSserver

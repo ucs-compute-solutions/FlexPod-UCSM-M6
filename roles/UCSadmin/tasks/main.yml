@@ -1,0 +1,11 @@
+---
+# Admin Tasks Configuration for UCSM
+
+# Configure DNS Servers
+- include_tasks: configure_dns.yml
+# Configure NTP Servers
+- include_tasks: configure_ntp_server.yml
+# Configure UCS Timezone
+- include_tasks: configure_ucs_timezone.yml
+# Configure UCS organization
+- include_tasks: create_ucs_org.yml

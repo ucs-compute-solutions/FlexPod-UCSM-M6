@@ -1,0 +1,18 @@
+---
+  # Configure Local Disk Policy to Ignore Local Disks
+
+  - name: Create Local Disk Policy
+    ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+      - {
+          "module": "ucsmsdk.mometa.storage.StorageLocalDiskConfigPolicy",
+          "class": "StorageLocalDiskConfigPolicy",
+          "properties": {
+              "parent_mo_or_dn": "org-root/org-{{ organization }}",
+              "name": "{{ local_disk_policy_name }}",
+              "mode": "{{ local_disk_mode }}"
+          },
+        }

@@ -1,0 +1,36 @@
+---
+# Configure FC LAN Connectivity Policy when configure_fc is set
+#
+- name: Configure FC LAN Connectivity Policy
+  ucs_lan_connectivity:
+    hostname: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    name: "{{ fc_lan_conn_policy }}"
+    org_dn: org-root/org-{{ organization }}
+    vnic_list:
+    - name: 01-{{ vnic_template_list[0].name }}
+      vnic_template: "{{ vnic_template_list[0].name}}"
+      adapter_policy: 'VMWare'
+      order: '1'
+    - name: 02-{{ vnic_template_list[1].name }}
+      vnic_template: "{{ vnic_template_list[1].name}}"
+      adapter_policy: 'VMWare'
+      order: '2'
+    - name: 03-{{ vnic_template_list[2].name }}
+      vnic_template: "{{ vnic_template_list[2].name}}"
+      adapter_policy: "{{ adapter_policy_name }}"
+      order: '3'
+    - name: 04-{{ vnic_template_list[3].name }}
+      vnic_template: "{{ vnic_template_list[3].name}}"
+      adapter_policy: "{{ adapter_policy_name }}"
+      order: '4'
+    - name: 05-{{ vnic_template_list[4].name }}
+      vnic_template: "{{ vnic_template_list[4].name}}"
+      adapter_policy: 'VMWare'
+      order: '5'
+    - name: 06-{{ vnic_template_list[5].name }}
+      vnic_template: "{{ vnic_template_list[5].name}}"
+      adapter_policy: 'VMWare'
+      order: '6'
+  when: configure_fc is defined

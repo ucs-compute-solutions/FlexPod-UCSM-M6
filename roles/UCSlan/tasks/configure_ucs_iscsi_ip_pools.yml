@@ -1,0 +1,16 @@
+---
+# iSCSI IP Address Pools Configuration for UCSM
+
+- name: Configure iSCSI IP address pools
+  ucs_ip_pool:
+    hostname: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    name: "{{ item.name }}"
+    order: "{{ lan_assign_order}}"
+    org_dn: org-root/org-{{ organization }}
+    first_addr: "{{ item.first_ip }}"
+    last_addr: "{{ item.last_ip }}"
+    subnet_mask: "{{ item.subnet_mask }}"
+  with_list: "{{ iscsi_ip_pool_list }}"
+  when: configure_iscsi is defined

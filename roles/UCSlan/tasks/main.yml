@@ -1,0 +1,22 @@
+---
+# LAN Tasks Configuration for UCSM
+# Variables can be modified under ../defaults/main.yml
+#
+#Configure Management IP Pool
+- include_tasks: configure_ucs_mgmt_ip_pool.yml
+# Configure iSCSI IP Address Pools for iSCSI A and B (if configure_iscsi=yes is define)
+- include_tasks: configure_ucs_iscsi_ip_pools.yml
+# Configure VLANs in UCS
+- include_tasks: configure_ucs_vlans.yml
+# Configure UCS MAC Pools A and B
+- include_tasks: configure_ucs_mac_pools.yml
+# Configure Network Control Policies to enable CDP and LLDP
+- include_tasks: configure_ucs_NCP.yml
+# Configure vNIC Template for all vNICs except iSCSI vNICs
+- include_tasks: configure_ucs_vnic_templates.yml
+# Configure vNIC Template for iSCSI vNICs
+- include_tasks: configure_ucs_iscsi_vnic_templates.yml
+# Configure iSCSI LAN Connectivity Policy (if configure_iscsi=yes is define)
+- include_tasks: configure_ucs_iscsi_LCP.yml
+# Configure FC LAN Connectivity Policy (if configure_fc=yes is define)
+- include_tasks: configure_ucs_fc_LCP.yml

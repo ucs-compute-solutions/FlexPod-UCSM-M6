@@ -1,0 +1,41 @@
+---
+# Global Variables for UCS Configurations
+# These Variables are used across different roles in UCS configurations
+# e.g. "organization" is used under san, lan, server and admin roles
+# Adjust the variable values as per your requirements
+
+# Commenting out the following two variables will skip the iSCSI and/or FC configurations
+configure_iscsi: 'yes'
+configure_fc: 'yes'
+#
+#UCS Organization
+organization: 'FlexPod'
+# VMware High Traffic Adapter Policy
+adapter_policy_name: 'VMware-HighTrf'
+# IQN Pool Name
+iqn_pool_name: 'IQN-Pool'
+#
+iscsi_a_pool_name: 'iSCSI-Pool-A'
+iscsi_b_pool_name: 'iSCSI-Pool-B'
+# iSCSI LAN Connectivity Policy Parameters
+iscsi_lan_conn_policy: 'iSCSI-Boot'
+iscsi_a_vnic_name: 'iSCSI-Boot-A'
+iscsi_b_vnic_name: 'iSCSI-Boot-B'
+#
+# FC LAN Connectivity Policy Parameters
+fc_lan_conn_policy: 'FCP-Boot'
+# vHBA Names
+vhba_a_name: 'vHBA-A'
+vhba_b_name: 'vHBA-B'
+# SAN Policy Paramters
+san_policy_name: 'FC-Boot'
+san_policy_vhba_a_name: 'Fabric-A'
+san_policy_vhba_b_name: 'Fabric-B'
+# Storage iSCSI Target
+storage_iscsi_target: 'iqn.1992-08.com.netapp:sn.2a34dc754e1511eaa17e00a0985b4a87:vs.3'
+#Storage System WWPN
+storage_node1_wwpn_A: '20:01:00:A0:98:5B:4A:86'
+storage_node2_wwpn_A: '20:03:00:A0:98:5B:4A:86'
+storage_node1_wwpn_B: '20:02:00:A0:98:5B:4A:86'
+storage_node2_wwpn_B: '20:04:00:A0:98:5B:4A:86'
+#

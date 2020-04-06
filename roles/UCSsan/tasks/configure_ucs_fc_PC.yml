@@ -1,0 +1,62 @@
+---
+# Setup UCS FC Uplink Port-Channel when configure_fc is set
+#
+- name: Configure FC Uplink Port-Channels
+  ucs_managed_objects:
+    hostname: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    objects:
+      - {
+          "module": "ucsmsdk.mometa.fabric.FabricFcSanPc",
+          "class": "FabricFcSanPc",
+          "properties": {
+            "parent_mo_or_dn": "fabric/san/{{ item.fabric }}",
+            "port_id": "{{ item.pc_id }}",
+            "name": "{{ item.name }}"
+          },
+          "children": [
+            {
+              "module": "ucsmsdk.mometa.fabric.FabricFcSanPcEp",
+              "class": "FabricFcSanPcEp",
+              "properties": {
+                "admin_speed": "auto",
+                "auto_negotiate": "yes",
+                "slot_id": "{{ item.slot_id }}",
+                "port_id": "{{ item.port_id }}",
+                "admin_state": "enabled",              }
+            },
+          ]
+        }
+  with_list: "{{ fc_port_channel_list }}"
+  when: configure_fc is defined
+#
+# Add VSAN to the port-channel
+#
+- name: Configure VSAN for FC Port-Channels
+  ucs_managed_objects:
+    hostname: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    objects:
+      - {
+          "module": "ucsmsdk.mometa.fabric.FabricVsan",
+          "class": "FabricVsan",
+          "properties": {
+            "parent_mo_or_dn": "fabric/san/{{ item.fabric }}",
+            "name": "{{ item.vsan }}"
+          },
+          "children": [
+            {
+              "module": "ucsmsdk.mometa.fabric.FabricFcVsanPc",
+              "class": "FabricFcVsanPc",
+              "properties": {
+                "admin_state": "enabled",
+                "port_id": "{{ item.pc_id }}",
+                "switch_id": "{{ item.fabric }}"
+              }
+            }
+          ]
+        }
+  with_list: "{{ fc_uplink_PC_info }}"
+  when: configure_fc is defined

@@ -1,0 +1,46 @@
+---
+# Most common user defined variables for LAN configurations of UCSM
+# Uncomment and adjust the variable values as per your requirements
+# These variables will overwrite the default variables defined in ../default/main.yml
+
+#Management IP address Pool configuration
+#
+#mgmt_first_ip: '192.168.160.196'
+#mgmt_last_ip: '192.168.160.199'
+#mgmt_subnet_mask: '255.255.252.0'
+#mgmt_default_gw: '192.168.160.254'
+#
+#iSCSI IP address Pool configuration
+#
+#iscsi_ip_pool_list:
+#  - name: "{{ iscsi_a_pool_name }}"
+#    first_ip: '192.168.10.101'
+#    last_ip: '192.168.10.132'
+#    subnet_mask: '255.255.255.0'
+#  - name: "{{ iscsi_b_pool_name }}"
+#    first_ip: '192.168.20.101'
+#    last_ip: '192.168.20.132'
+#    subnet_mask: '255.255.255.0'
+#
+#
+# VLAN Names and IDs are adjustable and can be modified in here
+#iSCSI VLANs do not need to be defined for FC-Only boot configurations
+#
+#native_vlan_name: 'Native-Vlan' # Native VLAN
+#oob_vlan_name: 'oob-mgmt' # Out of Band Mgmt VLAN
+#ib_vlan_name: 'ib-mgmt' # IN BAND Management VLAN
+#vm_vlan_name: 'vm-traffic' # VLAN to carry VM traffic on VDS
+#vmotion_vlan_name: 'vmotion' # vMotion VLAN
+#nfs_vlan_name: 'nfs-vlan' # NFS Traffic between ESXi and Storage
+#iscsiA_vlan_name: 'iscsi-a' # iSCSI-A VLAN (if needed)
+#iscsiB_vlan_name: 'iscsi-b' # iSCSI-B VLAN (if needed)
+#
+# MAC Address Pool information for Fabric-A and B
+#
+#mac_pool_list:
+#  - name: MAC-Pool-A
+#    first_mac: 00:25:B5:A4:0A:00
+#    last_mac: 00:25:B5:A4:0A:3F
+#  - name: MAC-Pool-B
+#    first_mac: 00:25:B5:A4:0B:00
+#    last_mac: 00:25:B5:A4:0B:3F

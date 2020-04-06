@@ -1,0 +1,49 @@
+---
+  # Configure Service Profile Templates for iSCSI or FC
+  # if configure_iscsi and/or configure_fc are set
+
+  # iSCSI Service Profile Template
+  #
+  - name: Configure Service Profile Template for iSCSI
+    ucs_service_profile_template:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      name: "{{ iscsi_SPT_name }}"
+      org_dn: "org-root/org-{{ organization }}"
+      template_type: 'updating-template'
+      uuid_pool: "{{ uuid_pool_name }}"
+      lan_connectivity_policy: "{{ iscsi_lan_conn_policy }}"
+      iqn_pool: "{{ iqn_pool_name }}"
+      boot_policy: "{{ iscsi_boot_policy_name }}"
+      maintenance_policy: 'default'
+      power_control_policy: "{{ power_policy_name }}"
+      local_disk_policy: "{{ local_disk_policy_name }}"
+      server_pool: "{{ server_pool_name }}"
+      bios_policy: "{{ bios_policy_name}}"
+    when: configure_iscsi is defined
+  #
+  # Set iSCSI Boot Paramters for the SPT
+  #
+  
+  # FC Service Profile Template
+  #
+  - name: Configure Service Profile Template for FCP
+    ucs_service_profile_template:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      name: "{{ fc_SPT_name }}"
+      org_dn: "org-root/org-{{ organization }}"
+      template_type: 'updating-template'
+      uuid_pool: "{{ uuid_pool_name }}"
+      lan_connectivity_policy: "{{ fc_lan_conn_policy }}"
+      boot_policy: "{{ fc_boot_policy_name }}"
+      maintenance_policy: 'default'
+      power_control_policy: "{{ power_policy_name }}"
+      local_disk_policy: "{{ local_disk_policy_name }}"
+      server_pool: "{{ server_pool_name }}"
+      san_connectivity_policy: "{{ san_policy_name }}"
+      bios_policy: "{{ bios_policy_name}}"
+    when: configure_fc is defined
+    #

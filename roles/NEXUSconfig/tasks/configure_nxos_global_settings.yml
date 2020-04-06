@@ -1,0 +1,6 @@
+---
+  # This Task sets up the global configuration paramters for
+  # spanning tree and port-channel load balancing
+  - name: Configure Global Configs
+    nxos_config:
+      lines: "{{ global_settings }}"

@@ -1,0 +1,30 @@
+---
+# Manually Setup Server Ports
+#
+  - name: Configure Server Ports for Rack and Chassis
+    ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+            "module": "ucsmsdk.mometa.fabric.FabricDceSwSrv",
+            "class": "FabricDceSwSrv",
+            "properties": {
+              "parent_mo_or_dn": "fabric/server",
+              "id": "{{ item.fabric_id }}"
+            },
+            "children": [
+              {
+                "module": "ucsmsdk.mometa.fabric.FabricDceSwSrvEp",
+                "class": "FabricDceSwSrvEp",
+                "properties": {
+                  "port_id": "{{ item.port_id }}",
+                  "slot_id": "{{ item.slot_id }}",
+                  "admin_state": "enabled",
+                  "auto_negotiate": "yes"
+                }
+              }
+            ]
+          }
+    with_list: "{{ server_port_list }}"

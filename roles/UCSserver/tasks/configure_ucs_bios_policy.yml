@@ -1,0 +1,37 @@
+---
+  # Create BIOS Policy Under Organization
+  #
+    - name: Create BIOS Policy
+      ucs_managed_objects:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        objects:
+        - {
+            "module": "ucsmsdk.mometa.bios.BiosVProfile",
+            "class": "BiosVProfile",
+            "properties": {
+                "parent_mo_or_dn": "org-root/org-{{ organization }}",
+                "name": "{{ bios_policy_name }}",
+            },
+          }
+    #
+    # BIOS - Parameters to be updated
+    #
+    - name: Update BIOS Policy settings
+      ucs_managed_objects:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        objects:
+        - {
+            "module": "ucsmsdk.mometa.bios.BiosTokenSettings",
+            "class": "BiosTokenSettings",
+            "properties": {
+                "parent_mo_or_dn": "org-root/org-{{ organization }}/bios-prof-{{bios_policy_name}}/{{ item.mo_token }}",
+                "is_assigned": "yes",
+                "settings_mo_rn": "{{ item.mo_setting }}"
+            },
+          }
+      with_list: "{{ bios_setting_list }}"
+    #

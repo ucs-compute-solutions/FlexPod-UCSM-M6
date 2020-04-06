@@ -1,0 +1,18 @@
+---
+# SAN Tasks Configuration for UCSM
+# Variables can be modified under ../defaults/main.yml
+
+# Configure IQN Pools (if configure_iscsi=yes is define)
+- include_tasks: configure_ucs_iqn_pools.yml
+# Configure WWNN and WWPN Pools (if configure_fc=yes is define)
+- include_tasks: configure_ucs_wwn_pools.yml
+# Configure VSAN (if configure_fc=yes is define)
+- include_tasks: configure_ucs_vsan.yml
+# Configure vHBA Templates (if configure_fc=yes is define)
+- include_tasks: configure_ucs_vhba_template.yml
+# Configure SAN Connectivity Policy (if configure_fc=yes is define)
+- include_tasks: configure_ucs_SCP.yml
+# Enable VSAN Trunking on uplink ports (if configure_fc=yes is define)
+- include_tasks: enable_ucs_vsan_trunking.yml
+# Configure FC uplink Port-Channel (if configure_fc=yes is define)
+- include_tasks: configure_ucs_fc_PC.yml

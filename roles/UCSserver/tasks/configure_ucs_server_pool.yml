@@ -1,0 +1,59 @@
+---
+# Server Pool Configuration for UCSM to add Blade/Rack servers
+# The server pool will skip blade or rack servers if the variables
+# rack_list or blade_list are undefined in ../var/main.yml
+#
+# Server Pool Configuration - Rack Servers
+  - name: Configure Server Pool - Add Rack Servers
+    ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+          "module": "ucsmsdk.mometa.compute.ComputePool",
+          "class": "ComputePool",
+          "properties": {
+              "parent_mo_or_dn": "org-root/org-{{ organization }}",
+              "name": "{{ server_pool_name }}",
+              },
+              "children": [
+              {
+                "module": "ucsmsdk.mometa.compute.ComputePooledRackUnit",
+                "class": "ComputePooledRackUnit",
+                "properties": {
+                  "id": "{{ item.id }}"
+                }
+              },
+              ]
+            }
+    with_list: "{{ rack_list }}"
+    when: rack_list is defined
+
+# Server Pool Configuration - Blade Servers
+  - name: Configure Server Pool - Add Blade Servers
+    ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+          "module": "ucsmsdk.mometa.compute.ComputePool",
+          "class": "ComputePool",
+          "properties": {
+              "parent_mo_or_dn": "org-root/org-{{ organization }}",
+              "name": "{{ server_pool_name }}",
+              },
+              "children": [
+              {
+                "module": "ucsmsdk.mometa.compute.ComputePooledSlot",
+                "class": "ComputePooledSlot",
+                "properties": {
+                  "chassis_id": "{{ item.chassis_number}}",
+                  "slot_id": "{{ item.slot_number }}"
+                }
+              },
+              ]
+            }
+    with_list: "{{ blade_list }}"
+    when: blade_list is defined

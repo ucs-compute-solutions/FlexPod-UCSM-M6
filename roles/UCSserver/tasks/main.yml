@@ -1,0 +1,25 @@
+---
+# Server Tasks Configuration for UCSM
+# Variables should be modified under ../default/main.yml
+
+  # UUID Pool Configuration
+  - include_tasks: configure_ucs_uuid_pool.yml
+  # Server Pool Configuration for UCSM to add Blade/Rack servers
+  # The server pool configuration  will skip blade or rack servers if the
+  # variables rack_list or blade_list are undefined in ../var/main.yml
+  - include_tasks: configure_ucs_server_pool.yml
+  # Power Control Policy (PCP) - remove any power caps
+  - include_tasks: configure_ucs_PCP.yml
+  # Update Default Maintenance Policy  - Add user ACK for Reboot
+  # and apply pending changes: On Next Reboot
+  - include_tasks: update_ucs_maintenance_policy.yml
+  # Local Disk Policy - Ignore Disks
+  - include_tasks: configure_ucs_disk_policy.yml
+  #Create BIOS Policy and update various settings
+  - include_tasks: configure_ucs_bios_policy.yml
+  # VMware Adapter Policy for High Traffic
+  - include_tasks: configure_ucs_adapter_policy.yml
+  # Configure iSCSI/FC Boot Policy (based on configure_fc or configure_iscsi)
+  - include_tasks: configure_ucs_boot_policy.yml
+  # Configure Service Profile Templates (based on configure_fc or configure_iscsi)
+  - include_tasks: configure_ucs_SPT.yml

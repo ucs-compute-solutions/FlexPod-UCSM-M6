@@ -1,0 +1,95 @@
+---
+# Variables for SAN configurations of UCSM
+# Adjust the variable values as per your requirements
+
+# Assignment order for various pool parameters
+san_assign_order: 'sequential'
+# To add or remove certain parameters
+san_state: 'present'
+#
+#iSCSI IQN values
+iqn_prefix: 'iqn.2010-11.com.flexpod'
+iqn_suffix: 'infra-ucs-host'
+iqn_block_start: '1'
+iqn_block_end: '32'
+#
+#FC Configuration parameters
+#
+wwn_pool_list:
+  - name: 'WWNN-Pool'
+    first_address: '20:00:00:25:B5:A4:00:00'
+    last_address: '20:00:00:25:B5:A4:00:1F'
+    purpose: node
+  - name: 'WWPN-Pool-A'
+    first_address: '20:00:00:25:B5:A4:0A:00'
+    last_address: '20:00:00:25:B5:A4:0A:1F'
+    purpose: port
+  - name: 'WWPN-Pool-B'
+    first_address: '20:00:00:25:B5:A4:0B:00'
+    last_address: '20:00:00:25:B5:A4:0B:1F'
+    purpose: port
+#
+#VSAN Parameters
+#
+vsan_list:
+  - name: 'VSAN-A'
+    vsan_id: '101'
+    fcoe_vlan: '101'
+    fabric: 'A'
+  - name: 'VSAN-B'
+    vsan_id: '102'
+    fcoe_vlan: '102'
+    fabric: 'B'
+#
+wwnn_pool_name: "{{ wwn_pool_list[0].name }}"
+#
+vhba_list:
+  - name: "{{ vhba_a_name}}"
+    fabric: 'A'
+    vsan: "{{ vsan_list[0].name }}"
+    wwpn_pool: "{{ wwn_pool_list[1].name }}"
+  - name: "{{ vhba_b_name }}"
+    fabric: 'B'
+    vsan: "{{ vsan_list[1].name }}"
+    wwpn_pool: "{{ wwn_pool_list[2].name }}"
+#
+# FC Port-Channel Info
+#
+fc_uplink_PC_info:
+  - name: "To-MDS1"
+    pc_id: "11"
+    fabric: "A"
+    vsan: "{{ vsan_list[0].name }}"
+  - name: "To-MDS2"
+    pc_id: "12"
+    fabric: "B"
+    vsan: "{{ vsan_list[1].name }}"
+#
+# FC Port-Channel Ports
+#
+fc_port_channel_list:
+  # Port-Channel for Fabric A MDS-1 - Port 1/5
+  - name: "{{ fc_uplink_PC_info[0].name }}"
+    pc_id: "{{ fc_uplink_PC_info[0].pc_id }}"
+    fabric: "A"
+    slot_id: '1'
+    port_id: '5'
+  # Port-Channel for Fabric A MDS-1 - Port 1/6
+  - name: "{{ fc_uplink_PC_info[0].name }}"
+    pc_id: "{{ fc_uplink_PC_info[0].pc_id }}"
+    fabric: "A"
+    slot_id: '1'
+    port_id: '6'
+  # Port-Channel for Fabric B MDS-2 - Port 1/5
+  - name: "{{ fc_uplink_PC_info[1].name }}"
+    pc_id: "{{ fc_uplink_PC_info[1].pc_id }}"
+    fabric: "B"
+    slot_id: '1'
+    port_id: '5'
+  # Port-Channel for Fabric B MDS-2 - Port 1/6
+  - name: "{{ fc_uplink_PC_info[1].name }}"
+    pc_id: "{{ fc_uplink_PC_info[1].pc_id }}"
+    fabric: "B"
+    slot_id: '1'
+    port_id: '6'
+#

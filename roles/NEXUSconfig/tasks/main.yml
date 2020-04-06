@@ -1,0 +1,16 @@
+---
+  # Configuration for Nexus
+  #
+  # Initiate a configuration backup before making changes. The backup will be
+  # stored in the  ~/ directory. Change the directory in ../defaults/main.yml
+  #- include_tasks: initiate_nxos_config_backup.yml
+  # Configure Features
+  #- include_tasks: configure_nxos_features.yml
+  # Configure Spanning tree and port-channel load-balancing
+  #- include_tasks: configure_nxos_global_settings.yml
+  # Configure vlans
+  #- include_tasks: configure_nxos_vlans.yml
+  # Configure Inerface, Port-Channel and Trunk Settings
+  - include_tasks: set_nxos_interfaces.yml
+  # Configure VPC
+  #- include_tasks: configure_nxos_vpc.yml

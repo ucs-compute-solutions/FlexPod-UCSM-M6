@@ -1,0 +1,15 @@
+---
+# Configure WWNN and WWPN Pools under root organization
+#
+  - name: Configure WWNN Pool
+    ucs_wwn_pool:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      name: "{{ item.name }}"
+      purpose: "{{ item.purpose }}"
+      org_dn: "org-root"
+      first_addr: "{{ item.first_address }}"
+      last_addr: "{{ item.last_address }}"
+    with_list: "{{ wwn_pool_list }}"
+    when: configure_fc is defined

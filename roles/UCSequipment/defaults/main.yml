@@ -1,0 +1,46 @@
+---
+# Variables for Equipment related configurations of UCSM
+#
+# This is the list of all the server ports where chassis and rack servers are connected
+#
+server_port_list:
+  - fabric_id: "A"
+    slot_id: '1'
+    port_id: '25'
+  - fabric_id: "A"
+    slot_id: '1'
+    port_id: '26'
+  - fabric_id: "B"
+    slot_id: '1'
+    port_id: '25'
+  - fabric_id: "B"
+    slot_id: '1'
+    port_id: '26'
+#
+# This is the list for Port-Channel Configuration Parameters including uplink ports
+# admin_speed can be hard coded to "100gbps" (default to match Nexus Config) or "auto".
+port_channel_list:
+  - name: "Po151-Nexus"
+    pc_id: '151'
+    fabric_id: "A"
+    slot_id: '1'
+    port_id: '51'
+    admin_speed: "100gbps"
+  - name: "Po151-Nexus"
+    pc_id: '151'
+    fabric_id: "A"
+    slot_id: '1'
+    port_id: '52'
+    admin_speed: "100gbps"
+  - name: "Po152-Nexus"
+    pc_id: '152'
+    fabric_id: "B"
+    slot_id: '1'
+    port_id: '51'
+    admin_speed: "100gbps"
+  - name: "Po152-Nexus"
+    pc_id: '152'
+    fabric_id: "B"
+    slot_id: '1'
+    port_id: '52'
+    admin_speed: "100gbps"

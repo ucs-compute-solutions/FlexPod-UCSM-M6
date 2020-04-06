@@ -1,0 +1,4 @@
+---
+vpc_source: 192.168.160.181
+vpc_destination: 192.168.160.182
+vpc_role_priority: "10"

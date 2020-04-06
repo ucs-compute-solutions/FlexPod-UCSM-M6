@@ -1,0 +1,18 @@
+---
+# Configure LAN Connectivity Policy to enable CDP and LLDP
+#
+- name: Configure Network Control Policy
+  ucs_managed_objects:
+    hostname: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    objects:
+    - module: ucsmsdk.mometa.nwctrl.NwctrlDefinition
+      class: NwctrlDefinition
+      properties:
+        parent_mo_or_dn: org-root/org-{{ organization }}
+        cdp: "{{ NCP_cdp }}"
+        descr: ''
+        lldp_receive: "{{ NCP_lldp }}"
+        lldp_transmit: "{{ NCP_lldp }}"
+        name: "{{ NCP_name }}"

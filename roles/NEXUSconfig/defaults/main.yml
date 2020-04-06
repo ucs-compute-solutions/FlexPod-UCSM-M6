@@ -1,0 +1,93 @@
+---
+backup_dir: "~/"
+#
+enabled_features:
+  - lacp
+  - vpc
+  - interface-vlan
+  - nxapi
+  - udld
+  - lldp
+#
+global_settings:
+  - spanning-tree port type network default
+  - spanning-tree port type edge bpduguard default
+  - spanning-tree port type edge bpdufilter default
+  - port-channel load-balance src-dst l4port
+  - system default switchport
+  - system default switchport shutdown
+#
+# Interface Lists; more interfaces can be added for additional BW
+#
+mgmt_interface_list:
+  - interface: "Ethernet1/34"
+
+vpc_interface_list:
+  - interface:  "Ethernet1/35"
+  - interface:  "Ethernet1/36"
+#
+FI_A_interface_list:
+  - interface:  "Ethernet1/5"
+#
+FI_B_interface_list:
+  - interface:  "Ethernet1/6"
+#
+storage_A_interface_list:
+  - interface:  "Ethernet1/17"
+#
+storage_B_interface_list:
+  - interface:  "Ethernet1/18"
+#
+all_interfaces: "{{ mgmt_interface_list + vpc_interface_list + FI_A_interface_list + FI_B_interface_list + storage_A_interface_list + storage_B_interface_list }}"
+#
+mgmt_PC:
+  - interface: "port-channel4"
+    # id must be same as port-channel number
+    id: "4"
+    speed: "auto"
+    duplex: "auto"
+#
+peerlink_PC:
+  - interface: "port-channel10"
+    # id must be same as port-channel number
+    id: "10"
+    speed: "100000"
+    duplex: "full"
+#
+FI_A_PC:
+  - interface: "port-channel15"
+    # id must be same as port-channel number
+    id: "15"
+    speed: "100000"
+    duplex: "full"
+#
+FI_B_PC:
+  - interface: "port-channel16"
+    # id must be same as port-channel number
+    id: "16"
+    speed: "100000"
+    duplex: "full"
+#
+storage_A_PC:
+  - interface: "port-channel117"
+    # id must be same as port-channel number
+    id: "117"
+    speed: "auto"
+    duplex: "auto"
+#
+storage_B_PC:
+  - interface: "port-channel118"
+    # id must be same as port-channel number
+    id: "118"
+    speed: "auto"
+    duplex: "auto"
+#
+all_port_channels: "{{ peerlink_PC + mgmt_PC + FI_A_PC + FI_B_PC + storage_A_PC + storage_B_PC }}"
+#
+# VPC Parameters
+#
+vpc_domain_id: "10"
+#
+#vars_prompt:
+#    - name: test
+#      prompt: "Do yo want to PC for Storage (yes/no)?"

@@ -1,0 +1,114 @@
+---
+
+    - name: Modify iSCSI Boot Parameters for the iSCSI SP Template
+      ucs_managed_objects:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        objects:
+          - {
+              "module": "ucsmsdk.mometa.ls.LsServer",
+              "class": "LsServer",
+              "properties": {
+                "parent_mo_or_dn": "org-root/org-{{ organization }}",
+                "boot_policy_name": "{{ iscsi_boot_policy_name }}",
+                "name": "iscsi_SPT_name"
+              },
+              "children": [
+                {
+                  "module": "ucsmsdk.mometa.vnic.VnicIScsiBootParams",
+                  "class": "VnicIScsiBootParams",
+                  "properties": {
+#                      "parent_mo_or_dn": "org-root/org-{{ organization}}/ls-{{iscsi_SPT_name}}",
+#                      "policy_owner": "local",
+#                      "descr": ""
+                  },
+                  "children": [
+                    {
+                        "module": "ucsmsdk.mometa.vnic.VnicIScsiBootVnic",
+                        "class": "VnicIScsiBootVnic",
+                        "properties": {
+                          "name": "{{ iscsi_a_vnic_name }}",
+#                          "policy_owner": "local",
+#                          "initiator_name": "",
+#                          "descr": "",
+#                          "iqn_ident_pool_name": "",
+                        },
+                        "children": [
+                          {
+                              "module": "ucsmsdk.mometa.vnic.VnicIPv4If",
+                              "class": "VnicIPv4If",
+                              "properties": {
+                              },
+                              "children": [
+                              {
+                                  "module": "ucsmsdk.mometa.vnic.VnicIPv4PooledIscsiAddr",
+                                  "class": "VnicIPv4PooledIscsiAddr",
+                                  "properties": {
+                                    ident_pool_name: "{{ iscsi_a_pool_name }}"
+                                  }
+                              }
+                              ]
+                          },
+                          {
+                            "module": "ucsmsdk.mometa.vnic.VnicIScsiStaticTargetIf",
+                            "class": "VnicIScsiStaticTargetIf",
+                            "properties": {
+                              "priority": "1",
+                              "ip_address": "192.168.10.252",
+                              "name": "iqn.1992-08.com.netapp:sn.2a34dc754e1511eaa17e00a0985b4a87:vs.3",
+                            },
+                            "children": [
+                            {
+                              "module": "ucsmsdk.mometa.vnic.VnicLun",
+                              "class": "VnicLun",
+                              "properties": {
+                                "bootable": "no",
+                                "id": "0"
+                              },
+                            }
+                            ]
+                          }
+                          ]
+                    }
+                    ]
+                }
+                ]
+            }
+    #                  {
+    #                    "module": "ucsmsdk.mometa.vnic.VnicIPv4If",
+    #                    "class": "VnicIPv4If",
+    #                    "properties": {
+    #                      "name": ""
+    #                    },
+    #                    "children": [
+    #                    {
+    #                      "module": "ucsmsdk.mometa.vnic.VnicIPv4PooledIscsiAddr",
+    #                      "class": "VnicIPv4PooledIscsiAddr",
+    #                      "properties": {
+    #                        ident_pool_name: "{{ iscsi_a_pool_name }}"
+    #                      },
+    #                    }
+    #                  ]
+    #                  }
+#            ]
+#          }
+#    when: configure_iscsi is defined
+#              {
+#                "module": "ucsmsdk.mometa.vnic.VnicIScsiStaticTargetIf",
+#                "class": "VnicIScsiStaticTargetIf",
+#                "properties": {
+#                  "priority": "2",
+#                   "ip_address": "192.168.10.251",
+#                   "name": "iqn.1992-08.com.netapp:sn.2a34dc754e1511eaa17e00a0985b4a87:vs.3"
+#                },
+#                "children": [
+#                  {
+#                    "module": "ucsmsdk.mometa.vnic.VnicLun",
+#                    "class": "VnicLun",
+#                    "properties": {
+#                      "id":"0"
+#                    }
+#                  }
+#                ]
+#              }

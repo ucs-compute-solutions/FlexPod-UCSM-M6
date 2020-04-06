@@ -1,0 +1,20 @@
+---
+# Update Default Maintenance Policy  - Add user ACK for Reboot
+# and apply pending changes: On Next Reboot 
+
+  - name: Update Default Maintenance Policy
+    ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+      - {
+          "module": "ucsmsdk.mometa.lsmaint.LsmaintMaintPolicy",
+          "class": "LsmaintMaintPolicy",
+          "properties": {
+              "parent_mo_or_dn": "org-root",
+              "name": "default",
+              "uptime_disr": "user-ack",
+              "trigger_config": "on-next-boot"
+          },
+        }

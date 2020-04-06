@@ -1,0 +1,17 @@
+---
+# Setup UCS Auto-Discovery Policy - Enable
+#
+  - name: Configure UCS Auto-Discovery of Ports
+    ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+            "module": "ucsmsdk.mometa.compute.ComputePortDiscPolicy",
+            "class": "ComputePortDiscPolicy",
+            "properties": {
+                "parent_mo_or_dn": "org-root",
+                "eth_svr_auto_discovery": "enabled"
+            }
+          }

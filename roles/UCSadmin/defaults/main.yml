@@ -1,0 +1,18 @@
+---
+# Variables for Admin configurations of UCSM
+# Un-comment the variables and set appropriate values to configure various
+# parameters. If a variable is commented out, the script will skip configuration
+# for that variable.
+
+# Uncomment and update the the following lines to setup DNS Server(s)
+#dns_servers:
+#  - ip_address: "192.168.160.53"
+#  - ip_address: "192.168.160.54"
+
+# Uncomment and update the the following line to setup Timezone
+#time_zone: 'America/New_York'
+
+# Uncomment and update the the following lines to setup NTP Server(s)
+#ntp_servers:
+#  - ip_address: "192.168.160.253"
+#  - ip_address: "192.168.160.254"

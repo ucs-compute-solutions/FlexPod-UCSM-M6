@@ -1,0 +1,11 @@
+---
+# Equipment related Tasks Configuration for UCSM
+# Variables can be modified under ../defaults/main.yml
+
+  # Configure UCS Auto Discovery Policy - enabled
+  - include_tasks: configure_ucs_auto_discovery.yml
+  # Configure server ports (Connected to rack servers and chassis)
+  - include_tasks: configure_ucs_server_port.yml
+  # Configure uplink ports and port-channels (connected to Nexus)
+  - include_tasks: configure_ucs_uplink_PC.yml
+  

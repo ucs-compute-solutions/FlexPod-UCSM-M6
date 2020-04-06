@@ -1,0 +1,19 @@
+---
+# Configuration of vNIC Templates for iSCSI
+# These templates are all setup as updating Templates with MTU set to 9000
+#
+- name: Configure iSCSI vNIC Templates
+  ucs_vnic_template:
+    hostname: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    name: "{{ item.name }}"
+    fabric: "{{ item.fabric }}"
+    org_dn: org-root/org-{{ organization }}
+    mac_pool: "{{ item.mac_pool }}"
+    mtu: '9000'
+    network_control_policy: "{{ NCP_name }}"
+    template_type: 'updating-template'
+    vlans_list: "{{ item.vlans }}"
+  with_list: "{{ iscsi_template_list }}"
+  when: configure_iscsi is defined

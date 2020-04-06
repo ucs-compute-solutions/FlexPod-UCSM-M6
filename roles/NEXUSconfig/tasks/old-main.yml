@@ -1,0 +1,208 @@
+
+###################################################################
+# Set Global Configurations
+##################################################################
+##############################################################
+# Create VLANs
+###############################################################
+###################################################################
+# Configuring MTU Size on Physical Interfaces
+##################################################################
+    - name: Configuing mtu size on physical interfaces
+      nxos_config:
+        lines:
+          - system jumbomtu {{ mtu }}
+          - interface {{ vpc_peerlink1 }}, {{vpc_peerlink2 }}, {{ FI_A_link }}, {{ FI_B_link }}, {{ Controller1_link }}, {{ Controller2_link }}
+          - mtu {{ mtu }}
+##################################################################
+# Create Global VPC Parameters
+#################################################################
+    - name: Configuring vpc Domain, Peer-link and Global Parameters
+      nxos_vpc:
+        domain: "{{ domain }}"
+        role_priority: "{{ role_p }}"
+        system_priority: "{{ system_p }}"
+        pkl_src: "{{ source }}"
+        pkl_dest: "{{ destination }}"
+        peer_gw: true
+        auto_recovery: true
+#################################################################
+# vPC Peer-Link Configuration
+################################################################
+    - name: Configuring vPC Peer-Link
+      nxos_l2_interfaces:
+        config:
+          - name: "{{ vpc_peerlink1 }}"
+            trunk:
+              native_vlan: "{{ native_vlan_id }}"
+              allowed_vlans: "{{ trunk_vlans_list }}"
+    - name: Configuring vPC Peer-Link
+      nxos_l2_interfaces:
+        config:
+          - name: "{{ vpc_peerlink2 }}"
+            trunk:
+              native_vlan: "{{ native_vlan_id }}"
+              allowed_vlans: "{{ trunk_vlans_list }}"
+    - name: Configuring peer-link port-channel
+      nxos_lag_interfaces:
+        config:
+          - name: "{{ po_peerlink }}"
+            members:
+              - member: "{{ vpc_peerlink1 }}"
+              - member: "{{ vpc_peerlink2 }}"
+    - name: Configuring portchannel trunk
+      nxos_l2_interfaces:
+        config:
+          - name: "{{ po_peerlink }}"
+            trunk:
+              native_vlan: "{{ native_vlan_id }}"
+              allowed_vlans: "{{ trunk_vlans_list }}"
+    - name: configuring vPC Peer Link
+      nxos_vpc_interface:
+        portchannel: "{{ po_peerlink }}"
+        peer_link: true
+#############################################################################################
+# Configuring UCSM vPC Port
+##############################################################################################
+    - name: Cofiguring L2 Interfaces UCSM FI-A
+      nxos_l2_interfaces:
+        config:
+          - name: "{{ FI_A_link }}"
+            trunk:
+              native_vlan: "{{ native_vlan_id }}"
+              allowed_vlans: "{{ trunk_vlans_list }}"
+    - name: Configuring Port-Channel UCSM FI-A
+      nxos_lag_interfaces:
+        config:
+          - name: "{{ po_FI_A }}"
+            members:
+              - member:  "{{ FI_A_link }}"
+        state: merged
+    - name: Configure portchannel trunk FI-A
+      nxos_l2_interfaces:
+        config:
+          - name: port-channel{{ po_FI_A }}
+            trunk:
+              native_vlan: "{{ native_vlan_id }}"
+              allowed_vlans: "{{ trunk_vlans_list }}"
+    - name: Configuring vPC UCSM FI-A
+      nxos_vpc_interface:
+        portchannel: "{{ po_FI_A }}"
+        vpc: "{{ po_FI_A }}"
+    - name: Configuring L2 Interface UCSM FI-B
+      nxos_l2_interfaces:
+        config:
+          - name: "{{ FI_B_link }}"
+            trunk:
+              native_vlan: "{{ native_vlan_id }}"
+              allowed_vlans: "{{ trunk_vlans_list }}"
+    - name: Configuring Port-Channel UCSM FI-B
+      nxos_lag_interfaces:
+        config:
+          - name: "{{ po_FI_B }}"
+            members:
+              - member: "{{ FI_B_link }}"
+        state: merged
+    - name: Configure portchannel trunk FI-B
+      nxos_l2_interfaces:
+        config:
+          - name: port-channel{{ po_FI_B }}
+            trunk:
+              native_vlan: "{{ native_vlan_id }}"
+              allowed_vlans: "{{ trunk_vlans_list }}"
+    - name: Configuring vpc FI-B
+      nxos_vpc_interface:
+        portchannel: "{{ po_FI_B }}"
+        vpc: "{{ po_FI_B }}"
+##############################################################################################
+# Configuring Storage vPC Ports
+##############################################################################################
+    - name: Cofiguring L2 Interfaces Storage Controller-A
+      nxos_l2_interfaces:
+        config:
+          - name: "{{ Controller1_link }}"
+            trunk:
+              native_vlan: "{{ native_vlan_id }}"
+              allowed_vlans: "{{ storage_vlans }}"
+    - name: Configuring Port-Channel Storage Controller-A
+      nxos_lag_interfaces:
+        config:
+          - name: "{{ po_ctrl1 }}"
+            members:
+              - member: "{{ Controller1_link }}"
+        state: merged
+    - name: Configure portchannel trunk Controller-A
+      nxos_l2_interfaces:
+        config:
+          - name: port-channel{{ po_ctrl1 }}
+            trunk:
+              native_vlan: "{{ native_vlan_id }}"
+              allowed_vlans: "{{ storage_vlans }}"
+    - name: Configuring vPC Storage Controller-A
+      nxos_vpc_interface:
+        portchannel: "{{ po_ctrl1 }}"
+        vpc: "{{ po_ctrl1 }}"
+    - name: Configuring L2 Interface Storage Controler-B
+      nxos_l2_interfaces:
+        config:
+          - name: "{{ Controller2_link }}"
+            trunk:
+              native_vlan: "{{ native_vlan_id }}"
+              allowed_vlans: "{{ storage_vlans }}"
+    - name: Configuring Port-Channel Storage Controller-B
+      nxos_lag_interfaces:
+        config:
+          - name: "{{ po_ctrl2 }}"
+            members:
+              - member:  "{{ Controller2_link }}"
+        state: merged
+
+    - name: Configure portchannel trunk
+      nxos_l2_interfaces:
+        config:
+          - name: port-channel{{ po_ctrl2 }}
+            trunk:
+              native_vlan: "{{ native_vlan_id }}"
+              allowed_vlans: "{{ storage_vlans }}"
+    - name: Configuring vPC Storage Controller-B
+      nxos_vpc_interface:
+        portchannel: "{{ po_ctrl2 }}"
+        vpc: "{{ po_ctrl2 }}"
+####################################################################################
+# Configuring MTU Size on PortChannels
+####################################################################################
+    - name: Configuring MTU Size on Port-Channels
+      nxos_config:
+        lines:
+          - system jumbomtu {{ mtu }}
+          - interface port-channel{{ po_peerlink }}, port-channel{{ po_FI_A }}, port-channel{{ po_FI_B }}, port-channel{{ po_ctrl1 }}, port-channel{{ po_ctrl2 }}
+          - mtu {{ mtu }}
+####################################################################################
+# Verify Config
+####################################################################################
+    - name: Current Running Config
+      nxos_command:
+        commands: show running-config
+      register: out
+    - name: Show the updated running configuration
+      debug:
+        msg: "{{ out.stdout_lines | join('\n') }}"
+    - pause:
+        prompt: "Confirm that the configuration is correct.Press enter to proceed"
+    - name: Show VPC
+      nxos_command:
+        commands: show vpc
+      register: out
+    - name: Show the updated VPC configuration
+      debug:
+        msg: "{{ out.stdout_lines | join('\n') }}"
+    - pause:
+        prompt: "Confirm that the configuration is correct.Press enter to proceed"
+    - pause:
+        prompt: "Review configuration, if configuration deployed is correct and no issues, press enter to commit to memory or ctrl-c to leave in running config."
+###################################################################################
+#Now deployment is complete the configuration will be written to the memory (startup config)
+##################################################################################
+    - name: Save the deployed configuration (running config) to the memory (startup config).
+      nxos_config:
+          save_when: modified
