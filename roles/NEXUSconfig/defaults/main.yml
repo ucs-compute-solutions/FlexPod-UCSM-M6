@@ -88,6 +88,3 @@ all_port_channels: "{{ peerlink_PC + mgmt_PC + FI_A_PC + FI_B_PC + storage_A_PC 
 #
 vpc_domain_id: "10"
 #
-#vars_prompt:
-#    - name: test
-#      prompt: "Do yo want to PC for Storage (yes/no)?"

@@ -1,0 +1,6 @@
+---
+  # Save the Nexus configuration
+  #
+  - name: Save the Nexus Configuration
+    nxos_config:
+      save_when: modified

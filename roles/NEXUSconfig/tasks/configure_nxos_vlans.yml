@@ -7,4 +7,5 @@
       config:
         - vlan_id: "{{ item.id }}"
           name: "{{ item.name }}"
+      state: merged
     with_list: "{{ vlan_list }}"

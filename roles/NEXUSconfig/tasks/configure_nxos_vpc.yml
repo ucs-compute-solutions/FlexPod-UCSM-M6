@@ -11,12 +11,24 @@
         auto_recovery: true
         delay_restore: "150"
 #
+# This task adds following vpc domain configuration parameters because the ansible function does not support them:
+# ip arp synchronize
+# peer-switch
+#
+    - name: Update VPC domain parameters
+      nxos_config:
+        lines:
+          - peer-switch
+          - ip arp synchronize
+        parents: vpc domain {{ vpc_domain_id }}
+#
 # Configure VPC Peer-Link
+#
     - name: Enabling vPC Peer Link on {{ peerlink_PC[0].interface }}
       nxos_vpc_interface:
         portchannel: "{{ peerlink_PC[0].id }}"
         peer_link: true
-
+#
 # VPC configuration on all the port-channels
 #
     - name: Enabling vPC on all port-channels except peer-link

@@ -89,7 +89,7 @@
             allowed_vlans: "{{ all_vlans_list }}"
     with_list: "{{ peerlink_PC + FI_A_PC + FI_B_PC }}"
 #
-# Configure VLANs for Peer-Link and UCS FI Port-Channels
+# Configure VLANs mgmt Port-Channels
 #
   - name: Enabling management vlans on management Port-Channels
     nxos_l2_interfaces:
@@ -100,7 +100,7 @@
             allowed_vlans: "{{ mgmt_vlans_list }}"
     with_list: "{{ mgmt_PC }}"
 #
-# Configure VLANs for Peer-Link and UCS FI Port-Channels
+# Configure VLANs for storage Port-Channels
 #
   - name: Enabling storage vlans on Storage Port-Channels
     nxos_l2_interfaces:
@@ -110,3 +110,26 @@
             native_vlan: "{{ native_vlan_id }}"
             allowed_vlans: "{{ storage_vlans_list }}"
     with_list: "{{ storage_A_PC + storage_B_PC }}"
+#
+# The tasks below are added to overcome issues in Ansible Scripts
+# 1) https://github.com/ansible/ansible/issues/64896
+# switchport mode trunk is not set correctly and have to be added manually
+# 2) Spanning-tree port type edge trunk" on FI and Storage Port-Channels can not be set using ansible function
+
+  # This task sets:
+  # "switchport mode trunk" on all Port-Channels
+  - name: Set - switchport mode trunk
+    nxos_config:
+      lines:
+        - switchport mode trunk
+      parents: interface {{ item.interface }}
+    with_list: "{{ all_port_channels }}"
+  #
+  # This task sets:
+  # "Spanning-tree port type edge trunk" on FI and Storage Port-Channels
+  - name: Set - spanning-tree port type edge trunk
+    nxos_config:
+      lines:
+        - spanning-tree port type edge trunk
+      parents: interface {{ item.interface }}
+    with_list: "{{ FI_A_PC + FI_B_PC + storage_A_PC + storage_B_PC }}"

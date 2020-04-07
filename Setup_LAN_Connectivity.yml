@@ -1,7 +1,7 @@
 ---
 # Example Playbook: VLAN configuration using the [ucs] hosts group
 - hosts: nexus
-  connection: local
+  connection: network_cli
   gather_facts: no
   roles:
     ### Configure Nexus Switching
