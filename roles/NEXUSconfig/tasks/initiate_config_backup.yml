@@ -1,9 +1,0 @@
----
-##
-# Take a config backup before adding configuration to Nexus 
-#
-  - name: Backup of the current running config before deploying changes to the device
-    nxos_config:
-      backup: yes
-      backup_options:
-        dir_path: "{{ backup_dir }}"
