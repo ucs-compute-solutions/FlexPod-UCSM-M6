@@ -122,7 +122,7 @@
                                 "module": "ucsmsdk.mometa.lsboot.LsbootSanCatSanImagePath",
                                 "class": "LsbootSanCatSanImagePath",
                                 "properties": {
-                                  "wwn": "{{ storage_node1_wwpn_A }}",
+                                  "wwn": "{{ storage_node1_a }}",
                                   "type": "primary"
                                 },
                                 "children": [
@@ -140,7 +140,7 @@
                                 "module": "ucsmsdk.mometa.lsboot.LsbootSanCatSanImagePath",
                                 "class": "LsbootSanCatSanImagePath",
                                 "properties": {
-                                  "wwn": "{{ storage_node2_wwpn_A }}",
+                                  "wwn": "{{ storage_node2_a }}",
                                   "type": "secondary"
                                 },
                                 "children": [
@@ -168,7 +168,7 @@
                                 "module": "ucsmsdk.mometa.lsboot.LsbootSanCatSanImagePath",
                                 "class": "LsbootSanCatSanImagePath",
                                 "properties": {
-                                  "wwn": "{{ storage_node1_wwpn_B }}",
+                                  "wwn": "{{ storage_node1_b }}",
                                   "type": "primary"
                                 },
                                 "children": [
@@ -186,7 +186,7 @@
                                 "module": "ucsmsdk.mometa.lsboot.LsbootSanCatSanImagePath",
                                 "class": "LsbootSanCatSanImagePath",
                                 "properties": {
-                                  "wwn": "{{ storage_node2_wwpn_B }}",
+                                  "wwn": "{{ storage_node2_b }}",
                                   "type": "secondary"
                                 },
                                 "children": [

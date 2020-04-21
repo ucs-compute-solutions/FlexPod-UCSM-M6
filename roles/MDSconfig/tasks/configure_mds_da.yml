@@ -1,0 +1,9 @@
+---
+
+  - name: Device Alias
+    nxos_devicealias:
+      distribute: yes
+      mode: enhanced
+      da:
+        - { name: '{{  item.device_name  }}', pwwn: '{{  item.pwwn  }}'}
+    with_list: "{{ device_alias_list }}"

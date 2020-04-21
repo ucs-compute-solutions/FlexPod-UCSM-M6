@@ -1,11 +1,16 @@
 ---
 # Example Playbook: VLAN configuration using the [ucs] hosts group
+- hosts: mds
+  connection: network_cli
+  gather_facts: no
+  roles:
+    ### Configure Nexus Switching
+    #
+    - MDSconfig
+    #
 - hosts: ucs
   connection: local
   gather_facts: no
-#  vars_files:
-    # Global Variables which are used across all multiple roles
-#    - "ConfigUCS_vars.yml"
   roles:
     ### Setup Equipment related tasks in UCS
     #
@@ -38,29 +43,3 @@
     # iSCSI LAN Connectivity Policy (if required)
     # FC LAN Connectivity Policy (if required)
     #- UCSlan
-    #
-    #
-    ### Create Configurations under SAN Tab in UCS
-    #
-    # IQN pools
-    # WWNN pools
-    # WWPN A and B Pools
-    # VSAN A and VSAN B (if required)
-    # vHBA Templates
-    # enable VSAN trunking for uplink ports (if required)
-    #- UCSsan
-    #
-    #
-    ### Create Configurations under Server Tab in UCS
-    #
-    # UUID pools
-    # Server Pool Configuration
-    # Power Control Policy - No Power CAP
-    # Modify default Maintenence policy - Add User Ack for reboot
-    # VMware High Traffic Adapter Policy for VDS
-    # Local Disk Policy - Ignore Local Disks
-    # BIOS Policy
-    # iSCSI Boot Policy (if required)
-    # iSCSI Service Profile Template (if required)
-    # FCP Boot Policy (if required)
-    #- UCSserver

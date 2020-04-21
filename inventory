@@ -2,5 +2,9 @@
 192.168.160.185 username=admin password=H1ghV0lt
 
 [nexus]
-n9ka ansible_host=192.168.160.181 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
-n9kb ansible_host=192.168.160.182 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
+n9kA ansible_host=192.168.160.181 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
+n9kB ansible_host=192.168.160.182 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
+
+[mds]
+mdsA ansible_host=192.168.160.187 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
+mdsB ansible_host=192.168.160.188 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos

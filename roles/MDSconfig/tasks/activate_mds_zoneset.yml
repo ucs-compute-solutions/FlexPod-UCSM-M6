@@ -1,0 +1,11 @@
+---
+# This task activates the zoneset on MDS  
+
+  - name: Activate Zoneset
+    nxos_zone_zoneset:
+      zone_zoneset_details:
+        - vsan: "{{ vsan_id }}"
+          mode: basic
+          zoneset:
+            - name: "{{ zoneset_name }}"
+              action: activate

@@ -29,18 +29,6 @@ wwn_pool_list:
     last_address: '20:00:00:25:B5:A4:0B:1F'
     purpose: port
 #
-#VSAN Parameters
-#
-vsan_list:
-  - name: 'VSAN-A'
-    vsan_id: '101'
-    fcoe_vlan: '101'
-    fabric: 'A'
-  - name: 'VSAN-B'
-    vsan_id: '102'
-    fcoe_vlan: '102'
-    fabric: 'B'
-#
 wwnn_pool_name: "{{ wwn_pool_list[0].name }}"
 #
 vhba_list:

@@ -1,0 +1,30 @@
+---
+  # Variables defined here are specific to MDS-A
+
+
+#  Variables used to create port channel to UCS.
+  port_channel_id: 1
+#
+#  VSAN number to use used for a the fabric being created
+  vsan_id: "{{ vsan_list[0].vsan_id}}"
+  vsan_name: "{{ vsan_list[0].name}}"
+#
+# The zone name and zoneset names used in the configuration
+  zoneset_name: Fabric-A
+  zone_name: Infra-SVM-Fabric-A
+#
+# Device alias list using device names and PWWNs from CVD.  Update the PWWNs to match your deployment
+# Any changes made to the device names will always need to be updated in the Zoning List below
+  device_alias_list:
+    - device_name: Infra-SVM-lif01a
+      pwwn: "{{ storage_node1_a }}"
+      dev_type: target
+    - device_name: Infra-SVM-lif02a
+      pwwn: "{{ storage_node2_a }}"
+      dev_type: target
+    - device_name: BC-Host-FCP-01-A
+      pwwn: "{{ ucs_host_01_a }}"
+      dev_type: initiator
+    - device_name: BC-Host-FCP-02-A
+      pwwn: "{{ ucs_host_02_a }}"
+      dev_type: initiator

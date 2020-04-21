@@ -1,0 +1,16 @@
+---
+# This task configures the zone and zoneset on MDS using
+# specific variables from the MDS-A/B variables files 
+
+  - name: Create a Zone and Zoneset
+    nxos_zone_zoneset:
+      zone_zoneset_details:
+        - mode: basic
+          smart_zoning: true
+          vsan: "{{ vsan_id }}"
+          zone:
+            - members:
+                - pwwn: "{{ item.pwwn }}"
+                  devtype: "{{ item.dev_type }}"
+              name: "{{  zone_name  }}"
+    with_list: "{{ device_alias_list }}"

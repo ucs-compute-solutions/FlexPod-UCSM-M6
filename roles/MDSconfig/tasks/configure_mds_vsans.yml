@@ -1,0 +1,24 @@
+---
+  - name: MDS VSAN - Create VSAN and Add port-channel
+    nxos_vsan:
+      vsan:
+        - id: "{{ vsan_id }}"
+          name: "{{ vsan_name}}"
+          interface:
+            - port-channel {{ port_channel_id }}
+          remove: False
+#
+  - name: MDS VSAN - Add storage ports
+    nxos_vsan:
+      vsan:
+        - id: "{{ vsan_id }}"
+#          name: "{{ vsan_name}}"
+          interface:
+            - "{{ item.interface }}"
+          remove: False
+    with_list: "{{ storage_interface_list }}"
+#
+  - name: MDS VSAN - Configure Smart Zoning
+    nxos_config:
+      lines:
+        - zone smart-zoning enable vsan {{ vsan_id }}

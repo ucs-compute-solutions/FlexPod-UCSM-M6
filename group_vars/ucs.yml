@@ -33,9 +33,3 @@ san_policy_vhba_a_name: 'Fabric-A'
 san_policy_vhba_b_name: 'Fabric-B'
 # Storage iSCSI Target
 storage_iscsi_target: 'iqn.1992-08.com.netapp:sn.2a34dc754e1511eaa17e00a0985b4a87:vs.3'
-#Storage System WWPN
-storage_node1_wwpn_A: '20:01:00:A0:98:5B:4A:86'
-storage_node2_wwpn_A: '20:03:00:A0:98:5B:4A:86'
-storage_node1_wwpn_B: '20:02:00:A0:98:5B:4A:86'
-storage_node2_wwpn_B: '20:04:00:A0:98:5B:4A:86'
-#

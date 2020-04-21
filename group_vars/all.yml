@@ -61,3 +61,32 @@ storage_vlans_list: "511,3010,3020,3050"
 mgmt_vlans_list: "11,511"
 #
 native_vlan_id: "2"
+#
+#
+#VSAN Parameters
+#
+vsan_list:
+  - name: 'Fabric-A'
+    vsan_id: '111'
+    fcoe_vlan: '111'
+    fabric: 'A'
+  - name: 'Fabric-B'
+    vsan_id: '112'
+    fcoe_vlan: '112'
+    fabric: 'B'
+#
+# Storage WWPNs (capture from storage system)
+#  
+storage_node1_a: '20:01:00:A0:98:5B:4A:86'
+storage_node2_a: '20:03:00:A0:98:5B:4A:86'
+storage_node1_b: '20:02:00:A0:98:5B:4A:86'
+storage_node2_b: '20:04:00:A0:98:5B:4A:86'
+#
+# UCS WWPNs (capture from the UCS Service Profiles)
+#
+ucs_host_01_a: '20:00:00:25:b5:bc:0a:00'
+ucs_host_01_b: '20:00:00:25:b5:bc:0b:00'
+#
+ucs_host_02_a: '20:00:00:25:b5:bc:0a:01'
+ucs_host_02_b: '20:00:00:25:b5:bc:0b:01'
+#
