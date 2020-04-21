@@ -1,7 +1,6 @@
 ---
-  # Variables defined here are specific to MDS-A
-
-
+# Variables defined here are specific to MDS-A
+#
 #  Variables used to create port channel to UCS.
   port_channel_id: 1
 #
