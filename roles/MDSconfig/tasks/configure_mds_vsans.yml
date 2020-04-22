@@ -1,4 +1,7 @@
 ---
+# This task sets up the VSAN configuration for both MDS switches
+# specific variables from the MDS-A/B variables files
+#
   - name: MDS VSAN - Create VSAN and Add port-channel
     nxos_vsan:
       vsan:

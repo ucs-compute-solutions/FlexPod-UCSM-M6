@@ -1,5 +1,5 @@
 ---
-# This task activates the zoneset on MDS  
+# This task configures and activates the zoneset on MDS
 
   - name: Activate Zoneset
     nxos_zone_zoneset:
@@ -9,3 +9,5 @@
           zoneset:
             - name: "{{ zoneset_name }}"
               action: activate
+              members:
+                - name: "{{ zone_name }}"

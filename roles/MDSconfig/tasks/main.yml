@@ -5,7 +5,7 @@
   # Configure Features
   - include_tasks: configure_mds_features.yml
   # Configure Inerface, Port-Channel and Trunk Settings
-  #- include_tasks: configure_mds_interfaces.yml
+  - include_tasks: configure_mds_interfaces.yml
   # Configure vsan
   - include_tasks: configure_mds_vsans.yml
   # Configure Device Aliases
