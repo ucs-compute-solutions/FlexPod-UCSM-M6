@@ -1,0 +1,17 @@
+---
+  - name: Create vMotion VMKernel
+    vmware_vmkernel:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      vswitch: '{{ vmotion_vswitch }}'
+      portgroup: '{{ vmotion_portgroup }}'
+      network:
+        type: 'static'
+        ip_address: '{{ vmotion_ip }}'
+        subnet_mask: '{{ vmotion_mask }}'
+        tcpip_stack: vmotion
+      state: present
+    delegate_to: localhost

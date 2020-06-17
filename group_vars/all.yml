@@ -1,6 +1,16 @@
 #
-#This is the list of all the VLANs that will be defined on Nexus and UCS.
+#This is the list of all the VLANs that will be defined on Nexus, UCS and VMware
 #
+# Commenting out the following two variables will skip the iSCSI and/or FC configurations
+configure_iscsi: "yes"
+configure_fc: "yes"
+configure_nfs: "yes"
+#
+# Uncomment and update the the following lines to setup NTP Server(s)
+ntp_servers:
+  - ip_address: "192.168.160.254"
+#  - ip_address: "192.168.160.253"
+
 # VLAN Names are adjustable and can be modified in here
 #
 native_vlan_name: 'Native-Vlan' # Native VLAN
@@ -62,7 +72,13 @@ mgmt_vlans_list: "11,511"
 #
 native_vlan_id: "2"
 #
+vds_vlan_list:
+  - name: "{{ vm_vlan_name }}"
+    id: '611'
 #
+esxi_nfs_vlan: "3050"
+#
+esxi_vmotion_vlan: "3000"
 #VSAN Parameters
 #
 vsan_list:
@@ -76,7 +92,7 @@ vsan_list:
     fabric: 'B'
 #
 # Storage WWPNs (capture from storage system)
-#  
+#
 storage_node1_a: '20:01:00:A0:98:5B:4A:86'
 storage_node2_a: '20:03:00:A0:98:5B:4A:86'
 storage_node1_b: '20:02:00:A0:98:5B:4A:86'
@@ -89,4 +105,16 @@ ucs_host_01_b: '20:00:00:25:b5:bc:0b:00'
 #
 ucs_host_02_a: '20:00:00:25:b5:bc:0a:01'
 ucs_host_02_b: '20:00:00:25:b5:bc:0b:01'
+#
+# VMware Configurations
+#
+esxi_username: root
+esxi_password: "H1ghV0lt"
+#
+vcenter_dc: FlexPod-DC
+vcenter_cluster: FlexPod-Management
+#
+vcenter_hostname: 10.50.160.100
+vcenter_username: administrator@vsphere.local
+vcenter_password: "H1ghV0lt!"
 #

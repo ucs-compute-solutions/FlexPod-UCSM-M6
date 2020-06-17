@@ -1,0 +1,38 @@
+---
+  - name: Place host in maintenance mode
+    vmware_maintenancemode:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      evacuate: yes
+      timeout: 1800
+      state: present
+    delegate_to: localhost
+
+  - name: Add host to the vDS
+    vmware_dvs_host:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      switch_name: '{{ dvs_name }}'
+      vmnics:
+          - '{{ dv_uplink1 }}'
+          - '{{ dv_uplink2 }}'
+      state: present
+    delegate_to: localhost
+
+  - name: Exit host from maintenance mode
+    vmware_maintenancemode:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      evacuate: yes
+      timeout: 1800
+      state: absent
+    delegate_to: localhost

@@ -1,0 +1,22 @@
+# Variables for ESXi iSCSI (ONLY) Configuration
+# Adjust the variable values as per your requirements
+#
+# Uplinks to be used by various Switch Configurations
+#
+iscsi_a_uplink: "vmnic6"
+iscsi_b_uplink: "vmnic7"
+#
+#
+iscsi_a_vswitch: "iScsiBootvSwitch"
+iscsi_b_vswitch: "iScsiBootvSwitch-B"
+iscsi_mtu: 9000
+#
+iscsi_a_portgroup: "iScsiBootPG"
+iscsi_b_portgroup: "iScsiBootPG-B"
+iscsi_mask: 255.255.255.0
+#
+iscsi_targets:
+    - 192.168.10.251
+    - 192.168.10.252
+    - 192.168.20.251
+    - 192.168.20.252

@@ -11,8 +11,3 @@
 
 # Uncomment and update the the following line to setup Timezone
 #time_zone: 'America/New_York'
-
-# Uncomment and update the the following lines to setup NTP Server(s)
-#ntp_servers:
-#  - ip_address: "192.168.160.253"
-#  - ip_address: "192.168.160.254"

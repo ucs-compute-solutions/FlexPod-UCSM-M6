@@ -4,9 +4,6 @@
 # e.g. "organization" is used under san, lan, server and admin roles
 # Adjust the variable values as per your requirements
 
-# Commenting out the following two variables will skip the iSCSI and/or FC configurations
-configure_iscsi: 'yes'
-configure_fc: 'yes'
 #
 #UCS Organization
 organization: 'FlexPod'

@@ -1,0 +1,28 @@
+---
+  - name: Adjust iSCSI A vSwitch
+    vmware_vswitch:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      switch: '{{ iscsi_a_vswitch }}'
+      nics:
+      - '{{ iscsi_a_uplink }}'
+      mtu: '{{ iscsi_mtu }}'
+    delegate_to: localhost
+    when: configure_iscsi is defined
+
+  - name: Create iSCSI B vSwitch
+    vmware_vswitch:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      switch: '{{ iscsi_b_vswitch }}'
+      nics:
+      - '{{ iscsi_b_uplink }}'
+      mtu: "{{ iscsi_mtu }}"
+    delegate_to: localhost
+    when: configure_iscsi is defined

@@ -1,0 +1,20 @@
+---
+  # This task configures VDS on the vCenter
+
+  - name: vCenter vDS creation
+    vmware_dvswitch:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      datacenter_name: '{{ vcenter_dc }}'
+      switch_name: '{{ dvs_name }}'
+      version: '{{ dv_version }}'
+      #Best practices dictate mtu should always be 9000 therefore the value is hardcoded
+      #mtu: '{{ dv_mtu }}'
+      mtu: 9000
+      uplink_quantity: '{{ dv_uplink }}'
+      discovery_protocol: '{{ dv_protocol }}'
+      discovery_operation: '{{ dv_operation }}'
+      state: present
+#    delegate_to: localhost

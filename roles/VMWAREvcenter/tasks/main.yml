@@ -1,0 +1,18 @@
+---
+# Configuration for VMware Infrastructure
+# Variables can be modified under ../defaults/main.yml
+# These tasks perform necessary configurations in vCenter, add ESXi Hosts
+# to vCenter and then configure the ESXi hosts for various parameters
+#
+# vCenter Configuration Tasks
+#
+# Create Datacenter object in vCenter
+  - include_tasks: create_dc.yml
+# Cluster creation for the provisioned hosts including setting up HA/DRS
+# [specificaiton of VM Swap for cluster not available at this time]
+  - include_tasks: create_cluster.yml
+# Create DVS within vCenter
+  - include_tasks: create_vds.yml
+# Create DVS Portgroups
+  - include_tasks: create_vds_pg.yml
+#

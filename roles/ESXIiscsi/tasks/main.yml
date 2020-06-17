@@ -1,0 +1,13 @@
+# Procedures to setup iSCSI paramters on the ESXi Hosts
+#
+# Modify the iSCSI-A vSwitch and add iSCSI-B vSwitch
+#  - include_tasks: modify_esxi_iscsi_vswitch.yml
+# Create the iSCSI-B Port-Group on iSCSI-B vSwitch
+#  - include_tasks: create_esxi_iscsiB_PG.yml
+# Modify the iSCSI-A VMK and create iSCSI-B VMK
+#  - include_tasks: create_esxi_iscsi_vmk.yml
+# Add iSCSI Targets
+#  - include_tasks: add_esxi_iscsi_targets.yml
+# Add Coredump for iSCSI Hosts pointing to vCetner
+# vCenter must be enabled to act as a dump Collector
+  - include_tasks: add_esxi_coredump.yml

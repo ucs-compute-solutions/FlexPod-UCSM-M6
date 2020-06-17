@@ -1,0 +1,30 @@
+---
+#
+  - name: Create NFS Portgroup
+    vmware_portgroup:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      switch: "vSwitch0"
+      portgroup: '{{ nfs_portgroup }}'
+      vlan_id: '{{ esxi_nfs_vlan }}'
+    delegate_to: localhost
+#
+  - name: Create vMotion Portgroup
+    vmware_portgroup:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      switch: '{{ vmotion_vswitch }}'
+      portgroup: '{{ vmotion_portgroup }}'
+      vlan_id: '{{ esxi_vmotion_vlan }}'
+      teaming:
+          active_adapters:
+              - '{{ vmotion_uplink1 }}'
+          standby_adapters:
+              - '{{ vmotion_uplink2 }}'
+    delegate_to: localhost

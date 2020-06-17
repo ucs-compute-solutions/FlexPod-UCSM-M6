@@ -1,0 +1,8 @@
+---
+# DVS Parameters
+#
+dvs_name: "App_DVS"
+dv_version: 6.6.0
+dv_uplink: 2
+dv_protocol: "lldp"
+dv_operation: "both"
