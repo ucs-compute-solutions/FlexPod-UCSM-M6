@@ -4,44 +4,82 @@
 # This is the list of all the server ports where chassis and rack servers are connected
 #
 server_port_list:
+# UCS Chassis Connections
   - fabric_id: "A"
     slot_id: '1'
-    port_id: '25'
+    port_id: '9'
   - fabric_id: "A"
     slot_id: '1'
-    port_id: '26'
+    port_id: '10'
+  - fabric_id: "A"
+    slot_id: '1'
+    port_id: '11'
+  - fabric_id: "A"
+    slot_id: '1'
+    port_id: '12'
   - fabric_id: "B"
     slot_id: '1'
-    port_id: '25'
+    port_id: '9'
   - fabric_id: "B"
     slot_id: '1'
-    port_id: '26'
+    port_id: '10'
+  - fabric_id: "B"
+    slot_id: '1'
+    port_id: '11'
+  - fabric_id: "B"
+    slot_id: '1'
+    port_id: '12'
+# Rack Server Connections
+  - fabric_id: "A"
+    slot_id: '1'
+    port_id: '17'
+  - fabric_id: "A"
+    slot_id: '1'
+    port_id: '18'
+  - fabric_id: "A"
+    slot_id: '1'
+    port_id: '19'
+  - fabric_id: "A"
+    slot_id: '1'
+    port_id: '20'
+  - fabric_id: "B"
+    slot_id: '1'
+    port_id: '17'
+  - fabric_id: "B"
+    slot_id: '1'
+    port_id: '18'
+  - fabric_id: "B"
+    slot_id: '1'
+    port_id: '19'
+  - fabric_id: "B"
+    slot_id: '1'
+    port_id: '20'
 #
 # This is the list for Port-Channel Configuration Parameters including uplink ports
 # admin_speed can be hard coded to "100gbps" (default to match Nexus Config) or "auto".
 #
 port_channel_list:
-  - name: "Po151-Nexus"
-    pc_id: '151'
+  - name: "Po153-Nexus"
+    pc_id: '153'
     fabric_id: "A"
     slot_id: '1'
-    port_id: '51'
+    port_id: '53'
     admin_speed: "100gbps"
-  - name: "Po151-Nexus"
-    pc_id: '151'
+  - name: "Po153-Nexus"
+    pc_id: '153'
     fabric_id: "A"
     slot_id: '1'
-    port_id: '52'
+    port_id: '54'
     admin_speed: "100gbps"
-  - name: "Po152-Nexus"
-    pc_id: '152'
+  - name: "Po154-Nexus"
+    pc_id: '154'
     fabric_id: "B"
     slot_id: '1'
-    port_id: '51'
+    port_id: '53'
     admin_speed: "100gbps"
-  - name: "Po152-Nexus"
-    pc_id: '152'
+  - name: "Po154-Nexus"
+    pc_id: '154'
     fabric_id: "B"
     slot_id: '1'
-    port_id: '52'
+    port_id: '54'
     admin_speed: "100gbps"
