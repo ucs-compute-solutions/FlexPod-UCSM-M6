@@ -13,7 +13,7 @@ mgmt_pool_name: "ext-mgmt"
 mgmt_first_ip: '192.168.160.196'
 mgmt_last_ip: '192.168.160.199'
 mgmt_subnet_mask: '255.255.252.0'
-mgmt_default_gw: '192.168.160.254'
+mgmt_default_gw: '192.168.160.1'
 #
 #iSCSI IP address Pool configuration
 iscsi_ip_pool_list:

@@ -1,5 +1,9 @@
 ---
-# Example Playbook: VLAN configuration using the [ucs] hosts group
+# This Playbook uses three different roles to
+# 1) setup Nexus switches
+# 2) Setup UCS admin, equiment and LAN related tasks
+# After executing this playbook, LAN connectivity should be configured
+#
 - hosts: nexus
   connection: network_cli
   gather_facts: no
@@ -10,6 +14,8 @@
     #
 - hosts: ucs
   connection: local
+  collections:
+  - cisco.ucs
   gather_facts: no
   roles:
     ### Setup Equipment related tasks in UCS
@@ -17,18 +23,19 @@
     # Enable server auto-discovery policy
     # Setup Server Ports to connect to Chassis and Rack Servers
     # Setup Uplink Ports and Port-Channels
-    #- UCSequipment
+    #
+    - UCSequipment
     #
     ### Setup Admin tasks in UCS
     #
     # DNS Configuration (optional - skipped by default
-    # Timezone (optional - skipped by default)
-    # NTP server (optional - skipped by default)
+    # Timezone (optional - can be skipped)
+    # NTP server (optional - can be skipped)
     # Organization - for defining UCS policies under defined org
     #
     # To configure the "optional" parameters, uncomment and update the variables
-    # under roles/admin/vars.
-    #- UCSadmin
+    # under roles/UCSadmin/defaults/main.yml
+    - UCSadmin
     #
     #
     ### Setup LAN Tasks in UCS
@@ -37,9 +44,10 @@
     # iSCSI IP Pools (if required)
     # VLANs
     # MAC pools
+    # Network Control Policy - Enable CDP and LLDP
     # vNIC templates (except iSCSI vNIC templates)
     # iSCSI vNIC templates (if required)
-    # Network Control Policy - Enable CDP and LLDP
     # iSCSI LAN Connectivity Policy (if required)
     # FC LAN Connectivity Policy (if required)
-    #- UCSlan
+    #
+    - UCSlan

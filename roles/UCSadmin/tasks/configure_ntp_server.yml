@@ -1,6 +1,7 @@
 ---
   # This Task Configures 1 or more NTP Servers in UCSM
   # Configure DNS Servers
+  #
   - name: Configure NTP server
     ucs_ntp_server:
       hostname: "{{ inventory_hostname }}"

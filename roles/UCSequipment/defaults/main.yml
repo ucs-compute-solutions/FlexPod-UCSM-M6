@@ -19,6 +19,7 @@ server_port_list:
 #
 # This is the list for Port-Channel Configuration Parameters including uplink ports
 # admin_speed can be hard coded to "100gbps" (default to match Nexus Config) or "auto".
+#
 port_channel_list:
   - name: "Po151-Nexus"
     pc_id: '151'
