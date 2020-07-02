@@ -21,8 +21,8 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 [esxi_fc]
 10.50.160.21  vmotion_ip=192.168.30.21  nfs_ip=192.168.50.21
-10.50.160.22  vmotion_ip=192.168.30.22  nfs_ip=192.168.50.22
+# 10.50.160.22  vmotion_ip=192.168.30.22  nfs_ip=192.168.50.22
 
 [esxi_iscsi]
 10.50.160.31  vmotion_ip=192.168.30.31  nfs_ip=192.168.50.31  iscsi_a_ip=192.168.10.31 iscsi_b_ip=192.168.20.31
-10.50.160.32  vmotion_ip=192.168.30.32  nfs_ip=192.168.50.32  iscsi_a_ip=192.168.10.32 iscsi_b_ip=192.168.20.32
+# 10.50.160.32  vmotion_ip=192.168.30.32  nfs_ip=192.168.50.32  iscsi_a_ip=192.168.10.32 iscsi_b_ip=192.168.20.32

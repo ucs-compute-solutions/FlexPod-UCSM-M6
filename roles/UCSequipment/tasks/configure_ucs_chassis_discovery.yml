@@ -1,0 +1,19 @@
+---
+# Setup UCS Chassis Discovery Policy
+#
+    - name: UCS Chassis Discovery Policy
+      ucs_managed_objects:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        objects:
+        - {
+           "module": "ucsmsdk.mometa.compute.ComputeChassisDiscPolicy",
+           "class": "ComputeChassisDiscPolicy",
+           "properties": {
+              "parent_mo_or_dn": "org-root",
+              "action": "{{ chassis_links }}",
+              "link_aggregation_pref": "{{ chassis_link_aggr }}"
+                         }
+          }
+      when: chassis_links is defined

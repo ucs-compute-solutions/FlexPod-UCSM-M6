@@ -24,6 +24,6 @@
     - device_name: BC-Host-FCP-01-B
       pwwn: "{{ ucs_host_01_b }}"
       dev_type: initiator
-    - device_name: BC-Host-FCP-02-B
-      pwwn: "{{ ucs_host_02_b }}"
-      dev_type: initiator
+#    - device_name: BC-Host-FCP-02-B
+#      pwwn: "{{ ucs_host_02_b }}"
+#      dev_type: initiator

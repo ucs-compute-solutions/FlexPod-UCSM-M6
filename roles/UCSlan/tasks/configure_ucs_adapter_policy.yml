@@ -18,35 +18,35 @@
                   "module": "ucsmsdk.mometa.adaptor.AdaptorEthWorkQueueProfile",
                   "class": "AdaptorEthWorkQueueProfile",
                   "properties": {
-                    "count": '8'
+                    "count": "8"
                   }
                 },
                 {
                   "module": "ucsmsdk.mometa.adaptor.AdaptorEthRecvQueueProfile",
                   "class": "AdaptorEthRecvQueueProfile",
                   "properties": {
-                    "count": '8'
+                    "count": "8"
                   }
                 },
                 {
                   "module": "ucsmsdk.mometa.adaptor.AdaptorEthCompQueueProfile",
                   "class": "AdaptorEthCompQueueProfile",
                   "properties": {
-                    "count": '16'
+                    "count": "16"
                   }
                 },
                 {
                   "module": "ucsmsdk.mometa.adaptor.AdaptorEthInterruptProfile",
                   "class": "AdaptorEthInterruptProfile",
                   "properties": {
-                    "count": '18'
+                    "count": "18"
                   }
                 },
                 {
                   "module": "ucsmsdk.mometa.adaptor.AdaptorRssProfile",
                   "class": "AdaptorRssProfile",
                   "properties": {
-                    "receive_side_scaling": 'enabled'
+                    "receive_side_scaling": "enabled"
                   }
                 }
               ]

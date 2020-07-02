@@ -61,23 +61,23 @@ fc_port_channel_list:
     pc_id: "{{ fc_uplink_PC_info[0].pc_id }}"
     fabric: "A"
     slot_id: '1'
-    port_id: '5'
+    port_id: '1'
   # Port-Channel for Fabric A MDS-1 - Port 1/6
   - name: "{{ fc_uplink_PC_info[0].name }}"
     pc_id: "{{ fc_uplink_PC_info[0].pc_id }}"
     fabric: "A"
     slot_id: '1'
-    port_id: '6'
+    port_id: '2'
   # Port-Channel for Fabric B MDS-2 - Port 1/5
   - name: "{{ fc_uplink_PC_info[1].name }}"
     pc_id: "{{ fc_uplink_PC_info[1].pc_id }}"
     fabric: "B"
     slot_id: '1'
-    port_id: '5'
+    port_id: '1'
   # Port-Channel for Fabric B MDS-2 - Port 1/6
   - name: "{{ fc_uplink_PC_info[1].name }}"
     pc_id: "{{ fc_uplink_PC_info[1].pc_id }}"
     fabric: "B"
     slot_id: '1'
-    port_id: '6'
+    port_id: '2'
 #

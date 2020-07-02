@@ -5,21 +5,21 @@
 # SSH must be enabled on the ESXi host
 #
 # Add the ESXi hosts to the vcenter
-#  - include_tasks: add_esxi_hosts_to_VC.yml
+  - include_tasks: add_esxi_hosts_to_VC.yml
 # Add the ESXi hosts to VDS by placing the hosts in maintenance mode, adding
 # the host to VDS and then existing the maintenance mode
-#  - include_tasks: add_esxi_hosts_to_dvs.yml
+  - include_tasks: add_esxi_hosts_to_dvs.yml
 # Add the NTP Server(s) to the ESXi Hosts
-#  - include_tasks: add_esxi_ntp.yml
+  - include_tasks: add_esxi_ntp.yml
 # Modify the vSwitch0 for ESXi Hosts to add redundant NIC and set MTU to 9000
-#  - include_tasks: modify_esxi_vswitch0.yml
+  - include_tasks: modify_esxi_vswitch0.yml
 # Create the vSwitch1 for vMotion, add vNICs and modify MTU
-#  - include_tasks: create_esxi_vswitch1.yml
+  - include_tasks: create_esxi_vswitch1.yml
 # Create the NFS and vMotion Portgroups
-#  - include_tasks: create_esxi_nfs_vmotion_PG.yml
+  - include_tasks: create_esxi_nfs_vmotion_PG.yml
 # Create vMotion VMK
-#  - include_tasks: add_esxi_vmotion_vmk.yml
+  - include_tasks: add_esxi_vmotion_vmk.yml
 # Create NFS VMK
-#  - include_tasks: add_esxi_nfs_vmk.yml
+  - include_tasks: add_esxi_nfs_vmk.yml
 # Add NFS Datastores
-#  - include_tasks: add_esxi_nfs_datastores.yml
+  - include_tasks: add_esxi_nfs_datastores.yml

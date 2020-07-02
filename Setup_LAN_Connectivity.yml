@@ -10,7 +10,7 @@
   roles:
     ### Configure Nexus Switching
     #
-    - NEXUSconfig
+#    - NEXUSconfig
     #
 - hosts: ucs
   connection: local
@@ -24,7 +24,7 @@
     # Setup Server Ports to connect to Chassis and Rack Servers
     # Setup Uplink Ports and Port-Channels
     #
-    - UCSequipment
+#    - UCSequipment
     #
     ### Setup Admin tasks in UCS
     #
@@ -35,7 +35,7 @@
     #
     # To configure the "optional" parameters, uncomment and update the variables
     # under roles/UCSadmin/defaults/main.yml
-    - UCSadmin
+#    - UCSadmin
     #
     #
     ### Setup LAN Tasks in UCS
@@ -45,6 +45,7 @@
     # VLANs
     # MAC pools
     # Network Control Policy - Enable CDP and LLDP
+    # VMware Adapter Policy for High Traffic
     # vNIC templates (except iSCSI vNIC templates)
     # iSCSI vNIC templates (if required)
     # iSCSI LAN Connectivity Policy (if required)

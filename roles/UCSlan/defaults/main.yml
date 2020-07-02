@@ -2,7 +2,8 @@
 # Variables for LAN configurations of UCSM
 # Adjust the variable values as per your requirements
 
-#lan_state should be set to 'present' to configure the objects and 'absent' to delete the object
+#lan_state should be set to 'present' to configure the objects and 'absent' to delete the object.
+# In this current framework, this feature is not tested. The value MUST be set to 'present'
 lan_state : 'present'
 #Assignment order for various IP and MAC pools
 lan_assign_order: 'sequential'

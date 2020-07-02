@@ -103,8 +103,8 @@ storage_node2_b: '20:04:00:A0:98:5B:4A:86'
 ucs_host_01_a: '20:00:00:25:b5:bc:0a:00'
 ucs_host_01_b: '20:00:00:25:b5:bc:0b:00'
 #
-ucs_host_02_a: '20:00:00:25:b5:bc:0a:01'
-ucs_host_02_b: '20:00:00:25:b5:bc:0b:01'
+#ucs_host_02_a: '20:00:00:25:b5:bc:0a:01'
+#ucs_host_02_b: '20:00:00:25:b5:bc:0b:01'
 #
 # VMware Configurations
 #
@@ -118,3 +118,10 @@ vcenter_hostname: 10.50.160.100
 vcenter_username: administrator@vsphere.local
 vcenter_password: "H1ghV0lt!"
 #
+# DVS Parameters
+#
+dvs_name: "App_DVS"
+dv_version: "6.6.0"
+dv_uplink: "2"
+dv_protocol: "lldp"
+dv_operation: "both"

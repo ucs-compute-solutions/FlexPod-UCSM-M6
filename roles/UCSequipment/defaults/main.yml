@@ -1,6 +1,12 @@
 ---
 # Variables for Equipment related configurations of UCSM
 #
+# chassis_links options: 1-link, 2-link, 4-link, 8-link, platform-max
+# chassis_link_aggr options: port-channel , none (check UCSM version)
+#
+chassis_links: 2-link
+chassis_link_aggr: port-channel
+#
 # This is the list of all the server ports where chassis and rack servers are connected
 #
 server_port_list:

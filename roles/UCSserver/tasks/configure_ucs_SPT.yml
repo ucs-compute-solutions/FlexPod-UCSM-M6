@@ -23,9 +23,6 @@
       bios_policy: "{{ bios_policy_name}}"
     when: configure_iscsi is defined
   #
-  # Set iSCSI Boot Paramters for the SPT
-  #
-  
   # FC Service Profile Template
   #
   - name: Configure Service Profile Template for FCP
@@ -46,4 +43,74 @@
       san_connectivity_policy: "{{ san_policy_name }}"
       bios_policy: "{{ bios_policy_name}}"
     when: configure_fc is defined
-    #
+  #
+  # Set iSCSI Boot Paramters for the SPT
+  #
+  - name: Configure Service Profile Template with iSCSI Boot Information
+    ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+      - {
+            "module": "ucsmsdk.mometa.ls.LsServer",
+            "class": "LsServer",
+            "properties": {
+                "parent_mo_or_dn": "org-root/org-FlexPod",
+                "boot_policy_name": "{{ iscsi_boot_policy_name }}",
+                "name": "{{ iscsi_SPT_name }}"
+            },
+            "children": [
+                {
+                    "module": "ucsmsdk.mometa.vnic.VnicIScsiBootParams",
+                    "class": "VnicIScsiBootParams",
+                    "properties": {
+                    },
+                    "children": [
+                        {
+                            "module": "ucsmsdk.mometa.vnic.VnicIScsiBootVnic",
+                            "class": "VnicIScsiBootVnic",
+                            "properties": {
+                                "name": "iSCSI-Boot-A"
+                            },
+                            "children": [
+                                {
+                                    "module": "ucsmsdk.mometa.vnic.VnicIPv4If",
+                                    "class": "VnicIPv4If",
+                                    "properties": {
+                                    },
+                                    "children": [
+                                      {
+                                          "module": "ucsmsdk.mometa.vnic.VnicIPv4PooledIscsiAddr",
+                                          "class": "VnicIPv4PooledIscsiAddr",
+                                          "properties": {
+                                              ident_pool_name: "{{ iscsi_a_pool_name }}"
+                                          }
+                                      }
+                                    ]
+                                },
+                                {
+                                    "module": "ucsmsdk.mometa.vnic.VnicIScsiStaticTargetIf",
+                                    "class": "VnicIScsiStaticTargetIf",
+                                    "properties": {
+                                        "ip_address": "192.168.10.252",
+                                        "name": "iqn.1992-08.com.netapp:sn.2a34dc754e1511eaa17e00a0985b4a87:vs.3",
+                                        "priority": "1"
+                                    },
+                                    "children": [
+                                        {
+                                            "module": "ucsmsdk.mometa.vnic.VnicLun",
+                                            "class": "VnicLun",
+                                            "properties": {
+                                                "bootable": "no",
+                                                "id": "0"
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }

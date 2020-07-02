@@ -17,8 +17,6 @@
   - include_tasks: configure_ucs_disk_policy.yml
   #Create BIOS Policy and update various settings
   - include_tasks: configure_ucs_bios_policy.yml
-  # VMware Adapter Policy for High Traffic
-  - include_tasks: configure_ucs_adapter_policy.yml
   # Configure iSCSI/FC Boot Policy (based on configure_fc or configure_iscsi)
   - include_tasks: configure_ucs_boot_policy.yml
   # Configure Service Profile Templates (based on configure_fc or configure_iscsi)

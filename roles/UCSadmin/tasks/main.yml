@@ -1,5 +1,6 @@
 ---
 # Admin Tasks Configuration for UCSM
+# Variables can be modified under ../defaults/main.yml
 
 # Configure DNS Servers
 - include_tasks: configure_dns.yml

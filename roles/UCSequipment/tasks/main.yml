@@ -8,4 +8,5 @@
   - include_tasks: configure_ucs_server_port.yml
   # Configure uplink ports and port-channels (connected to Nexus)
   - include_tasks: configure_ucs_uplink_PC.yml
-  
+  # Configure chassis discovery policy
+  - include_tasks: configure_ucs_chassis_discovery.yml
