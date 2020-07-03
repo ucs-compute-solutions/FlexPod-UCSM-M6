@@ -17,7 +17,7 @@
     # VSAN A and VSAN B (if required)
     # vHBA Templates
     # enable VSAN trunking for uplink ports (if required)
-    - UCSsan
+    #- UCSsan
     #
     #
     ### Create Configurations under Server Tab in UCS

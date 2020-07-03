@@ -106,6 +106,13 @@ ucs_host_01_b: '20:00:00:25:b5:bc:0b:00'
 #ucs_host_02_a: '20:00:00:25:b5:bc:0a:01'
 #ucs_host_02_b: '20:00:00:25:b5:bc:0b:01'
 #
+# Storage iSCSI Target Interfaces
+#
+storage_node1_iSCSI_a: '192.168.10.251'
+storage_node1_iSCSI_b: '192.168.20.251'
+storage_node2_iSCSI_a: '192.168.10.252'
+storage_node2_iSCSI_b: '192.168.20.252'
+#
 # VMware Configurations
 #
 esxi_username: root

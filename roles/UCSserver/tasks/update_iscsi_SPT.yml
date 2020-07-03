@@ -1,0 +1,95 @@
+---
+  # Add the iSCSI target mapping in service profile template for iSCSI. This
+  # task should come after configure_ucs_SPT task but the task errors out if
+  # the order is changed and SPT is already configured.
+
+  - name: Set iSCSI Boot Parameters for iSCSI SPT
+    collections:
+      - cisco.ucs
+    ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+      - module: ucsmsdk.mometa.ls.LsServer
+        class: LsServer
+        properties:
+            parent_mo_or_dn: "org-root/org-{{ organization }}"
+            name: "{{ iscsi_SPT_name }}"
+            type: updating-template
+        children:
+        - module: ucsmsdk.mometa.vnic.VnicIScsiBootParams
+          class: VnicIScsiBootParams
+          properties:
+             policy_owner: local
+          children:
+          - module: ucsmsdk.mometa.vnic.VnicIScsiBootVnic
+            class: VnicIScsiBootVnic
+            properties:
+               name: "{{ iscsi_a_vnic_name }}"
+            children:
+            - module: ucsmsdk.mometa.vnic.VnicIPv4If
+              class: VnicIPv4If
+              properties: {}
+              children:
+              - module: ucsmsdk.mometa.vnic.VnicIPv4PooledIscsiAddr
+                class: VnicIPv4PooledIscsiAddr
+                properties:
+                   ident_pool_name: "{{ iscsi_a_pool_name }}"
+            - module: ucsmsdk.mometa.vnic.VnicIScsiStaticTargetIf
+              class: VnicIScsiStaticTargetIf
+              properties:
+                 ip_address: "{{ storage_node1_iSCSI_a }}"
+                 name: "{{ storage_iscsi_target }}"
+                 priority: "1"
+              children:
+              - module: ucsmsdk.mometa.vnic.VnicLun
+                class: VnicLun
+                properties:
+                   id: "0"
+            - module: ucsmsdk.mometa.vnic.VnicIScsiStaticTargetIf
+              class: VnicIScsiStaticTargetIf
+              properties:
+                 ip_address: "{{ storage_node2_iSCSI_a }}"
+                 name: "{{ storage_iscsi_target }}"
+                 priority: "2"
+              children:
+              - module: ucsmsdk.mometa.vnic.VnicLun
+                class: VnicLun
+                properties:
+                   id: "0"
+          - module: ucsmsdk.mometa.vnic.VnicIScsiBootVnic
+            class: VnicIScsiBootVnic
+            properties:
+               name: "{{ iscsi_b_vnic_name }}"
+            children:
+            - module: ucsmsdk.mometa.vnic.VnicIPv4If
+              class: VnicIPv4If
+              properties: {}
+              children:
+              - module: ucsmsdk.mometa.vnic.VnicIPv4PooledIscsiAddr
+                class: VnicIPv4PooledIscsiAddr
+                properties:
+                   ident_pool_name: "{{ iscsi_b_pool_name }}"
+            - module: ucsmsdk.mometa.vnic.VnicIScsiStaticTargetIf
+              class: VnicIScsiStaticTargetIf
+              properties:
+                 ip_address: "{{ storage_node1_iSCSI_b }}"
+                 name: "{{ storage_iscsi_target }}"
+                 priority: "1"
+              children:
+              - module: ucsmsdk.mometa.vnic.VnicLun
+                class: VnicLun
+                properties:
+                   id: "0"
+            - module: ucsmsdk.mometa.vnic.VnicIScsiStaticTargetIf
+              class: VnicIScsiStaticTargetIf
+              properties:
+                 ip_address: "{{ storage_node2_iSCSI_b }}"
+                 name: "{{ storage_iscsi_target }}"
+                 priority: "2"
+              children:
+              - module: ucsmsdk.mometa.vnic.VnicLun
+                class: VnicLun
+                properties:
+                   id: "0"

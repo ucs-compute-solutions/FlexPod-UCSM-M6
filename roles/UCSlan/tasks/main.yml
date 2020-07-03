@@ -13,8 +13,7 @@
 # Configure Network Control Policies to enable CDP and LLDP
 - include_tasks: configure_ucs_NCP.yml
 # VMware Adapter Policy for High Traffic
-#- include_tasks: configure_ucs_adapter_policy.yml
-- include_tasks: ucs_adapter_policy_temp.yml
+- include_tasks: configure_ucs_adapter_policy.yml
 # Configure vNIC Template for all vNICs except iSCSI vNICs
 - include_tasks: configure_ucs_vnic_templates.yml
 # Configure vNIC Template for iSCSI vNICs

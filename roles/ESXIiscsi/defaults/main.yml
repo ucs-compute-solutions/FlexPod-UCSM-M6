@@ -16,7 +16,7 @@ iscsi_b_portgroup: "iScsiBootPG-B"
 iscsi_mask: 255.255.255.0
 #
 iscsi_targets:
-    - 192.168.10.251
-    - 192.168.10.252
-    - 192.168.20.251
-    - 192.168.20.252
+    - "{{ storage_node1_iSCSI_a }}"
+    - "{{ storage_node2_iSCSI_a }}"
+    - "{{ storage_node1_iSCSI_b }}"
+    - "{{ storage_node2_iSCSI_b }}"

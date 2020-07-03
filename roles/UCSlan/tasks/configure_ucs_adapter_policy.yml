@@ -1,6 +1,48 @@
 ---
     # VMware Adapter Policy for High Traffic
+    # The call break down should not be needed but adding all the
+    # parameters to single ucs_managed_object was causing error
+
+
       - name: Create VMware Ethernet Adapter Policy for High Traffic
+        ucs_managed_objects:
+          hostname: "{{ inventory_hostname }}"
+          username: "{{ username }}"
+          password: "{{ password }}"
+          objects:
+          - {
+              "module": "ucsmsdk.mometa.adaptor.AdaptorHostEthIfProfile",
+              "class": "AdaptorHostEthIfProfile",
+              "properties": {
+                  "parent_mo_or_dn": "org-root",
+                  "name": "{{adapter_policy_name}}"
+              },
+              "children": [
+                {
+                  "module": "ucsmsdk.mometa.adaptor.AdaptorEthCompQueueProfile",
+                  "class": "AdaptorEthCompQueueProfile",
+                  "properties": {
+                    "count": "16"
+                  }
+                },
+                {
+                  "module": "ucsmsdk.mometa.adaptor.AdaptorEthInterruptProfile",
+                  "class": "AdaptorEthInterruptProfile",
+                  "properties": {
+                    "count": "18"
+                  }
+                },
+                {
+                  "module": "ucsmsdk.mometa.adaptor.AdaptorRssProfile",
+                  "class": "AdaptorRssProfile",
+                  "properties": {
+                    "receive_side_scaling": "enabled"
+                  }
+                }
+              ]
+            }
+
+      - name: Update VMware Ethernet Adapter Policy for High Traffic
         ucs_managed_objects:
           hostname: "{{ inventory_hostname }}"
           username: "{{ username }}"
@@ -26,27 +68,6 @@
                   "class": "AdaptorEthRecvQueueProfile",
                   "properties": {
                     "count": "8"
-                  }
-                },
-                {
-                  "module": "ucsmsdk.mometa.adaptor.AdaptorEthCompQueueProfile",
-                  "class": "AdaptorEthCompQueueProfile",
-                  "properties": {
-                    "count": "16"
-                  }
-                },
-                {
-                  "module": "ucsmsdk.mometa.adaptor.AdaptorEthInterruptProfile",
-                  "class": "AdaptorEthInterruptProfile",
-                  "properties": {
-                    "count": "18"
-                  }
-                },
-                {
-                  "module": "ucsmsdk.mometa.adaptor.AdaptorRssProfile",
-                  "class": "AdaptorRssProfile",
-                  "properties": {
-                    "receive_side_scaling": "enabled"
                   }
                 }
               ]
