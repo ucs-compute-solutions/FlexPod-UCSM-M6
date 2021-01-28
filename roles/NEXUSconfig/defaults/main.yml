@@ -44,6 +44,7 @@ mgmt_PC:
   - interface: "port-channel4"
     # id must be same as port-channel number
     id: "4"
+    description: "Port-Channel to Management Switch"
     speed: "auto"
     duplex: "auto"
 #
@@ -51,27 +52,31 @@ peerlink_PC:
   - interface: "port-channel10"
     # id must be same as port-channel number
     id: "10"
-    speed: "100000"
-    duplex: "full"
+    description: "Port-Channel for Peer-Link"
+    speed: "auto"
+    duplex: "auto"
 #
 FI_A_PC:
   - interface: "port-channel15"
     # id must be same as port-channel number
     id: "15"
-    speed: "100000"
-    duplex: "full"
+    description: "Port-Channel for Fabric Interconnect A"
+    speed: "auto"
+    duplex: "auto"
 #
 FI_B_PC:
   - interface: "port-channel16"
     # id must be same as port-channel number
     id: "16"
-    speed: "100000"
-    duplex: "full"
+    description: "Port-Channel for Fabric Interconnect B"
+    speed: "auto"
+    duplex: "auto"
 #
 storage_A_PC:
   - interface: "port-channel117"
     # id must be same as port-channel number
     id: "117"
+    description: "Port-Channel for Storage Controller 1"
     speed: "auto"
     duplex: "auto"
 #
@@ -79,6 +84,7 @@ storage_B_PC:
   - interface: "port-channel118"
     # id must be same as port-channel number
     id: "118"
+    description: "Port-Channel for Storage Controller 2"
     speed: "auto"
     duplex: "auto"
 #

@@ -73,10 +73,20 @@
     nxos_interfaces:
       config:
         - name: "{{ item.interface }}"
+          description: "{{ item.description }}"
           mtu: "9216"
           speed: "{{ item.speed }}"
           duplex: "{{ item.duplex }}"
     with_list: "{{ all_port_channels }}"
+
+  # This task sets up duplex for peer-link port-channel to default for peer-link command to work
+  - name: Set the duplex for peer-link port-channel to default
+    nxos_interfaces:
+      config:
+        - name: "{{ item.interface }}"
+          mtu: "1500"
+    with_list: "{{ peerlink_PC }}"
+
 #
 # Configure Trunk VLANs for Peer-Link and UCS FI Port-Channels
 #
