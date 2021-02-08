@@ -70,22 +70,22 @@ port_channel_list:
     fabric_id: "A"
     slot_id: '1'
     port_id: '53'
-    admin_speed: "100gbps"
+    admin_speed: "auto"
   - name: "Po153-Nexus"
     pc_id: '153'
     fabric_id: "A"
     slot_id: '1'
     port_id: '54'
-    admin_speed: "100gbps"
+    admin_speed: "auto"
   - name: "Po154-Nexus"
     pc_id: '154'
     fabric_id: "B"
     slot_id: '1'
     port_id: '53'
-    admin_speed: "100gbps"
+    admin_speed: "auto"
   - name: "Po154-Nexus"
     pc_id: '154'
     fabric_id: "B"
     slot_id: '1'
     port_id: '54'
-    admin_speed: "100gbps"
+    admin_speed: "auto"
