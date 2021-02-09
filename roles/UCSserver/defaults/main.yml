@@ -76,8 +76,8 @@ iscsi_boot_policy_name: 'Boot-iSCSI-A'
 # iSCSI Service Profile Template
 iscsi_SPT_name: 'Host-Infra-iSCSI-A'
 #
-# iSCSI Boot Policy
+# FC Boot Policy
 fc_boot_policy_name: 'FCP-A'
 #
-# iSCSI Service Profile Template
+# FC Service Profile Template
 fc_SPT_name: 'Host-Infra-FCP-A'
