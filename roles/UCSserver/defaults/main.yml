@@ -23,11 +23,11 @@ rack_list:
   - id: '2'
 #
 #B-Series Blade Servers
-#blade_list:
-#  - chassis_number: '1'
-#    slot_number: '5'
-#  - chassis_number: '1'
-#    slot_number: '6'
+blade_list:
+ - chassis_number: '1'
+   slot_number: '5'
+ - chassis_number: '1'
+   slot_number: '6'
 #
 # Power Control Policy
 power_policy_name: 'No-PowerCap'

@@ -29,4 +29,4 @@ san_policy_name: 'FC-Boot'
 san_policy_vhba_a_name: 'Fabric-A'
 san_policy_vhba_b_name: 'Fabric-B'
 # Storage iSCSI Target
-storage_iscsi_target: 'iqn.1992-08.com.netapp:sn.2a34dc754e1511eaa17e00a0985b4a87:vs.3'
+storage_iscsi_target: '<Storage System IQN>'

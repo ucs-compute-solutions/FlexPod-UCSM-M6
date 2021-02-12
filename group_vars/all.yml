@@ -1,9 +1,13 @@
 #
 #This is the list of all the VLANs that will be defined on Nexus, UCS and VMware
 #
-# Commenting out the following two variables will skip the iSCSI and/or FC configurations
+# Commenting out the following two variables will skip the iSCSI and/or FC storage configurations
 configure_iscsi: "yes"
 configure_fc: "yes"
+#
+# Commenting out the configure_nfs will skip the NFS related configuration including
+# datastore mounting and NFS VMK definition.
+#
 configure_nfs: "yes"
 #
 # Uncomment and update the the following lines to setup NTP Server(s)
@@ -52,7 +56,7 @@ vlan_list:
     id: '3050'
     native: 'no'
     state: "{{lan_state}}"
-    # ISCSI A and B VLANs should be deleted for Fiber-Channel-Only deployments
+    # ISCSI A and B VLANs should be deleted or commended out for Fiber-Channel-Only deployments
   - name: "{{ iscsiA_vlan_name }}"
     id: '3010'
     native: 'no'
@@ -62,13 +66,18 @@ vlan_list:
     native: 'no'
     state: "{{lan_state}}"
 #
-# VLANs definition below will be used to setup trunk ports on Nexus Switches
+# VLANs definitions below will be used to setup trunk ports on Nexus Switches
 # all_vlans_list: for vpc_peer_link and UCS FI trunk ports
+# These VLANs must be same or a subset of the vlan_list above
+# In future, these values will be auto-generated
+#
 all_vlans_list: "11,511,611,3000,3010,3020,3050"
 # storage_vlans_list: for vpc_peer_link and UCS FI trunk ports
 storage_vlans_list: "511,3010,3020,3050"
 # mgmt_vlans_list: for management switch trunk port
 mgmt_vlans_list: "11,511"
+#
+#
 #
 native_vlan_id: "2"
 #
@@ -103,8 +112,8 @@ storage_node2_b: '20:04:00:A0:98:5B:4A:86'
 ucs_host_01_a: '20:00:00:25:b5:bc:0a:00'
 ucs_host_01_b: '20:00:00:25:b5:bc:0b:00'
 #
-#ucs_host_02_a: '20:00:00:25:b5:bc:0a:01'
-#ucs_host_02_b: '20:00:00:25:b5:bc:0b:01'
+ucs_host_02_a: '20:00:00:25:b5:bc:0a:01'
+ucs_host_02_b: '20:00:00:25:b5:bc:0b:01'
 #
 # Storage iSCSI Target Interfaces
 #

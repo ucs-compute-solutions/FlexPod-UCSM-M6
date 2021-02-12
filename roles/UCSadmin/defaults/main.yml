@@ -6,7 +6,7 @@
 
 # Uncomment and update the the following lines to setup DNS Server(s)
 dns_servers:
-#  - ip_address: "192.168.160.53"
+  - ip_address: "192.168.160.53"
   - ip_address: "192.168.160.54"
 
 # Uncomment and update the the following line to setup Timezone

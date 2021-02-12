@@ -69,13 +69,6 @@ VDS_vlan_list:
     # VM-Traffic VLAN
   - name: "{{ vm_vlan_name }}"
     native: 'no'
-#
-# VLANs for vMotion vNIC Template
-#
-vMotion_vlan_list:
-    # Native VLAN
-  - name: "{{ native_vlan_name }}"
-    native: 'yes'
     # vMotion VLAN
   - name: "{{ vmotion_vlan_name }}"
     native: 'no'
