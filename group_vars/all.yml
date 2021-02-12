@@ -123,7 +123,7 @@ vcenter_cluster: FlexPod-Management
 #
 vcenter_hostname: 10.50.160.100
 vcenter_username: administrator@vsphere.local
-vcenter_password: "H1ghV0lt!"
+vcenter_password: "cisco!23"
 #
 # DVS Parameters
 #
