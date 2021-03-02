@@ -16,10 +16,9 @@ VMware: https://docs.ansible.com/ansible/latest/scenario_guides/vmware_scenarios
 
 For more information: https://youtu.be/0oO3jgQ65Ss
 
-# How to execute this automation framework?
+# How to execute these playbooks?
 
 The Converged Infrastructure setup takes place in the steps covered below. For more information, watch: https://youtu.be/tr3n-WeRo4g
-
 
 1. Physically set up the equipment, perform the initial device configuration to allow management connectivity to devices. For more information: https://youtu.be/9V6rJF_gLwM
 2. Setup Cisco Nexus switches and Cisco UCS admin, equipment and LAN tasks using: "ansible-playbook Setup_LAN_Connectivity.yml -i inventory". For more information: https://youtu.be/AhLum-DlH5E
