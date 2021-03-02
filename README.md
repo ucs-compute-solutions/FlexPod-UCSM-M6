@@ -34,3 +34,10 @@ All the variables used in this framework are defined in the following locations:
 5. Nexus, MDS, ESXi and vCenter are all defined as unique roles and their specific variables are defined in the defaults/main.yml under the appropriate role directory
 
 To make navigation of the roles easier, an HTML5 file: CI-Automation-Variables.htm is included in the main directory of the framework and can be downloaded and clicked through in the browser to see the variables and default values.
+
+# Playbook Execution Commands - Summary 
+
+1. Setup LAN on Nexus and UCS: "ansible-playbook ./Setup_LAN_Connectivity.yml -i inventory"
+2. Setup UCS (including SAN if needed): "ansible-playbook ./Setup_UCS.yml -i inventory"
+3. Setup MDS (if needed): "ansible-playbook ./Setup_MDS.yml -i inventory"
+4. Setup VMware: "ansible-playbook ./Setup_VMware.yml -i inventory"

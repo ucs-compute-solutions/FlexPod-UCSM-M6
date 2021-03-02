@@ -1,0 +1,21 @@
+# Variables for ESXi Configuration
+# Adjust the variable values as per your requirements
+#
+# Uplinks to be used by various Switch Configurations
+#
+mgmt_uplink1: vmnic0
+mgmt_uplink2: vmnic1
+#
+dv_uplink1: "vmnic2"
+dv_uplink2: "vmnic3"
+#
+# The NFS volumes and mount points as defined on the storage
+# e.g. the mount name infra_swap will try to mount /infra_swap from 192.168.50.251
+#
+nfs_datastore_list:
+  - mount: infra_swap
+    server: 192.168.50.251
+  - mount: infra_datastore_1
+    server: 192.168.50.251
+  - mount: infra_datastore_2
+    server: 192.168.50.252

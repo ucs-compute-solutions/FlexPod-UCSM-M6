@@ -1,0 +1,27 @@
+---
+  - name: Add redundant uplinks and update MTU to 9000 on vSwitch0
+    vmware_vswitch:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      switch: "vSwitch0"
+      nics:
+      - '{{ mgmt_uplink1 }}'
+      - '{{ mgmt_uplink2 }}'
+      mtu: 9000
+    delegate_to: localhost
+
+
+  - name: Remove default port group from install
+    vmware_portgroup:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      switch: "vSwitch0"
+      portgroup: "VM Network"
+      state: absent
+    delegate_to: localhost

@@ -77,17 +77,23 @@ storage_vlans_list: "511,3010,3020,3050"
 # mgmt_vlans_list: for management switch trunk port
 mgmt_vlans_list: "11,511"
 #
-#
-#
 native_vlan_id: "2"
+#
+vmotion_portgroup: "VMKernel-vMotion"
 #
 vds_vlan_list:
   - name: "{{ vm_vlan_name }}"
+    # portgroup name will be configured in VMware
+    portgroup_name: "192_168_1_NET"
     id: '611'
+  - name: "{{ vmotion_vlan_name }}"
+    # portgroup name will be configured in VMware
+    portgroup_name: "{{ vmotion_portgroup }}"
+    id: '3000'
 #
+nfs_portgroup: "VMKernel-Infra-NFS"
 esxi_nfs_vlan: "3050"
 #
-esxi_vmotion_vlan: "3000"
 #VSAN Parameters
 #
 vsan_list:
@@ -123,18 +129,23 @@ storage_node2_iSCSI_a: '192.168.10.252'
 storage_node2_iSCSI_b: '192.168.20.252'
 #
 # VMware Configurations
+# provide the user names and passwords to connect to the ESXi ntp_servers
+# and VMware vCenter
 #
 esxi_username: root
-esxi_password: "H1ghV0lt"
+esxi_password: <ESXi root password - shoule be same as defined in invetory file >
 #
 vcenter_dc: FlexPod-DC
 vcenter_cluster: FlexPod-Management
 #
-vcenter_hostname: 10.50.160.100
-vcenter_username: administrator@vsphere.local
-vcenter_password: "cisco!23"
+vcenter_hostname: <IP address of the vCenter>
+# e.g. vcenter_hostname: 10.50.160.100
+vcenter_username: <User with Admin Privileges>
+# e.g. vcenter_username: administrator@vsphere.local
+vcenter_password: <Password for the Admin User>
+# e.g. vcenter_password: "cisco!23"
 #
-# DVS Parameters
+# DVS Parameters; user version 6.6.0 for VMware 6.7 or above
 #
 dvs_name: "App_DVS"
 dv_version: "6.6.0"

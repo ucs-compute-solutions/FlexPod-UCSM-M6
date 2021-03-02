@@ -21,10 +21,12 @@ mdsB ansible_host=<MDS B IP Address> ansible_user=admin ansible_password=<Admin-
 [vmware:children]
 #
 # This section is used to define the ESXi configuration parameters.
-# You need to provide vmotion, nfs, iSCSI-A and iSCSI-B (if needed) IP addresses to be configured on VMK for the hosts
+# You need to provide vmotion, nfs, iSCSI-A and iSCSI-B (if needed) IP addresses and subnet masks to be configured on VMK for the hosts
 #
 # The VMware vCenter connectivity information is defined in group_vars/all.yml using following variables:
 # vcenter_hostname, vcenter_username, vcenter_password
+#
+# The ESXi host username and password is also defined (copied) in roup_vars/all.yml esxi_username and esxi_password
 #
 esxi_fc
 esxi_iscsi
@@ -40,19 +42,19 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 # Comment out or delete all the hosts if ESXi hosts with FC connectivity are not present
 # FC host configuration will only take place if the variable configure_fc: "yes" is defined (not commended out)
 #
-<ESXi-1-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> nfs=<NFS-VMK-IP-to-be-configured>
-<ESXi-2-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> nfs=<NFS-VMK-IP-to-be-configured>
+<ESXi-1-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> vmotion_mask=<Subent Mask for vMotion> nfs=<NFS-VMK-IP-to-be-configured> nfs_mask=<Subent Mask for NFS>
+<ESXi-2-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> vmotion_mask=<Subent Mask for vMotion> nfs=<NFS-VMK-IP-to-be-configured> nfs_mask=<Subent Mask for NFS>
 
-# e.g. 10.1.1.101  vmotion_ip=192.168.30.101  nfs_ip=192.168.50.101
-# e.g. 10.1.1.102  vmotion_ip=192.168.30.102  nfs_ip=192.168.50.102
+# e.g. 10.1.1.101  vmotion_ip=192.168.30.101  vmotion_mask=255.255.255.0 nfs_ip=192.168.50.101 nfs_mask=255.255.255.0
+# e.g. 10.1.1.102  vmotion_ip=192.168.30.102  vmotion_mask=255.255.255.0 nfs_ip=192.168.50.102 nfs_mask=255.255.255.0
 
 [esxi_iscsi]
 #
 # Comment out or delete all the hosts if ESXi hosts with iSCSI connectivity are not present
 # FC host configuration will only take place if the variable configure_fc: "yes" is defined (not commended out)
 #
-<ESXi-3-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> nfs=<NFS-VMK-IP-to-be-configured> iscsi_a_ip=<iSCSI-A-IP-to-be-configured> iscsi_b_ip=<iSCSI-B-IP-to-be-configured>
-<ESXi-4-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> nfs=<NFS-VMK-IP-to-be-configured> iscsi_a_ip=<iSCSI-A-IP-to-be-configured> iscsi_b_ip=<iSCSI-B-IP-to-be-configured>
+<ESXi-3-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> vmotion_mask=<Subent Mask for vMotion> nfs=<NFS-VMK-IP-to-be-configured> nfs_mask=<Subent Mask for NFS> iscsi_a_ip=<iSCSI-A-IP-to-be-configured> iscsi_b_ip=<iSCSI-B-IP-to-be-configured> iscsi_mask=< Common Subnet Mask for both iSCSI>
+<ESXi-4-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> vmotion_mask=<Subent Mask for vMotion> nfs=<NFS-VMK-IP-to-be-configured> nfs_mask=<Subent Mask for NFS> iscsi_a_ip=<iSCSI-A-IP-to-be-configured> iscsi_b_ip=<iSCSI-B-IP-to-be-configured> iscsi_mask=<Common Subnet Mask for both iSCSI>
 
-# e.g. 10.1.1.103  vmotion_ip=192.168.30.103 nfs_ip=192.168.50.103  iscsi_a_ip=192.168.10.103 iscsi_b_ip=192.168.20.103
-# e.g. 10.1.1.104  vmotion_ip=192.168.30.104 nfs_ip=192.168.50.104  iscsi_a_ip=192.168.10.104 iscsi_b_ip=192.168.20.104
+# e.g. 10.1.1.103  vmotion_ip=192.168.30.103 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.103 nfs_mask=255.255.255.0 iscsi_a_ip=192.168.10.103 iscsi_b_ip=192.168.20.103 iscsi_mask=255.255.255.0
+# e.g. 10.1.1.104  vmotion_ip=192.168.30.104 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.104 nfs_mask=255.255.255.0 iscsi_a_ip=192.168.10.104 iscsi_b_ip=192.168.20.104 iscsi_mask=255.255.255.0

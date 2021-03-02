@@ -1,0 +1,13 @@
+---
+#
+  - name: Create NFS Portgroup
+    vmware_portgroup:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      switch: "vSwitch0"
+      portgroup: '{{ nfs_portgroup }}'
+      vlan_id: '{{ esxi_nfs_vlan }}'
+    delegate_to: localhost

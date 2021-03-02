@@ -1,0 +1,12 @@
+---
+  - name: Create iSCSI-B Portgroup - '{{ iscsi_b_portgroup }}' on vSwitch '{{ iscsi_b_vswitch }}'
+    vmware_portgroup:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      switch: '{{ iscsi_b_vswitch }}'
+      portgroup: '{{ iscsi_b_portgroup }}'
+    delegate_to: localhost
+    when: configure_iscsi is defined

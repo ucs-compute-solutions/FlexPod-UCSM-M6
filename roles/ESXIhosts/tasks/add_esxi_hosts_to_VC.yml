@@ -1,0 +1,19 @@
+---
+#
+# The ESXi hosts are added to the vCenter
+# All the variables are defined under group_vars/all.yml
+#
+  - name: Add ESXi Hosts to vCenter
+    vmware_host:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      datacenter: '{{ vcenter_dc }}'
+      cluster: '{{ vcenter_cluster }}'
+      esxi_hostname: '{{ inventory_hostname }}'
+      esxi_username: '{{ esxi_username }}'
+      esxi_password: '{{ esxi_password }}'
+      fetch_ssl_thumbprint: yes
+      validate_certs: no
+      state: present
+    delegate_to: localhost

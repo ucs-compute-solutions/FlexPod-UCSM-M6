@@ -1,0 +1,17 @@
+---
+# ESXi hosts booted with iSCSI using the VMware iSCSI software initiator need
+# to be configured to do core dumps to the ESXi Dump Collector that is part of
+# vCenter. The Dump Collector is not enabled by default on the vCenter Appliance
+# so configure that first
+
+  - name: Set coredump on iSCSI hosts
+    command: esxcli system coredump network set -v vmk0 -j {{ vcenter_hostname }}
+    args:
+      warn: false
+    when: configure_iscsi is defined
+
+  - name: Enable coredump on iSCSI hosts
+    command: esxcli system coredump network set -e true 
+    args:
+      warn: false
+    when: configure_iscsi is defined

@@ -1,0 +1,19 @@
+---
+  - name: Create NFS VMKernel
+    vmware_vmkernel:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      vswitch: "vSwitch0"
+      portgroup: '{{ nfs_portgroup }}'
+      # mtu value is hardcoded to 9000 for better performance
+      mtu: 9000
+      network:
+        type: 'static'
+        ip_address: '{{ nfs_ip }}'
+        subnet_mask: '{{ nfs_mask }}'
+      state: present
+    delegate_to: localhost
+    when: configure_nfs is defined

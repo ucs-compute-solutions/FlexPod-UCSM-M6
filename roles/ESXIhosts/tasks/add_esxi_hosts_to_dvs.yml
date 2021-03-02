@@ -1,0 +1,47 @@
+---
+  # While not needed, the following code puts a server into maintenance mode
+  # before adding the host to dvs. This step was not needed in lab testing.
+  #
+  # - name: Place host in maintenance mode
+  #   vmware_maintenancemode:
+  #     hostname: '{{ vcenter_hostname }}'
+  #     username: '{{ vcenter_username }}'
+  #     password: '{{ vcenter_password }}'
+  #     validate_certs: no
+  #     esxi_hostname: '{{ inventory_hostname }}'
+  #     evacuate: yes
+  #     timeout: 1800
+  #     state: present
+  #   delegate_to: localhost
+
+  #
+  # The ESXi hosts are added to VDS on vCenter
+  #
+  - name: Add host to the vDS '{{ dvs_name }}'
+    vmware_dvs_host:
+      hostname: '{{ vcenter_hostname }}'
+      username: '{{ vcenter_username }}'
+      password: '{{ vcenter_password }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      switch_name: '{{ dvs_name }}'
+      vmnics:
+          - '{{ dv_uplink1 }}'
+          - '{{ dv_uplink2 }}'
+      state: present
+    delegate_to: localhost
+
+  # The following takes a server out of maintenance mode after
+  # adding the host to dvs. This step can be skipped if host is not in maintenance mode.
+  #
+  # - name: Exit host from maintenance mode
+  #   vmware_maintenancemode:
+  #     hostname: '{{ vcenter_hostname }}'
+  #     username: '{{ vcenter_username }}'
+  #     password: '{{ vcenter_password }}'
+  #     validate_certs: no
+  #     esxi_hostname: '{{ inventory_hostname }}'
+  #     evacuate: yes
+  #     timeout: 1800
+  #     state: absent
+  #   delegate_to: localhost

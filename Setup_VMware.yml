@@ -1,0 +1,39 @@
+################################################################################
+#
+# vCenter Setup Section
+# VMWare vCenter and the ESXi hosts must be installed and available
+# using the IP addresses and passwords provided. The ESXi addresses and
+# passwords are part of inventory file. The vCenter connectivity info is
+# included in group_vars/all.yml
+#
+#
+################################################################################
+- hosts: localhost
+#
+  roles:
+    - VMWAREvcenter
+
+################################################################################
+#
+# Host Setup Section
+# ESXIhosts role configuration is common to both iSCSI and FC hosts
+# ESXIiscsi role configuration is only applied to the iSCSI hosts
+# If configure_fc or configure_iscsi are commented out, the host config will be skipped
+# If inventory does not contain any servers under esxi_fc or esxi_iscsi seciotns, the config will be skipped
+#
+################################################################################
+- hosts: esxi_iscsi
+  gather_facts: no
+  serial: 1
+  roles:
+    - role: ESXIhosts
+      when: configure_iscsi is defined
+    - role: ESXIiscsi
+      when: configure_iscsi is defined
+
+- hosts: esxi_fc
+  gather_facts: no
+  serial: 1
+  roles:
+    - role: ESXIhosts
+      when: configure_fc is defined
