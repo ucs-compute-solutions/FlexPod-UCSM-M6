@@ -25,6 +25,8 @@ For more information: https://youtu.be/0oO3jgQ65Ss
 
 The Converged Infrastructure setup takes place in the steps covered below. For more information, watch: https://youtu.be/tr3n-WeRo4g
 
+![Block-Diagram](https://user-images.githubusercontent.com/60270001/111256914-867e4700-85f0-11eb-9dfe-62e54909610b.jpg)
+
 1. Physically set up the equipment, perform the initial device configuration to allow management connectivity to devices. For more information: https://youtu.be/9V6rJF_gLwM
 2. Setup Cisco Nexus switches and Cisco UCS admin, equipment and LAN tasks using: "ansible-playbook Setup_LAN_Connectivity.yml -i inventory". For more information: https://youtu.be/AhLum-DlH5E
 3. Setup Cisco UCS server policies, service profile templates and SAN configuration using: "ansible-playbook Setup_UCS.yml -i inventory". For more information: https://youtu.be/gTOwiXoJJOA
