@@ -16,7 +16,7 @@ The CVD used during this automation utilizes a dedicated set of vNICs for vMotio
 To execute various ansible playbooks, a linux based system will need to be setup with the packages listed at following pages:
 
 - Cisco UCS: https://galaxy.ansible.com/cisco/ucs
-- Cisco NxOS: https://galaxy.ansible.com/cisco/nxos?extIdCarryOver=true&sc_cid=701f2000001OH7YAAW 
+- Cisco NxOS: https://galaxy.ansible.com/cisco/nxos
 - VMware: https://docs.ansible.com/ansible/latest/scenario_guides/vmware_scenarios/vmware_intro.html
 
 For more information: https://youtu.be/0oO3jgQ65Ss
