@@ -1,26 +1,41 @@
 ---
-  # This task sets Ethnernet ports to L2 and enables interfaces
+  # This task sets Ethernet ports to L2 and enables interfaces
   - name: Enabling all ethernet and port-channel interfaces
-    nxos_interfaces:
+    cisco.nxos.nxos_interfaces:
       config:
         - name: "{{ item.interface }}"
+          description: "{{ item.description }}"
           mode: layer2
           enabled: yes
     with_list: "{{ all_interfaces + all_port_channels }}"
 
+  # This task enables normal UDLD on the FI-A interfaces
+  - name: Enable normal UDLD on the FI-A interfaces
+    cisco.nxos.nxos_udld_interface:
+      interface: "{{ item.interface }}"
+      mode: enabled
+    with_list: "{{ FI_A_interface_list }}"
+ 
+  # This task enables normal UDLD on the FI-B interfaces
+  - name: Enable normal UDLD on the FI-B interfaces
+    cisco.nxos.nxos_udld_interface:
+      interface: "{{ item.interface }}"
+      mode: enabled
+    with_list: "{{ FI_B_interface_list }}"
+
   # This task adds ports to the peer-link port-channels
   - name: Add Ports to peer-link Port-Channel
-    nxos_lag_interfaces:
+    cisco.nxos.nxos_lag_interfaces:
       config:
         - name: "{{ peerlink_PC[0].interface }}"
           members:
             - member: "{{ item.interface }}"
               mode: active
-    with_list: "{{ vpc_interface_list }}"
+    with_list: "{{ peerlink_interface_list }}"
 
   # This task adds ports to the management switch port-channels
   - name: Add Ports to management switch Port-Channel
-    nxos_lag_interfaces:
+    cisco.nxos.nxos_lag_interfaces:
       config:
         - name: "{{ mgmt_PC[0].interface }}"
           members:
@@ -30,7 +45,7 @@
 
   # This task adds ports to the FI-A port-channels
   - name: Add Ports to FI-A Port-Channel
-    nxos_lag_interfaces:
+    cisco.nxos.nxos_lag_interfaces:
       config:
         - name: "{{ FI_A_PC[0].interface }}"
           members:
@@ -40,7 +55,7 @@
 
   # This task adds ports to the FI-B port-channels
   - name: Add Ports to FI-B Port-Channel
-    nxos_lag_interfaces:
+    cisco.nxos.nxos_lag_interfaces:
       config:
         - name: "{{ FI_B_PC[0].interface }}"
           members:
@@ -50,7 +65,7 @@
 
   # This task adds ports to the Storage-A port-channels
   - name: Add Ports to Storage-A Port-Channel
-    nxos_lag_interfaces:
+    cisco.nxos.nxos_lag_interfaces:
       config:
         - name: "{{ storage_A_PC[0].interface }}"
           members:
@@ -60,38 +75,37 @@
 
   # This task adds ports to the Storage-B port-channels
   - name: Add Ports to Storage-B Port-Channel
-    nxos_lag_interfaces:
+    cisco.nxos.nxos_lag_interfaces:
       config:
         - name: "{{ storage_B_PC[0].interface }}"
           members:
             - member: "{{ item.interface }}"
               mode: active
     with_list: "{{ storage_B_interface_list }}"
-
-  # This task sets up speed, duplex and mtu settings for interfaces
+#
+# This task sets up speed and duplex settings for the peer link
   - name: Modify the mtu speed and duplex for ports
-    nxos_interfaces:
+    cisco.nxos.nxos_interfaces:
       config:
         - name: "{{ item.interface }}"
-          description: "{{ item.description }}"
+          speed: "{{ item.speed }}"
+          duplex: "{{ item.duplex }}"
+    with_list: "{{ peerlink_PC }}"  
+#
+# This task sets up speed, duplex and mtu settings for the other interfaces
+  - name: Modify the mtu speed and duplex for ports
+    cisco.nxos.nxos_interfaces:
+      config:
+        - name: "{{ item.interface }}"
           mtu: "9216"
           speed: "{{ item.speed }}"
           duplex: "{{ item.duplex }}"
-    with_list: "{{ all_port_channels }}"
-
-  # This task sets up duplex for peer-link port-channel to default for peer-link command to work
-  - name: Set the duplex for peer-link port-channel to default
-    nxos_interfaces:
-      config:
-        - name: "{{ item.interface }}"
-          mtu: "1500"
-    with_list: "{{ peerlink_PC }}"
-
+    with_list: "{{ mgmt_PC + FI_A_PC + FI_B_PC + storage_A_PC + storage_B_PC }}"
 #
 # Configure Trunk VLANs for Peer-Link and UCS FI Port-Channels
 #
   - name: Enabling all vlans on peer-link and UCS FI Port-Channels
-    nxos_l2_interfaces:
+    cisco.nxos.nxos_l2_interfaces:
       config:
         - name: "{{ item.interface }}"
           trunk:
@@ -102,7 +116,7 @@
 # Configure VLANs mgmt Port-Channels
 #
   - name: Enabling management vlans on management Port-Channels
-    nxos_l2_interfaces:
+    cisco.nxos.nxos_l2_interfaces:
       config:
         - name: "{{ item.interface }}"
           trunk:
@@ -113,7 +127,7 @@
 # Configure VLANs for storage Port-Channels
 #
   - name: Enabling storage vlans on Storage Port-Channels
-    nxos_l2_interfaces:
+    cisco.nxos.nxos_l2_interfaces:
       config:
         - name: "{{ item.interface }}"
           trunk:
@@ -129,7 +143,7 @@
   # This task sets:
   # "switchport mode trunk" on all Port-Channels
   - name: Set - switchport mode trunk
-    nxos_config:
+    cisco.nxos.nxos_config:
       lines:
         - switchport mode trunk
       parents: interface {{ item.interface }}
@@ -138,7 +152,7 @@
   # This task sets:
   # "Spanning-tree port type edge trunk" on FI and Storage Port-Channels
   - name: Set - spanning-tree port type edge trunk
-    nxos_config:
+    cisco.nxos.nxos_config:
       lines:
         - spanning-tree port type edge trunk
       parents: interface {{ item.interface }}

@@ -3,7 +3,7 @@
   # Configure VLANs on the Nexus Switches
   #
   - name: Create VLANs
-    nxos_vlans:
+    cisco.nxos.nxos_vlans:
       config:
         - vlan_id: "{{ item.id }}"
           name: "{{ item.name }}"

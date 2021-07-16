@@ -11,6 +11,10 @@
   - include_tasks: configure_nxos_global_settings.yml
   # Configure vlans
   - include_tasks: configure_nxos_vlans.yml
+  # Configure NTP Distribution
+  - include_tasks: configure_nxos_ntp.yml
+  # Configure NTP Distribution Interface Default Gateway
+  - include_tasks: configure_default_gw.yml
   # Configure Inerface, Port-Channel and Trunk Settings
   - include_tasks: set_nxos_interfaces.yml
   # Configure VPC

@@ -17,80 +17,63 @@ global_settings:
   - system default switchport
   - system default switchport shutdown
 #
-# Interface Lists; more interfaces can be added for additional BW
-#
-mgmt_interface_list:
-  - interface: "Ethernet1/34"
-
-vpc_interface_list:
-  - interface:  "Ethernet1/35"
-  - interface:  "Ethernet1/36"
-#
-FI_A_interface_list:
-  - interface:  "Ethernet1/5"
-#
-FI_B_interface_list:
-  - interface:  "Ethernet1/6"
-#
-storage_A_interface_list:
-  - interface:  "Ethernet1/17"
-#
-storage_B_interface_list:
-  - interface:  "Ethernet1/18"
-#
-all_interfaces: "{{ mgmt_interface_list + vpc_interface_list + FI_A_interface_list + FI_B_interface_list + storage_A_interface_list + storage_B_interface_list }}"
+global_NTP_servers:
+  - 192.168.156.254
+  - 192.168.156.1
+ntp_distribution_vlan: '113' # VLAN (IB-MGMT) where NTP distribution interfaces will be placed.
+ntp_distribution_gw: '10.1.156.254' # Default gateway for NTP distribution interfaces.
 #
 mgmt_PC:
-  - interface: "port-channel4"
+  - interface: "port-channel154"
     # id must be same as port-channel number
-    id: "4"
-    description: "Port-Channel to Management Switch"
-    speed: "auto"
-    duplex: "auto"
+    id: "154"
+    speed: "100000"
+    duplex: "full"
+    description: "MGMT-Uplink"
 #
 peerlink_PC:
   - interface: "port-channel10"
     # id must be same as port-channel number
     id: "10"
-    description: "Port-Channel for Peer-Link"
-    speed: "auto"
-    duplex: "auto"
+    speed: "100000"
+    duplex: "full"
+    description: "vPC Peer Link"
 #
 FI_A_PC:
-  - interface: "port-channel15"
+  - interface: "port-channel121"
     # id must be same as port-channel number
-    id: "15"
-    description: "Port-Channel for Fabric Interconnect A"
+    id: "121"
     speed: "auto"
     duplex: "auto"
+    description: "AA16-6454-A"
 #
 FI_B_PC:
-  - interface: "port-channel16"
+  - interface: "port-channel123"
     # id must be same as port-channel number
-    id: "16"
-    description: "Port-Channel for Fabric Interconnect B"
+    id: "123"
     speed: "auto"
     duplex: "auto"
+    description: "AA16-6454-B"
 #
 storage_A_PC:
   - interface: "port-channel117"
     # id must be same as port-channel number
     id: "117"
-    description: "Port-Channel for Storage Controller 1"
     speed: "auto"
     duplex: "auto"
+    description: "AA16-A400-01"
 #
 storage_B_PC:
-  - interface: "port-channel118"
+  - interface: "port-channel119"
     # id must be same as port-channel number
-    id: "118"
-    description: "Port-Channel for Storage Controller 2"
+    id: "119"
     speed: "auto"
     duplex: "auto"
+    description: "AA16-6454-02"
 #
 all_port_channels: "{{ peerlink_PC + mgmt_PC + FI_A_PC + FI_B_PC + storage_A_PC + storage_B_PC }}"
 #
 # VPC Parameters
 #
-vpc_domain_id: "10"
+vpc_domain_id: "20"
 #

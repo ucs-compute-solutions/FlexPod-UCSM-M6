@@ -1,0 +1,13 @@
+---
+  # This Task sets the default gateway for the NTP Distribution Interfaces. 
+  
+  - name: Set Default Gateway
+    cisco.nxos.nxos_static_routes:
+      config:
+      - vrf: default
+        address_families:
+        - afi: ipv4
+          routes:
+          - dest: 0.0.0.0/0
+            next_hops:
+            - forward_router_address: "{{ ntp_distribution_gw }}"

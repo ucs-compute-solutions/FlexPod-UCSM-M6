@@ -1,4 +1,43 @@
 ---
-vpc_source: 192.168.160.181
-vpc_destination: 192.168.160.182
+vpc_source: 192.168.156.135
+vpc_destination: 192.168.156.136
 vpc_role_priority: "10"
+# NTP Distribution IP for N9K-A in the IB-MGMT VLAN
+IB_MGMT_ntp_dist_IP: '10.1.156.135/24'
+# Interface Lists; more interfaces can be added for additional BW
+#
+mgmt_interface_list:
+  - interface: "Ethernet1/54"
+    description: "Uplink-SW"
+
+peerlink_interface_list:
+  - interface:  "Ethernet1/49"
+    description: "AA16-93180-B:Eth1/49"
+  - interface:  "Ethernet1/50"
+    description: "AA16-93180-B:Eth1/50"
+#
+FI_A_interface_list:
+  - interface:  "Ethernet1/21"
+    description: "AA16-6454-A:Eth1/45"
+  - interface:  "Ethernet1/22"
+    description: "AA16-6454-A:Eth1/46"
+#
+FI_B_interface_list:
+  - interface:  "Ethernet1/23"
+    description: "AA16-6454-B:Eth1/45"
+  - interface:  "Ethernet1/24"
+    description: "AA16-6454-B:Eth1/46"
+#
+storage_A_interface_list:
+  - interface:  "Ethernet1/17"
+    description: "AA16-A400-01:e0e"
+  - interface:  "Ethernet1/18"
+    description: "AA16-A400-01:e0f"
+#
+storage_B_interface_list:
+  - interface:  "Ethernet1/19"
+    description: "AA16-A400-02:e0e"
+  - interface:  "Ethernet1/20"
+    description: "AA16-A400-02:e0f"
+#
+all_interfaces: "{{ mgmt_interface_list + peerlink_interface_list + FI_A_interface_list + FI_B_interface_list + storage_A_interface_list + storage_B_interface_list }}"

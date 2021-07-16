@@ -1,0 +1,14 @@
+---
+# This Playbook uses three different roles to
+# 1) setup Nexus switches
+# 2) Setup UCS admin, equiment and LAN related tasks
+# After executing this playbook, LAN connectivity should be configured
+#
+- hosts: nexus
+  connection: network_cli
+  gather_facts: no
+  roles:
+    ### Configure Nexus Switching
+    #
+    - NEXUSconfig
+    #

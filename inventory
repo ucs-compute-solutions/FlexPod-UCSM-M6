@@ -1,19 +1,19 @@
 [ucs]
-<UCSM IP Address> username=admin password=<Admin-Password>
+192.168.156.130 username=admin password=H1ghV0lt
 
 # e.g. 192.168.1.1 username=admin password=cisco!23
 
 [nexus]
 
-n9kA ansible_host=<Nexus 1 IP Address> ansible_user=admin ansible_password=<Admin-Password> ansible_network_os=nxos
-n9kB ansible_host=<Nexus 2 IP Address> ansible_user=admin ansible_password=<Admin-Password> ansible_network_os=nxos
+n9kA ansible_host=192.168.156.135 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
+n9kB ansible_host=192.168.156.136 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
 
 # e.g. n9kA ansible_host=192.168.1.2 ansible_user=admin ansible_password=cisco!23 ansible_network_os=nxos
 # e.g. n9kB ansible_host=192.168.1.3 ansible_user=admin ansible_password=cisco!23 ansible_network_os=nxos
 
 [mds]
-mdsA ansible_host=<MDS A IP Address> ansible_user=admin ansible_password=<Admin-Password> ansible_network_os=nxos
-mdsB ansible_host=<MDS B IP Address> ansible_user=admin ansible_password=<Admin-Password> ansible_network_os=nxos
+mdsA ansible_host=192.168.156.133 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
+mdsB ansible_host=192.168.156.134 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
 
 # e.g. mdsA ansible_host=192.168.1.4 ansible_user=admin ansible_password=cisco!23 ansible_network_os=nxos
 # e.g. mdsB ansible_host=192.168.1.5 ansible_user=admin ansible_password=cisco!23 ansible_network_os=nxos
@@ -34,7 +34,7 @@ esxi_iscsi
 [vmware:vars]
 ansible_connection=ssh
 ansible_user=root
-ansible_ssh_pass=<ESXi-Root-Password>
+ansible_ssh_pass=H1ghV0lt
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 [esxi_fc]
@@ -42,8 +42,9 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 # Comment out or delete all the hosts if ESXi hosts with FC connectivity are not present
 # FC host configuration will only take place if the variable configure_fc: "yes" is defined (not commended out)
 #
-<ESXi-1-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> vmotion_mask=<Subent Mask for vMotion> nfs=<NFS-VMK-IP-to-be-configured> nfs_mask=<Subent Mask for NFS>
-<ESXi-2-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> vmotion_mask=<Subent Mask for vMotion> nfs=<NFS-VMK-IP-to-be-configured> nfs_mask=<Subent Mask for NFS>
+10.1.156.21 vmotion=192.168.0.21 vmotion_mask=255.255.255.0 nfs=192.168.50.21 nfs_mask=255.255.255.0
+10.1.156.22 vmotion=192.168.0.22 vmotion_mask=255.255.255.0 nfs=192.168.50.22 nfs_mask=255.255.255.0
+10.1.156.23 vmotion=192.168.0.23 vmotion_mask=255.255.255.0 nfs=192.168.50.23 nfs_mask=255.255.255.0
 
 # e.g. 10.1.1.101  vmotion_ip=192.168.30.101  vmotion_mask=255.255.255.0 nfs_ip=192.168.50.101 nfs_mask=255.255.255.0
 # e.g. 10.1.1.102  vmotion_ip=192.168.30.102  vmotion_mask=255.255.255.0 nfs_ip=192.168.50.102 nfs_mask=255.255.255.0
@@ -53,8 +54,9 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 # Comment out or delete all the hosts if ESXi hosts with iSCSI connectivity are not present
 # FC host configuration will only take place if the variable configure_fc: "yes" is defined (not commended out)
 #
-<ESXi-3-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> vmotion_mask=<Subent Mask for vMotion> nfs=<NFS-VMK-IP-to-be-configured> nfs_mask=<Subent Mask for NFS> iscsi_a_ip=<iSCSI-A-IP-to-be-configured> iscsi_b_ip=<iSCSI-B-IP-to-be-configured> iscsi_mask=< Common Subnet Mask for both iSCSI>
-<ESXi-4-Mgmt-IP-Address> vmotion=<vMotion-VMK-IP-to-be-configured> vmotion_mask=<Subent Mask for vMotion> nfs=<NFS-VMK-IP-to-be-configured> nfs_mask=<Subent Mask for NFS> iscsi_a_ip=<iSCSI-A-IP-to-be-configured> iscsi_b_ip=<iSCSI-B-IP-to-be-configured> iscsi_mask=<Common Subnet Mask for both iSCSI>
+10.1.156.24 vmotion=192.168.0.24 vmotion_mask=255.255.255.0 nfs=192.168.50.24 nfs_mask=255.255.255.0
+10.1.156.25 vmotion=192.168.0.25 vmotion_mask=255.255.255.0 nfs=192.168.50.25 nfs_mask=255.255.255.0
+10.1.156.26 vmotion=192.168.0.26 vmotion_mask=255.255.255.0 nfs=192.168.50.26 nfs_mask=255.255.255.0
 
 # e.g. 10.1.1.103  vmotion_ip=192.168.30.103 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.103 nfs_mask=255.255.255.0 iscsi_a_ip=192.168.10.103 iscsi_b_ip=192.168.20.103 iscsi_mask=255.255.255.0
 # e.g. 10.1.1.104  vmotion_ip=192.168.30.104 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.104 nfs_mask=255.255.255.0 iscsi_a_ip=192.168.10.104 iscsi_b_ip=192.168.20.104 iscsi_mask=255.255.255.0

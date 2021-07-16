@@ -2,7 +2,7 @@
   # This Task enables Nexus Features required for setting up LAN configuration
   
   - name: Enabling NXOS Features
-    nxos_feature:
+    cisco.nxos.nxos_feature:
       feature: "{{ item }}"
       state: enabled
     with_items: "{{ enabled_features }}"

@@ -1,9 +1,10 @@
 #
 #This is the list of all the VLANs that will be defined on Nexus, UCS and VMware
 #
-# Commenting out the following two variables will skip the iSCSI and/or FC storage configurations
+# Commenting out the following two variables will skip the iSCSI and/or FC and/or FC-NVMe storage configurations
 configure_iscsi: "yes"
 configure_fc: "yes"
+configure_fc_nvme: "yes"
 #
 # Commenting out the configure_nfs will skip the NFS related configuration including
 # datastore mounting and NFS VMK definition.
@@ -11,20 +12,21 @@ configure_fc: "yes"
 configure_nfs: "yes"
 #
 # Uncomment and update the the following lines to setup NTP Server(s)
+# Note that we are setting up NTP Distribution on the Nexus switches and these are the two Nexus mgmt0 IP addresses that will be used for the other FlexPod equipment.
 ntp_servers:
-  - ip_address: "192.168.160.254"
-#  - ip_address: "192.168.160.253"
+  - ip_address: "192.168.156.135"
+  - ip_address: "192.168.156.136"
 
 # VLAN Names are adjustable and can be modified in here
 #
 native_vlan_name: 'Native-Vlan' # Native VLAN
-oob_vlan_name: 'oob-mgmt' # Out of Band Mgmt VLAN
-ib_vlan_name: 'ib-mgmt' # IN BAND Management VLAN
-vm_vlan_name: 'vm-traffic' # VLAN to carry VM traffic on VDS
-vmotion_vlan_name: 'vmotion' # vMotion VLAN
-nfs_vlan_name: 'nfs-vlan' # NFS Traffic between ESXi and Storage
-iscsiA_vlan_name: 'iscsi-a' # iSCSI-A VLAN (if needed)
-iscsiB_vlan_name: 'iscsi-b' # iSCSI-B VLAN (if needed)
+oob_vlan_name: 'OOB-MGMT' # Out of Band Mgmt VLAN
+ib_vlan_name: 'IB-MGMT' # IN BAND Management VLAN
+vm_vlan_name: 'VM-Traffic' # VLAN to carry VM traffic on VDS
+vmotion_vlan_name: 'vMotion' # vMotion VLAN
+nfs_vlan_name: 'Infra-NFS' # NFS Traffic between ESXi and Storage
+iscsiA_vlan_name: 'Infra-iSCSI-A' # iSCSI-A VLAN (if needed)
+iscsiB_vlan_name: 'Infra-iSCSI-B' # iSCSI-B VLAN (if needed)
 #
 # lan_state should be set to 'present' to configure the objects
 # In future, this parameter will be used for deleting the configuration
@@ -37,15 +39,15 @@ vlan_list:
     native: 'yes'
     state: "{{lan_state}}"
   - name: "{{ oob_vlan_name }}"
-    id: '11'
+    id: '13'
     native: 'no'
     state: "{{lan_state}}"
   - name: "{{ ib_vlan_name }}"
-    id: '511'
+    id: '113'
     native: 'no'
     state: "{{lan_state}}"
   - name: "{{ vm_vlan_name }}"
-    id: '611'
+    id: '900'
     native: 'no'
     state: "{{lan_state}}"
   - name: "{{ vmotion_vlan_name }}"
@@ -71,11 +73,11 @@ vlan_list:
 # These VLANs must be same or a subset of the vlan_list above
 # In future, these values will be auto-generated
 #
-all_vlans_list: "11,511,611,3000,3010,3020,3050"
+all_vlans_list: "13,113,900,3000,3010,3020,3050"
 # storage_vlans_list: for vpc_peer_link and UCS FI trunk ports
-storage_vlans_list: "511,3010,3020,3050"
+storage_vlans_list: "113,3010,3020,3050"
 # mgmt_vlans_list: for management switch trunk port
-mgmt_vlans_list: "11,511"
+mgmt_vlans_list: "13,113"
 #
 native_vlan_id: "2"
 #
@@ -84,8 +86,8 @@ vmotion_portgroup: "VMKernel-vMotion"
 vds_vlan_list:
   - name: "{{ vm_vlan_name }}"
     # portgroup name will be configured in VMware
-    portgroup_name: "192_168_1_NET"
-    id: '611'
+    portgroup_name: "{{ vm_vlan_name }}"
+    id: '900'
   - name: "{{ vmotion_vlan_name }}"
     # portgroup name will be configured in VMware
     portgroup_name: "{{ vmotion_portgroup }}"
@@ -97,13 +99,13 @@ esxi_nfs_vlan: "3050"
 #VSAN Parameters
 #
 vsan_list:
-  - name: 'Fabric-A'
-    vsan_id: '111'
-    fcoe_vlan: '111'
+  - name: 'FlexPod-Fabric-A'
+    vsan_id: '101'
+    fcoe_vlan: '101'
     fabric: 'A'
-  - name: 'Fabric-B'
-    vsan_id: '112'
-    fcoe_vlan: '112'
+  - name: 'FlexPod-Fabric-B'
+    vsan_id: '102'
+    fcoe_vlan: '102'
     fabric: 'B'
 #
 # Storage WWPNs (capture from storage system)
@@ -133,22 +135,22 @@ storage_node2_iSCSI_b: '192.168.20.252'
 # and VMware vCenter
 #
 esxi_username: root
-esxi_password: <ESXi root password - shoule be same as defined in invetory file >
+esxi_password: "{{ ansible_ssh_pass }}"
 #
 vcenter_dc: FlexPod-DC
 vcenter_cluster: FlexPod-Management
 #
-vcenter_hostname: <IP address of the vCenter>
+vcenter_hostname: "nx-vc.flexpod.cisco.com"
 # e.g. vcenter_hostname: 10.50.160.100
-vcenter_username: <User with Admin Privileges>
+vcenter_username: "administrator@vsphere.local"
 # e.g. vcenter_username: administrator@vsphere.local
-vcenter_password: <Password for the Admin User>
+vcenter_password: "H!ghV0lt"
 # e.g. vcenter_password: "cisco!23"
 #
-# DVS Parameters; user version 6.6.0 for VMware 6.7 or above
+# DVS Parameters; use version 7.0.2 for VMware 7.0U2 or above
 #
-dvs_name: "App_DVS"
-dv_version: "6.6.0"
+dvs_name: "vDS0"
+dv_version: "7.0.2"
 dv_uplink: "2"
 dv_protocol: "lldp"
 dv_operation: "both"

@@ -1,0 +1,27 @@
+---
+  # This Task enables Nexus 9K NTP Distribution for the FlexPod
+  
+  - name: Set NTP Servers
+    cisco.nxos.nxos_ntp:
+      server: "{{ item }}"
+      vrf_name: management
+    with_items: "{{ global_NTP_servers }}"
+  - name: Set partner switch as peer
+    cisco.nxos.nxos_ntp:
+      peer: "{{ vpc_destination }}"
+      vrf_name: management
+  - name: Set NTP Distribution Options
+    cisco.nxos.nxos_ntp_options:
+      master: true
+      stratum: '3'
+  - name: Create NTP Distribution Interface
+    cisco.nxos.nxos_l3_interfaces:
+      config:
+      - name: Vlan"{{ ntp_distribution_vlan }}"
+        ipv4:
+        - address: "{{ IB_MGMT_ntp_dist_IP }}"
+  - name: Enable NTP Distribution Interface
+    cisco.nxos.nxos_interfaces:
+      config:
+      - name: Vlan"{{ ntp_distribution_vlan }}"
+        enabled: true

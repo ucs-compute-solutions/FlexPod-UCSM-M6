@@ -2,7 +2,7 @@
 # Create Global VPC Parameters
 #
     - name: Configuring vpc Domain, Peer-link and Global Parameters
-      nxos_vpc:
+      cisco.nxos.nxos_vpc:
         domain: "{{ vpc_domain_id }}"
         role_priority: "{{ vpc_role_priority }}"
         pkl_src: "{{ vpc_source }}"
@@ -16,7 +16,7 @@
 # peer-switch
 #
     - name: Update VPC domain parameters
-      nxos_config:
+      cisco.nxos.nxos_config:
         lines:
           - peer-switch
           - ip arp synchronize
@@ -25,14 +25,14 @@
 # Configure VPC Peer-Link
 #
     - name: Enabling vPC Peer Link on {{ peerlink_PC[0].interface }}
-      nxos_vpc_interface:
+      cisco.nxos.nxos_vpc_interface:
         portchannel: "{{ peerlink_PC[0].id }}"
-        peer_link: true
+        peer_link: yes
 #
 # VPC configuration on all the port-channels
 #
     - name: Enabling vPC on all port-channels except peer-link
-      nxos_vpc_interface:
+      cisco.nxos.nxos_vpc_interface:
         portchannel: "{{ item.id }}"
         vpc: "{{ item.id }}"
       with_list: "{{ mgmt_PC + FI_A_PC + FI_B_PC + storage_A_PC + storage_B_PC }}"
