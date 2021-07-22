@@ -2,52 +2,44 @@
 # Configure iSCSI LAN Connectivity Policy
 #
 - name: Configure iSCSI LAN Connectivity Policy
-  ucs_lan_connectivity:
+  cisco.ucs.ucs_lan_connectivity:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
     password: "{{ password }}"
     name: "{{ iscsi_lan_conn_policy }}"
     org_dn: org-root/org-{{ organization }}
     vnic_list:
-    - name: 01-{{ vnic_template_list[0].name }}
+    - name: 00-{{ vnic_template_list[0].name }}
       vnic_template: "{{ vnic_template_list[0].name}}"
       adapter_policy: 'VMWare'
       order: '1'
-    - name: 02-{{ vnic_template_list[1].name }}
+    - name: 01-{{ vnic_template_list[1].name }}
       vnic_template: "{{ vnic_template_list[1].name}}"
       adapter_policy: 'VMWare'
       order: '2'
-    - name: 03-{{ vnic_template_list[2].name }}
+    - name: 02-{{ vnic_template_list[2].name }}
       vnic_template: "{{ vnic_template_list[2].name}}"
       adapter_policy: "{{ adapter_policy_name }}"
       order: '3'
-    - name: 04-{{ vnic_template_list[3].name }}
+    - name: 03-{{ vnic_template_list[3].name }}
       vnic_template: "{{ vnic_template_list[3].name}}"
       adapter_policy: "{{ adapter_policy_name }}"
       order: '4'
-    - name: 05-{{ vnic_template_list[4].name }}
-      vnic_template: "{{ vnic_template_list[4].name}}"
-      adapter_policy: 'VMWare'
-      order: '5'
-    - name: 06-{{ vnic_template_list[5].name }}
-      vnic_template: "{{ vnic_template_list[5].name}}"
-      adapter_policy: 'VMWare'
-      order: '6'
-    - name: 07-{{ iscsi_template_list[0].name }}
+    - name: 04-{{ iscsi_template_list[0].name }}
       vnic_template: "{{ iscsi_template_list[0].name}}"
       adapter_policy: 'VMWare'
-      order: '7'
-    - name: 08-{{ iscsi_template_list[1].name }}
+      order: '5'
+    - name: 05-{{ iscsi_template_list[1].name }}
       vnic_template: "{{ iscsi_template_list[1].name}}"
       adapter_policy: 'VMWare'
-      order: '8'
+      order: '6'
     iscsi_vnic_list:
     - name: "{{ iscsi_a_vnic_name }}"
-      overlay_vnic: '07-{{ iscsi_template_list[0].name }}'
+      overlay_vnic: '04-{{ iscsi_template_list[0].name }}'
       iscsi_adapter_policy: default
       vlan_name: "{{ iscsiA_vlan_name }}"
     - name: "{{ iscsi_b_vnic_name }}"
-      overlay_vnic: 08-{{ iscsi_template_list[1].name }}
+      overlay_vnic: 05-{{ iscsi_template_list[1].name }}
       iscsi_adapter_policy: default
       vlan_name: "{{ iscsiB_vlan_name }}"
   when: configure_iscsi is defined

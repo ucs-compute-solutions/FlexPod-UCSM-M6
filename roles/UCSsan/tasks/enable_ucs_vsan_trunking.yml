@@ -2,7 +2,7 @@
 # Enable VSAN Trunking for uplink FC ports when configure_fc is set
 #
   - name: Enable VSAN trunking for uplink FC ports
-    ucs_managed_objects:
+    cisco.ucs.ucs_managed_objects:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -25,4 +25,4 @@
               "uplink_trunking": "enabled"
             }
         }
-    when: configure_fc is defined
+    when: enable_vsan_trunking is defined

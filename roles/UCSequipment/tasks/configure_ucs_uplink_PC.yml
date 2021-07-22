@@ -1,7 +1,7 @@
 ---
 # Setup UCS uplink Ports
   - name: Configure UCS Uplink Ports
-    ucs_managed_objects:
+    cisco.ucs.ucs_managed_objects:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -43,7 +43,9 @@
                 "class": "FabricEthLanPcEp",
                 "properties": {
                   "slot_id": "{{ item.slot_id }}",
-                  "port_id": "{{ item.port_id }}"
+                  "port_id": "{{ item.port_id }}",
+                  "eth_link_profile_name": "UDLD-Normal",
+                  "usr_lbl": "{{ item.description }}"
                 }
               }
             ]

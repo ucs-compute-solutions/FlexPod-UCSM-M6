@@ -2,7 +2,7 @@
 # Manually Setup Server Ports
 #
   - name: Configure Server Ports for Rack and Chassis
-    ucs_managed_objects:
+    cisco.ucs.ucs_managed_objects:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"

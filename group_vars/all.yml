@@ -1,10 +1,13 @@
 #
 #This is the list of all the VLANs that will be defined on Nexus, UCS and VMware
 #
-# Commenting out the following two variables will skip the iSCSI and/or FC and/or FC-NVMe storage configurations
+# Commenting out the following two variables will skip the iSCSI and/or FC storage configurations
 configure_iscsi: "yes"
 configure_fc: "yes"
+# FC-NVMe Configuration, only set this to yes if configure_fc is set to yes
 configure_fc_nvme: "yes"
+# Enable VSAN trunking between UCS FI and MDS, only set this to yes if configure_fc is set to yes
+enable_vsan_trunking: "yes"
 #
 # Commenting out the configure_nfs will skip the NFS related configuration including
 # datastore mounting and NFS VMK definition.
@@ -16,6 +19,14 @@ configure_nfs: "yes"
 ntp_servers:
   - ip_address: "192.168.156.135"
   - ip_address: "192.168.156.136"
+
+# Uncomment and update the the following lines to setup DNS Server(s)
+dns_servers:
+  - ip_address: "10.1.156.250"
+  - ip_address: "10.1.156.251"
+
+# Uncomment and update the the following line to setup Timezone
+time_zone: 'America/New_York'
 
 # VLAN Names are adjustable and can be modified in here
 #
@@ -108,12 +119,19 @@ vsan_list:
     fcoe_vlan: '102'
     fabric: 'B'
 #
-# Storage WWPNs (capture from storage system)
+# Storage FC WWPNs (capture from storage system)
 #
-storage_node1_a: '20:01:00:A0:98:5B:4A:86'
-storage_node2_a: '20:03:00:A0:98:5B:4A:86'
-storage_node1_b: '20:02:00:A0:98:5B:4A:86'
-storage_node2_b: '20:04:00:A0:98:5B:4A:86'
+fcp_lif_01a: '20:01:d0:39:ea:17:12:9b'
+fcp_lif_02a: '20:03:d0:39:ea:17:12:9b'
+fcp_lif_01b: '20:02:d0:39:ea:17:12:9b'
+fcp_lif_02b: '20:04:d0:39:ea:17:12:9b'
+#
+# Storage FC-NVMe WWPNs (capture from storage system)
+#
+fc_nvme_lif_01a: '20:0a:d0:39:ea:17:12:9b'
+fc_nvme_lif_02a: '20:0c:d0:39:ea:17:12:9b'
+fc_nvme_lif_01b: '20:0b:d0:39:ea:17:12:9b'
+fc_nvme_lif_02b: '20:0d:d0:39:ea:17:12:9b'
 #
 # UCS WWPNs (capture from the UCS Service Profiles)
 #
@@ -123,12 +141,19 @@ ucs_host_01_b: '20:00:00:25:b5:bc:0b:00'
 ucs_host_02_a: '20:00:00:25:b5:bc:0a:01'
 ucs_host_02_b: '20:00:00:25:b5:bc:0b:01'
 #
+ucs_host_03_a: '20:00:00:25:b5:bc:0a:02'
+ucs_host_03_b: '20:00:00:25:b5:bc:0b:02'
+#
 # Storage iSCSI Target Interfaces
 #
-storage_node1_iSCSI_a: '192.168.10.251'
-storage_node1_iSCSI_b: '192.168.20.251'
-storage_node2_iSCSI_a: '192.168.10.252'
-storage_node2_iSCSI_b: '192.168.20.252'
+iscsi_lif_01a: '192.168.10.141'
+iscsi_lif_01b: '192.168.20.141'
+iscsi_lif_02a: '192.168.10.142'
+iscsi_lif_02b: '192.168.20.142'
+#
+# Storage iSCSI Target IQN
+#
+storage_iscsi_IQN: 'iqn.1992-08.com.netapp:sn.e01bbb1de4f911ebac6fd039ea166b8c:vs.3'
 #
 # VMware Configurations
 # provide the user names and passwords to connect to the ESXi ntp_servers
@@ -140,7 +165,7 @@ esxi_password: "{{ ansible_ssh_pass }}"
 vcenter_dc: FlexPod-DC
 vcenter_cluster: FlexPod-Management
 #
-vcenter_hostname: "nx-vc.flexpod.cisco.com"
+vcenter_hostname: "10.1.156.100"
 # e.g. vcenter_hostname: 10.50.160.100
 vcenter_username: "administrator@vsphere.local"
 # e.g. vcenter_username: administrator@vsphere.local

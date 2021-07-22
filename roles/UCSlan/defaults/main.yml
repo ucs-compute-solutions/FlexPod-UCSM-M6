@@ -7,24 +7,23 @@
 lan_state : 'present'
 #Assignment order for various IP and MAC pools
 lan_assign_order: 'sequential'
-# Organization Names
 
 #Management IP address Pool configuration
 mgmt_pool_name: "ext-mgmt"
-mgmt_first_ip: '192.168.160.196'
-mgmt_last_ip: '192.168.160.199'
-mgmt_subnet_mask: '255.255.252.0'
-mgmt_default_gw: '192.168.160.1'
+mgmt_first_ip: '192.168.156.184'
+mgmt_last_ip: '192.168.156.199'
+mgmt_subnet_mask: '255.255.255.0'
+mgmt_default_gw: '192.168.156.254'
 #
 #iSCSI IP address Pool configuration
 iscsi_ip_pool_list:
   - name: "{{ iscsi_a_pool_name }}"
-    first_ip: '192.168.10.101'
-    last_ip: '192.168.10.132'
+    first_ip: '192.168.10.201'
+    last_ip: '192.168.10.216'
     subnet_mask: '255.255.255.0'
   - name: "{{ iscsi_b_pool_name }}"
-    first_ip: '192.168.20.101'
-    last_ip: '192.168.20.132'
+    first_ip: '192.168.20.201'
+    last_ip: '192.168.20.216'
     subnet_mask: '255.255.255.0'
 #
 #vlan_list contains all the required VLANs. This list can be modified to add, remove or change the VLANs.
@@ -35,29 +34,29 @@ iscsi_ip_pool_list:
 #
 mac_pool_list:
   - name: MAC-Pool-A
-    first_mac: 00:25:B5:A4:0A:00
-    last_mac: 00:25:B5:A4:0A:3F
+    first_mac: 00:25:B5:A1:6A:00
+    last_mac: 00:25:B5:A1:6A:FF
   - name: MAC-Pool-B
-    first_mac: 00:25:B5:A4:0B:00
-    last_mac: 00:25:B5:A4:0B:3F
+    first_mac: 00:25:B5:A1:6B:00
+    last_mac: 00:25:B5:A1:6B:FF
 #
 # Following VLAN Lists are defined for vNIC Template Usage.
 # These lists outlines which VLANs are part of a particular vNIC Template
 #
-# VLANs for vSwitch0 vNIC Template
+# VLANs for vSwitch0 vNIC Template - IB-MGMT Setup as Native VLAN for DHCP on MGMT Interface
 #
 vSwitch0_vlan_list:
-    # Native VLAN
-  - name: "{{ native_vlan_name }}"
-    native: 'yes'
     # OOB-Mgmt VLAN
   - name: "{{ oob_vlan_name }}"
     native: 'no'
     # IB-MGMT VLAN
   - name: "{{ ib_vlan_name }}"
-    native: 'no'
-    # NFS VLAN
+    native: 'yes'
+    # Infra NFS VLAN
   - name: "{{ nfs_vlan_name }}"
+    native: 'no'
+    # vMotion VLAN
+  - name: "{{ vmotion_vlan_name }}"
     native: 'no'
 #
 # VLANs for VDS vNIC Template
@@ -71,6 +70,9 @@ VDS_vlan_list:
     native: 'no'
     # vMotion VLAN
   - name: "{{ vmotion_vlan_name }}"
+    native: 'no'
+    # Infra NFS VLAN
+  - name: "{{ nfs_vlan_name }}"
     native: 'no'
 #
 # VLAN for iSCSI-A vNIC Template
@@ -110,30 +112,18 @@ vnic_template_list:
     redundancy_type: 'secondary'
     redundant_peer: 'vSwitch0-A'
     vlans: "{{ vSwitch0_vlan_list }}"
-  - name: 'VDS-A'
+  - name: 'vDS0-A'
     fabric: 'A'
     mac_pool: "{{ Mac_Pool_A_Name }}"
     redundancy_type: 'primary'
-    redundant_peer: 'VDS-B'
+    redundant_peer: 'vDS0-B'
     vlans: "{{ VDS_vlan_list }}"
-  - name: 'VDS-B'
+  - name: 'vDS0-B'
     fabric: 'B'
     mac_pool: "{{ Mac_Pool_B_Name }}"
     redundancy_type: 'secondary'
-    redundant_peer: 'VDS-A'
+    redundant_peer: 'vDS0-A'
     vlans: "{{ VDS_vlan_list }}"
-  - name: 'vMotion-A'
-    fabric: 'A'
-    mac_pool: "{{ Mac_Pool_A_Name }}"
-    redundancy_type: 'primary'
-    redundant_peer: 'vMotion-B'
-    vlans: "{{ vMotion_vlan_list }}"
-  - name: 'vMotion-B'
-    fabric: B
-    mac_pool: "{{ Mac_Pool_B_Name }}"
-    redundancy_type: 'secondary'
-    redundant_peer: 'vMotion-A'
-    vlans: "{{ vMotion_vlan_list }}"
 
 # iSCSI vNIC Template List when iSCSI boot is required
 #

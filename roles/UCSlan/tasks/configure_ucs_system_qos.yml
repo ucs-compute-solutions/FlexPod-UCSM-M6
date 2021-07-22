@@ -1,0 +1,13 @@
+---
+# Configure QoS System Class
+#
+- name: Configure QoS System Class
+  cisco.ucs.ucs_system_qos:
+    hostname: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    priority: best-effort
+    admin_state: enabled
+    mtu: '9216'
+    cos: any
+    weight: '5'

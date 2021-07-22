@@ -2,7 +2,7 @@
 # Setup UCS IQN Pools when configure_iscsi is set
 #
 - name: Configure IQN Pool for iSCSI Boot
-  ucs_managed_objects:
+  cisco.ucs.ucs_managed_objects:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
     password: "{{ password }}"
@@ -13,7 +13,7 @@
         "properties": {
             "descr": "IQN Pool",
             "assignment_order": "{{ san_assign_order}}",
-            "parent_mo_or_dn": "org-root/org-{{ organization }}",
+            "parent_mo_or_dn": "org-root",
             "name": "{{ iqn_pool_name }}",
             "prefix": "{{ iqn_prefix }}"
           },

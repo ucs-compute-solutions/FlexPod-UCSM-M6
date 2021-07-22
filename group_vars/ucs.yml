@@ -6,7 +6,10 @@
 
 #
 #UCS Organization
-organization: 'FlexPod'
+organization: 'FlexPod-VMware'
+#UCS Alternate User to admin
+ucs_alt_user: 'flexadmin'
+ucs_alt_passwd: 'H1ghV0lt'
 # VMware High Traffic Adapter Policy
 adapter_policy_name: 'VMware-HighTrf'
 # IQN Pool Name
@@ -22,11 +25,11 @@ iscsi_b_vnic_name: 'iSCSI-Boot-B'
 # FC LAN Connectivity Policy Parameters
 fc_lan_conn_policy: 'FCP-Boot'
 # vHBA Names
-vhba_a_name: 'vHBA-A'
-vhba_b_name: 'vHBA-B'
+vhba_template_a_name: 'vHBA-A'
+vhba_template_b_name: 'vHBA-B'
 # SAN Policy Paramters
 san_policy_name: 'FC-Boot'
-san_policy_vhba_a_name: 'Fabric-A'
-san_policy_vhba_b_name: 'Fabric-B'
-# Storage iSCSI Target
-storage_iscsi_target: '<Storage System IQN>'
+san_policy_fcp_vhba_a_name: 'FCP-Fabric-A'
+san_policy_fcp_vhba_b_name: 'FCP-Fabric-B'
+san_policy_fc_nvme_vhba_a_name: 'FC-NVME-Fabric-A'
+san_policy_fc_nvme_vhba_b_name: 'FC-NVME-Fabric-B'

@@ -3,7 +3,7 @@
   # Configure DNS Servers
   #
   - name: Configure NTP server
-    ucs_ntp_server:
+    cisco.ucs.ucs_ntp_server:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"

@@ -5,7 +5,7 @@
 
 
       - name: Create VMware Ethernet Adapter Policy for High Traffic
-        ucs_managed_objects:
+        cisco.ucs.ucs_managed_objects:
           hostname: "{{ inventory_hostname }}"
           username: "{{ username }}"
           password: "{{ password }}"
@@ -22,14 +22,14 @@
                   "module": "ucsmsdk.mometa.adaptor.AdaptorEthCompQueueProfile",
                   "class": "AdaptorEthCompQueueProfile",
                   "properties": {
-                    "count": "16"
+                    "count": "9"
                   }
                 },
                 {
                   "module": "ucsmsdk.mometa.adaptor.AdaptorEthInterruptProfile",
                   "class": "AdaptorEthInterruptProfile",
                   "properties": {
-                    "count": "18"
+                    "count": "11"
                   }
                 },
                 {
@@ -43,7 +43,7 @@
             }
 
       - name: Update VMware Ethernet Adapter Policy for High Traffic
-        ucs_managed_objects:
+        cisco.ucs.ucs_managed_objects:
           hostname: "{{ inventory_hostname }}"
           username: "{{ username }}"
           password: "{{ password }}"
@@ -60,7 +60,7 @@
                   "module": "ucsmsdk.mometa.adaptor.AdaptorEthWorkQueueProfile",
                   "class": "AdaptorEthWorkQueueProfile",
                   "properties": {
-                    "count": "8"
+                    "count": "1"
                   }
                 },
                 {

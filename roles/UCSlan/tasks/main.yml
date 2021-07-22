@@ -4,8 +4,10 @@
 #
 #Configure Management IP Pool
 - include_tasks: configure_ucs_mgmt_ip_pool.yml
-# Configure iSCSI IP Address Pools for iSCSI A and B (if configure_iscsi=yes is define)
+# Configure iSCSI IP Address Pools for iSCSI A and B (if configure_iscsi=yes is defined)
 - include_tasks: configure_ucs_iscsi_ip_pools.yml
+# Configure UCS QoS System Class
+- include_tasks: configure_ucs_system_qos.yml
 # Configure VLANs in UCS
 - include_tasks: configure_ucs_vlans.yml
 # Configure UCS MAC Pools A and B
@@ -18,7 +20,7 @@
 - include_tasks: configure_ucs_vnic_templates.yml
 # Configure vNIC Template for iSCSI vNICs
 - include_tasks: configure_ucs_iscsi_vnic_templates.yml
-# Configure iSCSI LAN Connectivity Policy (if configure_iscsi=yes is define)
+# Configure iSCSI LAN Connectivity Policy (if configure_iscsi=yes is defined)
 - include_tasks: configure_ucs_iscsi_LCP.yml
-# Configure FC LAN Connectivity Policy (if configure_fc=yes is define)
+# Configure FC LAN Connectivity Policy (if configure_fc=yes is defined)
 - include_tasks: configure_ucs_fc_LCP.yml

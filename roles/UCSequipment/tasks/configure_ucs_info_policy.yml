@@ -1,0 +1,17 @@
+---
+# Setup UCS Info Policy for Neighbor Discovery
+#
+    - name: UCS Info Policy
+      cisco.ucs.ucs_managed_objects:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        objects:
+        - {
+           "module": "ucsmsdk.mometa.top.TopInfoPolicy",
+           "class": "TopInfoPolicy",
+           "properties": {
+              "parent_mo_or_dn": "sys",
+              "state": "enabled"
+                         }
+          }

@@ -1,0 +1,33 @@
+---
+  # Configure UDLD on Network Uplink Ports 
+  #
+  - name: Create UDLD Link Policy 
+    cisco.ucs.ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+            "module": "ucsmsdk.mometa.fabric.FabricUdldLinkPolicy",
+            "class": "FabricUdldLinkPolicy",
+            "properties": {
+                "parent_mo_or_dn": "fabric/lan",
+                "admin_state": "enabled",
+                "name": "UDLD-Normal"
+            },
+          }
+  - name: Create UDLD Link Profile
+    cisco.ucs.ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+            "module": "ucsmsdk.mometa.fabric.FabricEthLinkProfile",
+            "class": "FabricEthLinkProfile",
+            "properties": {
+                "parent_mo_or_dn": "fabric/lan",
+                "name": "UDLD-Normal",
+                "udld_link_policy_name": "UDLD-Normal"
+            },
+          }

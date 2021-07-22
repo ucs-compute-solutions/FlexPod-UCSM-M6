@@ -2,6 +2,11 @@
 # Variables for Server configurations of UCSM
 # Adjust the variable values as per your requirements
 
+# UCS Server Bundles for Default Host Firmware Package
+# These bundles need to already be installed on the FIs
+blade_bundle_version: '4.2(1d)B'
+rack_bundle_version: '4.2(1d)C'
+
 # Assignment order for various pool parameters
 server_assign_order: 'sequential'
 # To add or remove certain parameters
@@ -9,8 +14,8 @@ server_state: 'present'
 
 # UUID Pool Information
 uuid_pool_name: UUID-Pool
-uuid_start: '0000-0000A4000001'
-uuid_end: '0000-0000A4000020'
+uuid_start: '0000-0000A1600001'
+uuid_end: '0000-0000A1600020'
 
 # Server Pool Information
 server_pool_name: 'Infra-Pool'
@@ -18,39 +23,38 @@ server_pool_name: 'Infra-Pool'
 # Add additional servers or blades to the list using the same format.
 #
 # C-Series Rack Servers
-rack_list:
-  - id: '1'
-  - id: '2'
+#rack_list:
+#  - id: '1'
+#  - id: '2'
 #
 #B-Series Blade Servers
 blade_list:
  - chassis_number: '1'
-   slot_number: '5'
+   slot_number: '1'
  - chassis_number: '1'
-   slot_number: '6'
+   slot_number: '2'
+ - chassis_number: '1'
+   slot_number: '3'
 #
 # Power Control Policy
-power_policy_name: 'No-PowerCap'
+power_policy_name: 'No-Power-Cap'
 #
 # Local Disk Policy
 local_disk_policy_name: 'IgnoreDisk'
 local_disk_mode: 'any-configuration'
 #
-# BIOS Policy
-bios_policy_name: 'VM-Host'
-bios_setting_list:
+# BIOS Policy Intel-M5-Virt
+intel_m5_virt_bios_policy_name: 'Intel-M5-Virt'
+intel_m5_virt_bios_setting_list:
   - name: 'Enable CDN Control'
     mo_token: 'tokn-featr-Consistent Device Name Control/tokn-param-cdnEnable'
     mo_setting: 'Enabled'
   - name: 'Disable Quiet Boot'
     mo_token: 'tokn-featr-Quiet Boot/tokn-param-QuietBoot'
     mo_setting: 'Disabled'
-  - name: 'DRAM Clock Throttling - Performance'
-    mo_token: 'tokn-featr-DRAM Clock Throttling/tokn-param-DRAMClockThrottling'
-    mo_setting: 'Performance'
-  - name: 'Frequency Floor Override - Enabled'
-    mo_token: 'tokn-featr-Frequency Floor Override/tokn-param-CpuFreqFloor'
-    mo_setting: 'Enabled'
+  - name: 'Power Technology - Custom'
+    mo_token: 'tokn-featr-Processor Energy Configuration/tokn-param-CPUPowerManagement'
+    mo_setting: 'Custom'
   - name: 'Processor C state - Disabled'
     mo_token: 'tokn-featr-Processor C State/tokn-param-ProcessorCstate'
     mo_setting: 'Disabled'
@@ -60,24 +64,60 @@ bios_setting_list:
   - name: 'Processor C3 Report - Disabled'
     mo_token: 'tokn-featr-Processor C3 Report/tokn-param-ProcessorC3Report'
     mo_setting: 'Disabled'
+  - name: 'Processor C6 Report - Disabled'
+    mo_token: 'tokn-featr-Processor C6 Report/tokn-param-ProcessorC6Report'
+    mo_setting: 'Disabled'
   - name: 'Processor C7 Report - Disabled'
     mo_token: 'tokn-featr-Processor C7 Report/tokn-param-ProcessorC7Report'
     mo_setting: 'Disabled'
-  - name: 'Processor Energy Configuration - Performance'
-    mo_token: 'tokn-featr-Processor Energy Configuration/tokn-param-CpuEngPerfBias'
-    mo_setting: 'Performance'
-  - name: 'LV DDR Mode - Performance-Mode'
-    mo_token: 'tokn-featr-LvDIMM Support/tokn-param-LvDDRMode'
-    mo_setting: 'Performance-Mode'
+  - name: 'NVM Performance Setting - Balanced Profile'
+    mo_token: 'tokn-featr-NVM Performance Setting/tokn-param-NvmdimmPerformConfig'
+    mo_setting: 'Balanced-Profile'
+#
+# BIOS Policy Intel-M6-Virt
+intel_m6_virt_bios_policy_name: 'Intel-M6-Virt'
+intel_m6_virt_bios_setting_list:
+  - name: 'Enable CDN Control'
+    mo_token: 'tokn-featr-Consistent Device Name Control/tokn-param-cdnEnable'
+    mo_setting: 'Enabled'
+  - name: 'Disable Quiet Boot'
+    mo_token: 'tokn-featr-Quiet Boot/tokn-param-QuietBoot'
+    mo_setting: 'Disabled'
+  - name: 'NVM Performance Setting - Balanced Profile'
+    mo_token: 'tokn-featr-NVM Performance Setting/tokn-param-NvmdimmPerformConfig'
+    mo_setting: 'Balanced-Profile'
+#
+# BIOS Policy AMD-C125-Virt
+amd_c125_virt_bios_policy_name: 'AMD-C125-Virt'
+amd_c125_virt_bios_setting_list:
+  - name: 'Enable CDN Control'
+    mo_token: 'tokn-featr-Consistent Device Name Control/tokn-param-cdnEnable'
+    mo_setting: 'Enabled'
+  - name: 'Disable Quiet Boot'
+    mo_token: 'tokn-featr-Quiet Boot/tokn-param-QuietBoot'
+    mo_setting: 'Disabled'
+#
+# vMedia Policy - Mount CD ISO via HTTP
+# For Mounting http://{{ vmedia_server_ip }}/{{ vmedia_iso_path }}/{{ vmedia_iso_filename }}
+# i.e http://10.1.156.150/software/vSphere-7-Update-2/VMware_ESXi_7.0.2_17867351_Custom_Cisco_4.1.3_a.iso
+vmedia_policy_name: 'ESXi-7U2-CC-HTTP'
+vmedia_server_ip: '10.1.156.150'
+vmedia_iso_path: 'software/vSphere-7-Update-2'
+vmedia_iso_filename: 'VMware_ESXi_7.0.2_17867351_Custom_Cisco_4.1.3_a.iso'
+#
+# IPMI/Redfish Access Profile
+ipmi_pol_name: 'IPMI-Profile'
+ipmi_user_id: 'ipmiadmin'
+ipmi_password: "{{ password }}"
 #
 # iSCSI Boot Policy
-iscsi_boot_policy_name: 'Boot-iSCSI-A'
+iscsi_boot_policy_name: 'Boot-iSCSI'
 #
 # iSCSI Service Profile Template
-iscsi_SPT_name: 'Host-Infra-iSCSI-A'
+iscsi_SPT_name: 'VM-Host-Infra-iSCSI'
 #
 # FC Boot Policy
-fc_boot_policy_name: 'FCP-A'
+fc_boot_policy_name: 'Boot-FCP'
 #
 # FC Service Profile Template
-fc_SPT_name: 'Host-Infra-FCP-A'
+fc_SPT_name: 'VM-Host-Infra-FCP'

@@ -1,8 +1,8 @@
 ---
-  # Create BIOS Policy Under Organization
+  # Create Three BIOS Policies Under root Organization
   #
-    - name: Create BIOS Policy
-      ucs_managed_objects:
+    - name: Create BIOS Policy Intel-M5-Virt
+      cisco.ucs.ucs_managed_objects:
         hostname: "{{ inventory_hostname }}"
         username: "{{ username }}"
         password: "{{ password }}"
@@ -11,15 +11,15 @@
             "module": "ucsmsdk.mometa.bios.BiosVProfile",
             "class": "BiosVProfile",
             "properties": {
-                "parent_mo_or_dn": "org-root/org-{{ organization }}",
-                "name": "{{ bios_policy_name }}",
+                "parent_mo_or_dn": "org-root",
+                "name": "{{ intel_m5_virt_bios_policy_name }}",
             },
           }
     #
     # BIOS - Parameters to be updated
     #
-    - name: Update BIOS Policy settings
-      ucs_managed_objects:
+    - name: Update BIOS Policy Intel-M5-Virt settings
+      cisco.ucs.ucs_managed_objects:
         hostname: "{{ inventory_hostname }}"
         username: "{{ username }}"
         password: "{{ password }}"
@@ -28,10 +28,77 @@
             "module": "ucsmsdk.mometa.bios.BiosTokenSettings",
             "class": "BiosTokenSettings",
             "properties": {
-                "parent_mo_or_dn": "org-root/org-{{ organization }}/bios-prof-{{bios_policy_name}}/{{ item.mo_token }}",
+                "parent_mo_or_dn": "org-root/bios-prof-{{ intel_m5_virt_bios_policy_name}}/{{ item.mo_token }}",
                 "is_assigned": "yes",
                 "settings_mo_rn": "{{ item.mo_setting }}"
             },
           }
-      with_list: "{{ bios_setting_list }}"
+      with_list: "{{ intel_m5_virt_bios_setting_list }}"
     #
+    - name: Create BIOS Policy Intel-M6-Virt
+      cisco.ucs.ucs_managed_objects:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        objects:
+        - {
+            "module": "ucsmsdk.mometa.bios.BiosVProfile",
+            "class": "BiosVProfile",
+            "properties": {
+                "parent_mo_or_dn": "org-root",
+                "name": "{{ intel_m6_virt_bios_policy_name }}",
+            },
+          }
+    #
+    # BIOS - Parameters to be updated
+    #
+    - name: Update BIOS Policy Intel-M6-Virt settings
+      cisco.ucs.ucs_managed_objects:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        objects:
+        - {
+            "module": "ucsmsdk.mometa.bios.BiosTokenSettings",
+            "class": "BiosTokenSettings",
+            "properties": {
+                "parent_mo_or_dn": "org-root/bios-prof-{{ intel_m6_virt_bios_policy_name}}/{{ item.mo_token }}",
+                "is_assigned": "yes",
+                "settings_mo_rn": "{{ item.mo_setting }}"
+            },
+          }
+      with_list: "{{ intel_m6_virt_bios_setting_list }}"
+#
+    - name: Create BIOS Policy AMD-C125-Virt
+      cisco.ucs.ucs_managed_objects:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        objects:
+        - {
+            "module": "ucsmsdk.mometa.bios.BiosVProfile",
+            "class": "BiosVProfile",
+            "properties": {
+                "parent_mo_or_dn": "org-root",
+                "name": "{{ amd_c125_virt_bios_policy_name }}",
+            },
+          }
+    #
+    # BIOS - Parameters to be updated
+    #
+    - name: Update BIOS Policy AMD-C125-Virt settings
+      cisco.ucs.ucs_managed_objects:
+        hostname: "{{ inventory_hostname }}"
+        username: "{{ username }}"
+        password: "{{ password }}"
+        objects:
+        - {
+            "module": "ucsmsdk.mometa.bios.BiosTokenSettings",
+            "class": "BiosTokenSettings",
+            "properties": {
+                "parent_mo_or_dn": "org-root/bios-prof-{{ amd_c125_virt_bios_policy_name}}/{{ item.mo_token }}",
+                "is_assigned": "yes",
+                "settings_mo_rn": "{{ item.mo_setting }}"
+            },
+          }
+      with_list: "{{ amd_c125_virt_bios_setting_list }}"

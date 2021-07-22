@@ -2,11 +2,17 @@
 # Equipment related Tasks Configuration for UCSM
 # Variables can be modified under ../defaults/main.yml
 
+  # Configure Info Policy for Neighbor Discovery
+  - include_tasks: configure_ucs_info_policy.yml
+  # Configure chassis discovery policy
+  - include_tasks: configure_ucs_chassis_discovery.yml
   # Configure UCS Auto Discovery Policy - enabled
+  # Left in procedure but policy does not apply to servers
+  # connected by 25GE connections
   - include_tasks: configure_ucs_auto_discovery.yml
   # Configure server ports (Connected to rack servers and chassis)
   - include_tasks: configure_ucs_server_port.yml
+  # Configure normal UDLD Policies
+  - include_tasks: configure_ucs_udld_policy.yml
   # Configure uplink ports and port-channels (connected to Nexus)
   - include_tasks: configure_ucs_uplink_PC.yml
-  # Configure chassis discovery policy
-  - include_tasks: configure_ucs_chassis_discovery.yml

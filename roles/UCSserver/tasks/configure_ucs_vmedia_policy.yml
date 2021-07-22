@@ -1,0 +1,31 @@
+---
+  # Configure UCS vMedia Policy with HTTP CD ISO Mount
+  #
+  - name: Create vMedia Policy with HTTP CD ISO Mount
+    cisco.ucs.ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+            "module": "ucsmsdk.mometa.cimcvmedia.CimcvmediaMountConfigPolicy",
+            "class": "CimcvmediaMountConfigPolicy",
+            "properties": {
+                "parent_mo_or_dn": "org-root",
+                "name": "{{ vmedia_policy_name }}"
+            },
+            "children": [
+              {
+                  "module": "ucsmsdk.mometa.cimcvmedia.CimcvmediaConfigMountEntry",
+                  "class": "CimcvmediaConfigMountEntry",
+                  "properties": {
+                      "device_type": "cdd",
+                      "image_file_name": "{{ vmedia_iso_filename }}",
+                      "image_path": "{{ vmedia_iso_path }}",
+                      "mapping_name": "{{ vmedia_policy_name }}",
+                      "mount_protocol": "http",
+                      "remote_ip_address": "{{ vmedia_server_ip }}"
+                  }
+              }
+            ]
+          }

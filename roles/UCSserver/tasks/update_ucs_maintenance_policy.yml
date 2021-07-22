@@ -3,7 +3,7 @@
 # and apply pending changes: On Next Reboot 
 
   - name: Update Default Maintenance Policy
-    ucs_managed_objects:
+    cisco.ucs.ucs_managed_objects:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"

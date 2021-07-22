@@ -3,7 +3,7 @@
 # if configure_fc is set
 #
 - name: Configure vHBA Templates
-  ucs_vhba_template:
+  cisco.ucs.ucs_vhba_template:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
     password: "{{ password }}"

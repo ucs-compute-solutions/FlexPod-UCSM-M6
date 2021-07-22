@@ -2,7 +2,7 @@
 # Configuration of VLANs in UCSM
 
 - name: Configure UCS VLANs
-  ucs_vlans:
+  cisco.ucs.ucs_vlans:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
     password: "{{ password }}"

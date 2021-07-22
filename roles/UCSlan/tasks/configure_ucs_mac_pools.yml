@@ -3,7 +3,7 @@
 # Configure MAC Pool A and B on UCS
 #
 - name: Configure MAC address pool for Fabric-A,B
-  ucs_mac_pool:
+  cisco.ucs.ucs_mac_pool:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
     password: "{{ password }}"

@@ -1,0 +1,26 @@
+---
+  # Configure App Direct Mode Persistent Memory Policy
+  #
+  - name: Create App Direct PMEM Policy
+    cisco.ucs.ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+            "module": "ucsmsdk.mometa.memory.MemoryPersistentMemoryPolicy",
+            "class": "MemoryPersistentMemoryPolicy",
+            "properties": {
+                "parent_mo_or_dn": "org-root",
+                "name": "App-Direct-Mode"
+            },
+            "children": [
+                {
+                  "module": "ucsmsdk.mometa.memory.MemoryPersistentMemoryGoal",
+                  "class": "MemoryPersistentMemoryGoal",
+                  "properties": {
+                      "socket_id": "all-sockets"
+                  },
+                },
+             ]
+          }

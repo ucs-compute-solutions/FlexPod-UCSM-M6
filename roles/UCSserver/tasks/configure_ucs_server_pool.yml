@@ -5,7 +5,7 @@
 #
 # Server Pool Configuration - Rack Servers
   - name: Configure Server Pool - Add Rack Servers
-    ucs_managed_objects:
+    cisco.ucs.ucs_managed_objects:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -32,7 +32,7 @@
 
 # Server Pool Configuration - Blade Servers
   - name: Configure Server Pool - Add Blade Servers
-    ucs_managed_objects:
+    cisco.ucs.ucs_managed_objects:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"

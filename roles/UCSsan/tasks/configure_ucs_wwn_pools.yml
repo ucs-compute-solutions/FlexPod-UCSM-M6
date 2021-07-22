@@ -2,7 +2,7 @@
 # Configure WWNN and WWPN Pools under root organization
 #
   - name: Configure WWNN Pool
-    ucs_wwn_pool:
+    cisco.ucs.ucs_wwn_pool:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"

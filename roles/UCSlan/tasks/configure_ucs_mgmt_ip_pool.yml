@@ -2,7 +2,7 @@
 # IP Address Pool for Management (KVM Access etc.)
 #Configure Management IP pool on UCS
 - name: Configure ext-mgmt IPv4 address pools
-  ucs_ip_pool:
+  cisco.ucs.ucs_ip_pool:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
     password: "{{ password }}"

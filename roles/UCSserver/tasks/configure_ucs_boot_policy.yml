@@ -5,7 +5,7 @@
   # iSCSI Boot Policy
   #
   - name: Create iSCSI Boot Policy
-    ucs_managed_objects:
+    cisco.ucs.ucs_managed_objects:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -16,11 +16,16 @@
             "properties": {
                 "parent_mo_or_dn": "org-root/org-{{ organization}}",
                 "name": "{{ iscsi_boot_policy_name }}",
-                "enforce_vnic_name": "yes",
-                "boot_mode": "legacy",
-                "reboot_on_update": "no"
+                "boot_mode": "uefi"
             },
             "children": [
+              {
+                  "module": "ucsmsdk.mometa.lsboot.LsbootBootSecurity",
+                  "class": "LsbootBootSecurity",
+                  "properties": {
+                      "secure_boot": "yes"
+                  }
+              },
               {
                   "module": "ucsmsdk.mometa.lsboot.LsbootVirtualMedia",
                   "class": "LsbootVirtualMedia",
@@ -44,6 +49,16 @@
                             "i_scsi_vnic_name": "{{ iscsi_a_vnic_name }}",
                             "type": "primary"
                           },
+                      "children": [
+                          {
+                              "module": "ucsmsdk.mometa.lsboot.LsbootUEFIBootParam",
+                              "class": "LsbootUEFIBootParam",
+                              "properties": {
+                                "boot_loader_path": "\\EFI\\BOOT\\",
+                                "boot_loader_name": "BOOTX64.EFI"
+                              },
+                          },
+                      ],
                       },
                       {
                           "module": "ucsmsdk.mometa.lsboot.LsbootIScsiImagePath",
@@ -52,8 +67,18 @@
                             "i_scsi_vnic_name": "{{ iscsi_b_vnic_name }}",
                             "type": "secondary"
                           },
-                      }
-                    ]
+                      "children": [
+                          {
+                              "module": "ucsmsdk.mometa.lsboot.LsbootUEFIBootParam",
+                              "class": "LsbootUEFIBootParam",
+                              "properties": {
+                                "boot_loader_path": "\\EFI\\BOOT\\",
+                                "boot_loader_name": "BOOTX64.EFI"
+                              },
+                          },
+                      ],
+                      },
+                    ],
               },
               {
                   "module": "ucsmsdk.mometa.lsboot.LsbootVirtualMedia",
@@ -71,7 +96,7 @@
   # FC Boot Policy
   #
   - name: Create FC Boot Policy
-    ucs_managed_objects:
+    cisco.ucs.ucs_managed_objects:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -114,7 +139,7 @@
                           "module": "ucsmsdk.mometa.lsboot.LsbootSanCatSanImage",
                           "class": "LsbootSanCatSanImage",
                           "properties": {
-                            "vnic_name": "{{ san_policy_vhba_a_name }}",
+                            "vnic_name": "{{ san_policy_fcp_vhba_a_name }}",
                             "type": "primary"
                           },
                           "children": [
@@ -122,7 +147,7 @@
                                 "module": "ucsmsdk.mometa.lsboot.LsbootSanCatSanImagePath",
                                 "class": "LsbootSanCatSanImagePath",
                                 "properties": {
-                                  "wwn": "{{ storage_node1_a }}",
+                                  "wwn": "{{ fcp_lif_01a }}",
                                   "type": "primary"
                                 },
                                 "children": [
@@ -140,7 +165,7 @@
                                 "module": "ucsmsdk.mometa.lsboot.LsbootSanCatSanImagePath",
                                 "class": "LsbootSanCatSanImagePath",
                                 "properties": {
-                                  "wwn": "{{ storage_node2_a }}",
+                                  "wwn": "{{ fcp_lif_02a }}",
                                   "type": "secondary"
                                 },
                                 "children": [
@@ -160,7 +185,7 @@
                           "module": "ucsmsdk.mometa.lsboot.LsbootSanCatSanImage",
                           "class": "LsbootSanCatSanImage",
                           "properties": {
-                            "vnic_name": "{{ san_policy_vhba_b_name }}",
+                            "vnic_name": "{{ san_policy_fcp_vhba_b_name }}",
                             "type": "secondary"
                           },
                           "children": [
@@ -168,7 +193,7 @@
                                 "module": "ucsmsdk.mometa.lsboot.LsbootSanCatSanImagePath",
                                 "class": "LsbootSanCatSanImagePath",
                                 "properties": {
-                                  "wwn": "{{ storage_node1_b }}",
+                                  "wwn": "{{ fcp_lif_01b }}",
                                   "type": "primary"
                                 },
                                 "children": [
@@ -186,7 +211,7 @@
                                 "module": "ucsmsdk.mometa.lsboot.LsbootSanCatSanImagePath",
                                 "class": "LsbootSanCatSanImagePath",
                                 "properties": {
-                                  "wwn": "{{ storage_node2_b }}",
+                                  "wwn": "{{ fcp_lif_02b }}",
                                   "type": "secondary"
                                 },
                                 "children": [

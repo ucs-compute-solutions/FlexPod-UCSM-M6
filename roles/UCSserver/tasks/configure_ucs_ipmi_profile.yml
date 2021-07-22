@@ -1,0 +1,28 @@
+---
+  # Configure IPMI/Redfish Access Profile
+  #
+  - name: Create IPMI Access Profile
+    cisco.ucs.ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+            "module": "ucsmsdk.mometa.aaa.AaaEpAuthProfile",
+            "class": "AaaEpAuthProfile",
+            "properties": {
+                "parent_mo_or_dn": "org-root",
+                "name": "{{ ipmi_pol_name }}"
+            },
+            "children": [
+                {
+                  "module": "ucsmsdk.mometa.aaa.AaaEpUser",
+                  "class": "AaaEpUser",
+                  "properties": {
+                      "name": "{{ ipmi_user_id }}",
+                      "priv": "admin",
+                      "pwd": "{{ ipmi_password }}"
+                  }
+                },
+                ]
+          }

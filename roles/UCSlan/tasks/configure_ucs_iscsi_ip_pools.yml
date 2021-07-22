@@ -2,7 +2,7 @@
 # iSCSI IP Address Pools Configuration for UCSM
 
 - name: Configure iSCSI IP address pools
-  ucs_ip_pool:
+  cisco.ucs.ucs_ip_pool:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
     password: "{{ password }}"

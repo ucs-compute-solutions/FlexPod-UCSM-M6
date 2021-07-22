@@ -2,7 +2,7 @@
 # Configure VSAN A and B if configure_fc is set
 #
 - name: Configure VSAN A and B
-  ucs_vsans:
+  cisco.ucs.ucs_vsans:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
     password: "{{ password }}"

@@ -2,7 +2,7 @@
 # Setup UCS FC Uplink Port-Channel when configure_fc is set
 #
 - name: Configure FC Uplink Port-Channels
-  ucs_managed_objects:
+  cisco.ucs.ucs_managed_objects:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
     password: "{{ password }}"
@@ -24,17 +24,39 @@
                 "auto_negotiate": "yes",
                 "slot_id": "{{ item.slot_id }}",
                 "port_id": "{{ item.port_id }}",
-                "admin_state": "enabled",              }
+                "usr_lbl": "{{ item.usr_lbl }}",
+                "admin_state": "enabled"
+              }
             },
           ]
         }
   with_list: "{{ fc_port_channel_list }}"
   when: configure_fc is defined
 #
+# Configure Port Speed for FC Port-Channels
+#
+- name: Configure Port Speed for FC Port-Channels
+  cisco.ucs.ucs_managed_objects:
+    hostname: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    objects:
+      - {
+          "module": "ucsmsdk.mometa.fabric.FabricFcSanPc",
+          "class": "FabricFcSanPc",
+          "properties": {
+            "parent_mo_or_dn": "fabric/san/{{ item.fabric }}",
+            "admin_speed": "{{ item.admin_speed }}",
+            "port_id": "{{ item.pc_id }}"
+          },
+        }
+  with_list: "{{ fc_uplink_PC_info }}"
+  when: configure_fc is defined
+#
 # Add VSAN to the port-channel
 #
 - name: Configure VSAN for FC Port-Channels
-  ucs_managed_objects:
+  cisco.ucs.ucs_managed_objects:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
     password: "{{ password }}"

@@ -2,7 +2,7 @@
 # Setup UCS Chassis Discovery Policy
 #
     - name: UCS Chassis Discovery Policy
-      ucs_managed_objects:
+      cisco.ucs.ucs_managed_objects:
         hostname: "{{ inventory_hostname }}"
         username: "{{ username }}"
         password: "{{ password }}"

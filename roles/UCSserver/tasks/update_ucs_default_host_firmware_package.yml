@@ -1,0 +1,19 @@
+---
+# Update Default Host Firware Package to Current Release
+
+  - name: Update Default Host Firmware Package
+    cisco.ucs.ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+      - {
+          "module": "ucsmsdk.mometa.firmware.FirmwareComputeHostPack",
+          "class": "FirmwareComputeHostPack",
+          "properties": {
+              "parent_mo_or_dn": "org-root",
+              "blade_bundle_version": "{{ blade_bundle_version }}",
+              "name": "default",
+              "rack_bundle_version": "{{ rack_bundle_version }}"
+          },
+        }

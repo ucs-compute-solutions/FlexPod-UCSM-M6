@@ -2,7 +2,7 @@
 # Configure Power Control Policy to remove power caps
 
   - name: Configure Power Control Policy
-    ucs_managed_objects:
+    cisco.ucs.ucs_managed_objects:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
@@ -11,7 +11,7 @@
           "module": "ucsmsdk.mometa.power.PowerPolicy",
           "class": "PowerPolicy",
           "properties": {
-              "parent_mo_or_dn": "org-root/org-{{ organization }}",
+              "parent_mo_or_dn": "org-root",
               "name": "{{ power_policy_name }}",
               "prio": "no-cap"
           },

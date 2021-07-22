@@ -4,7 +4,7 @@
 # chassis_links options: 1-link, 2-link, 4-link, 8-link, platform-max
 # chassis_link_aggr options: port-channel , none (check UCSM version)
 #
-chassis_links: 2-link
+chassis_links: 4-link
 chassis_link_aggr: port-channel
 #
 # This is the list of all the server ports where chassis and rack servers are connected
@@ -65,27 +65,59 @@ server_port_list:
 # admin_speed can be hard coded to "100gbps" (default to match Nexus Config) or "auto".
 #
 port_channel_list:
-  - name: "Po153-Nexus"
-    pc_id: '153'
+  - name: "Po145-Nexus"
+    pc_id: '145'
     fabric_id: "A"
     slot_id: '1'
-    port_id: '53'
+    port_id: '45'
     admin_speed: "auto"
-  - name: "Po153-Nexus"
-    pc_id: '153'
+    description: "AA16-93180-A:Eth1/21"
+  - name: "Po145-Nexus"
+    pc_id: '145'
     fabric_id: "A"
     slot_id: '1'
-    port_id: '54'
+    port_id: '46'
     admin_speed: "auto"
-  - name: "Po154-Nexus"
-    pc_id: '154'
+    description: "AA16-93180-A:Eth1/22"
+  - name: "Po145-Nexus"
+    pc_id: '145'
+    fabric_id: "A"
+    slot_id: '1'
+    port_id: '47'
+    admin_speed: "auto"
+    description: "AA16-93180-B:Eth1/21"
+  - name: "Po145-Nexus"
+    pc_id: '145'
+    fabric_id: "A"
+    slot_id: '1'
+    port_id: '48'
+    admin_speed: "auto"
+    description: "AA16-93180-B:Eth1/22"
+  - name: "Po146-Nexus"
+    pc_id: '146'
     fabric_id: "B"
     slot_id: '1'
-    port_id: '53'
+    port_id: '45'
     admin_speed: "auto"
-  - name: "Po154-Nexus"
-    pc_id: '154'
+    description: "AA16-93180-A:Eth1/23"
+  - name: "Po146-Nexus"
+    pc_id: '146'
     fabric_id: "B"
     slot_id: '1'
-    port_id: '54'
+    port_id: '46'
     admin_speed: "auto"
+    description: "AA16-93180-A:Eth1/24"
+  - name: "Po146-Nexus"
+    pc_id: '146'
+    fabric_id: "B"
+    slot_id: '1'
+    port_id: '47'
+    admin_speed: "auto"
+    description: "AA16-93180-B:Eth1/23"
+  - name: "Po146-Nexus"
+    pc_id: '146'
+    fabric_id: "B"
+    slot_id: '1'
+    port_id: '48'
+    admin_speed: "auto"
+    description: "AA16-93180-B:Eth1/24"

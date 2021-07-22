@@ -1,0 +1,36 @@
+---
+  # Add UCS Alternate admin user
+  #
+  - name: Add UCS Alternate admin user
+    cisco.ucs.ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+            "module": "ucsmsdk.mometa.aaa.AaaUser",
+            "class": "AaaUser",
+            "properties": {
+                "parent_mo_or_dn": "sys/user-ext",
+                "name": "{{ ucs_alt_user }}",
+                "pwd": "{{ ucs_alt_passwd }}"
+            },
+            "children": [
+              {
+                  "module": "ucsmsdk.mometa.aaa.AaaSshAuth",
+                  "class": "AaaSshAuth",
+                  "properties": {
+                      "data": "",
+                      "str_type": "none"
+                  },
+              },
+              {
+                  "module": "ucsmsdk.mometa.aaa.AaaUserRole",
+                  "class": "AaaUserRole",
+                  "properties": {
+                      "descr": "",
+                      "name": "admin"
+                  },
+              },
+            ]
+          }

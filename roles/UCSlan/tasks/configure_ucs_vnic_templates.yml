@@ -3,7 +3,7 @@
 # These templates are all setup as updating Templates with MTU set to 9000
 #
 - name: Configure vNIC Templates
-  ucs_vnic_template:
+  cisco.ucs.ucs_vnic_template:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
     password: "{{ password }}"

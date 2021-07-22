@@ -1,11 +1,11 @@
 ---
 # UUID Pool Configuration for UCSM
   - name: Configure UUID Pool
-    ucs_uuid_pool:
+    cisco.ucs.ucs_uuid_pool:
       hostname: "{{ inventory_hostname }}"
       username: "{{ username }}"
       password: "{{ password }}"
-      org_dn: org-root/org-{{ organization }}
+      org_dn: org-root
       state: "{{ server_state }}"
       name: "{{ uuid_pool_name }}"
       order: "{{ server_assign_order}}"

@@ -1,0 +1,27 @@
+---
+  # Configure Memory Mode Persistent Memory Policy
+  #
+  - name: Create Memory Mode PMEM Policy
+    cisco.ucs.ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+            "module": "ucsmsdk.mometa.memory.MemoryPersistentMemoryPolicy",
+            "class": "MemoryPersistentMemoryPolicy",
+            "properties": {
+                "parent_mo_or_dn": "org-root",
+                "name": "Memory-Mode"
+            },
+            "children": [
+                {
+                  "module": "ucsmsdk.mometa.memory.MemoryPersistentMemoryGoal",
+                  "class": "MemoryPersistentMemoryGoal",
+                  "properties": {
+                      "memory_mode_percentage": "100",
+                      "socket_id": "all-sockets"
+                  },
+                },
+             ]
+          }

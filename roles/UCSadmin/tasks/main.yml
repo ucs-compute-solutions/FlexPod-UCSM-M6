@@ -10,3 +10,5 @@
 - include_tasks: configure_ucs_timezone.yml
 # Configure UCS organization
 - include_tasks: create_ucs_org.yml
+# Add UCS Alternate admin User
+- include_tasks: add_ucs_alternate_user.yml
