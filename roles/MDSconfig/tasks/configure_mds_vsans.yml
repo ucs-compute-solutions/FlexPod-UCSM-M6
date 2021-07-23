@@ -3,7 +3,7 @@
 # specific variables from the MDS-A/B variables files
 #
   - name: MDS VSAN - Create VSAN and Add port-channel
-    nxos_vsan:
+    cisco.nxos.nxos_vsan:
       vsan:
         - id: "{{ vsan_id }}"
           name: "{{ vsan_name}}"
@@ -12,7 +12,7 @@
           remove: False
 #
   - name: MDS VSAN - Add storage ports
-    nxos_vsan:
+    cisco.nxos.nxos_vsan:
       vsan:
         - id: "{{ vsan_id }}"
 #          name: "{{ vsan_name}}"
@@ -22,6 +22,6 @@
     with_list: "{{ storage_interface_list }}"
 #
   - name: MDS VSAN - Configure Smart Zoning
-    nxos_config:
+    cisco.nxos.nxos_config:
       lines:
         - zone smart-zoning enable vsan {{ vsan_id }}

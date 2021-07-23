@@ -1,0 +1,7 @@
+---
+  # This Task Sets NTP Servers for the MDS Switches 
+  
+  - name: Set NTP Servers
+    cisco.nxos.nxos_ntp:
+      server: "{{ item.ip_address }}"
+    with_items: "{{ ntp_servers }}"

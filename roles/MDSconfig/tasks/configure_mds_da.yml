@@ -3,9 +3,18 @@
 # specific variables from the MDS-A/B variables files
 #
   - name: Device Alias
-    nxos_devicealias:
+    cisco.nxos.nxos_devicealias:
       distribute: yes
       mode: enhanced
       da:
         - { name: '{{  item.device_name  }}', pwwn: '{{  item.pwwn  }}'}
-    with_list: "{{ device_alias_list }}"
+    with_list: "{{ fcp_device_alias_list }}"
+
+  - name: Device Alias
+    cisco.nxos.nxos_devicealias:
+      distribute: yes
+      mode: enhanced
+      da:
+        - { name: '{{  item.device_name  }}', pwwn: '{{  item.pwwn  }}'}
+    with_list: "{{ fc_nvme_device_alias_list }}"
+    when: configure_fc_nvme is defined

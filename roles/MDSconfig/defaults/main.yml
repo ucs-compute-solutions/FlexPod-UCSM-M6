@@ -5,20 +5,5 @@
   enabled_mds_features:
     - npiv
     - fport-channel-trunk
-#
-# Interfaces in Use
-#
-  storage_interface_list:
-    - interface: "fc1/1"
-      speed: "16000"
-    - interface: "fc1/2"
-      speed: "16000"
-#
-  ucs_interface_list:
-    - interface: "fc1/5"
-      speed: "16000"
-    - interface: "fc1/6"
-      speed: "16000"
-#
-  port_channel_speed: "16000"
+    - nxapi
 #

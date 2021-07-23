@@ -15,6 +15,7 @@
     # Setup Server Ports to connect to Chassis and Rack Servers
     # Configure normal UDLD Policies
     # Setup Uplink Ports and Port-Channels
+    # Disable unused FC ports to avoid alerts
     #
     - UCSequipment
     #

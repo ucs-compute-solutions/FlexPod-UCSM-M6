@@ -22,7 +22,6 @@
           "module": "ucsmsdk.mometa.vnic.VnicIScsiBootParams",
           "class": "VnicIScsiBootParams",
           "properties": {
-#             "parent_mo_or_dn": "org-root/org-{{ organization }}/{{ iscsi_SPT_name }}",
              "descr": "",
              "policy_owner": "local"
           },
@@ -118,7 +117,6 @@
           "module": "ucsmsdk.mometa.vnic.VnicIScsiBootParams",
           "class": "VnicIScsiBootParams",
           "properties": {
-#             "parent_mo_or_dn": "org-root/org-{{ organization }}/{{ iscsi_SPT_name }}"
           },
           "children": [
             {
@@ -208,7 +206,6 @@
           "module": "ucsmsdk.mometa.vnic.VnicIScsiBootParams",
           "class": "VnicIScsiBootParams",
           "properties": {
-#             "parent_mo_or_dn": "org-root/org-{{ organization }}/{{ iscsi_SPT_name }}-vM",
              "descr": "",
              "policy_owner": "local"
           },
@@ -304,7 +301,6 @@
           "module": "ucsmsdk.mometa.vnic.VnicIScsiBootParams",
           "class": "VnicIScsiBootParams",
           "properties": {
-#             "parent_mo_or_dn": "org-root/org-{{ organization }}/{{ iscsi_SPT_name }}-vM"
           },
           "children": [
             {

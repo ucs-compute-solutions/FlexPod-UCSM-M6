@@ -1,0 +1,30 @@
+---
+# This task configures the zones on MDS using
+# specific variables from the MDS-A/B variables files
+#
+  - name: Create FCP Zone
+    cisco.nxos.nxos_zone_zoneset:
+      zone_zoneset_details:
+        - mode: basic
+          smart_zoning: true
+          vsan: "{{ vsan_id }}"
+          zone:
+            - members:
+                - device_alias: "{{ item.device_name }}"
+                  devtype: "{{ item.dev_type }}"
+              name: "{{  fcp_zone_name  }}"
+    with_list: "{{ fcp_device_alias_list }}"
+#
+  - name: Create FC-NVMe Zone
+    cisco.nxos.nxos_zone_zoneset:
+      zone_zoneset_details:
+        - mode: basic
+          smart_zoning: true
+          vsan: "{{ vsan_id }}"
+          zone:
+            - members:
+                - device_alias: "{{ item.device_name }}"
+                  devtype: "{{ item.dev_type }}"
+              name: "{{  fc_nvme_zone_name  }}"
+    with_list: "{{ fc_nvme_device_alias_list }}"
+    when: configure_fc_nvme is defined

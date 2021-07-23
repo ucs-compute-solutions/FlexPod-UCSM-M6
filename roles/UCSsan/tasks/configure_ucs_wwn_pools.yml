@@ -8,6 +8,7 @@
       password: "{{ password }}"
       name: "{{ item.name }}"
       purpose: "{{ item.purpose }}"
+      order: "{{ san_assign_order }}"
       org_dn: "org-root"
       first_addr: "{{ item.first_address }}"
       last_addr: "{{ item.last_address }}"

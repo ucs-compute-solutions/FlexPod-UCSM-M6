@@ -2,28 +2,68 @@
 # Variables defined here are specific to MDS-B
 #
 #  Variables used to create port channel to UCS.
-  port_channel_id: 2
+  port_channel_id: 15
+  port_channel_speed: "32000"
+  port_channel_description: "AA16-6454-B"
 #
 #  VSAN number to use used for a the fabric being created
-  vsan_id: "{{ vsan_list[1].vsan_id}}"
-  vsan_name: "{{ vsan_list[1].name}}"
+  vsan_id: "{{ vsan_list[1].vsan_id }}"
+  vsan_name: "{{ vsan_list[1].name }}"
 #
-# The zone name and zoneset names used in the configuration
-  zoneset_name: Fabric-B
-  zone_name: Infra-SVM-Fabric-B
+# The zone names and zoneset name used in the configuration
+  zoneset_name: FlexPod-Fabric-B
+  fcp_zone_name: FCP-Infra-SVM-B
+  fc_nvme_zone_name: FC-NVMe-Infra-SVM-B
 #
-# Device alias list using device names and PWWNs from CVD.  Update the PWWNs to match your deployment
-# Any changes made to the device names will always need to be updated in the Zoning List below
-  device_alias_list:
-    - device_name: Infra-SVM-lif01b
-      pwwn: "{{ storage_node1_b }}"
+# Device alias lists using device names and PWWNs from CVD.  Update the PWWNs to match your deployment
+  fcp_device_alias_list:
+    - device_name: "Infra-SVM-fcp-lif-01b"
+      pwwn: "{{ fcp_lif_01b }}"
       dev_type: target
-    - device_name: Infra-SVM-lif02b
-      pwwn: "{{ storage_node2_b }}"
+    - device_name: "Infra-SVM-fcp-lif-02b"
+      pwwn: "{{ fcp_lif_02b }}"
       dev_type: target
-    - device_name: BC-Host-FCP-01-B
+    - device_name: "VM-Host-Infra-FCP-01-B"
       pwwn: "{{ ucs_host_01_b }}"
       dev_type: initiator
-    - device_name: BC-Host-FCP-02-B
+    - device_name: "VM-Host-Infra-FCP-02-B"
       pwwn: "{{ ucs_host_02_b }}"
       dev_type: initiator
+    - device_name: "VM-Host-Infra-FCP-03-B"
+      pwwn: "{{ ucs_host_03_b }}"
+      dev_type: initiator
+#
+  fc_nvme_device_alias_list:
+    - device_name: "Infra-SVM-fc-nvme-lif-01b"
+      pwwn: "{{ fc_nvme_lif_01b }}"
+      dev_type: target
+    - device_name: "Infra-SVM-fc-nvme-lif-02b"
+      pwwn: "{{ fc_nvme_lif_02b }}"
+      dev_type: target
+    - device_name: "VM-Host-Infra-FC-NVMe-01-B"
+      pwwn: "{{ ucs_nvme_01_b }}"
+      dev_type: initiator
+    - device_name: "VM-Host-Infra-FC-NVMe-02-B"
+      pwwn: "{{ ucs_nvme_02_b }}"
+      dev_type: initiator
+    - device_name: "VM-Host-Infra-FC-NVMe-03-B"
+      pwwn: "{{ ucs_nvme_03_b }}"
+      dev_type: initiator
+#
+# MDS Switch FC Interface List
+#
+  storage_interface_list:
+    - interface: "fc1/1"
+      description: "AA16-A400-01:5b"
+      speed: "32000"
+    - interface: "fc1/2"
+      description: "AA16-A400-02:5b"
+      speed: "32000"
+#
+  ucs_interface_list:
+    - interface: "fc1/5"
+      description: "AA16-6454-B:fc1/1"
+      speed: "32000"
+    - interface: "fc1/6"
+      description: "AA16-6454-B:fc1/2"
+      speed: "32000"

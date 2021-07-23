@@ -16,3 +16,5 @@
   - include_tasks: configure_ucs_udld_policy.yml
   # Configure uplink ports and port-channels (connected to Nexus)
   - include_tasks: configure_ucs_uplink_PC.yml
+  # Disable unused FC ports to avoid alerts
+  - include_tasks: disable_unused_FC_ports.yml

@@ -2,5 +2,5 @@
   # Save the MDS configuration
   #
   - name: Save the MDS Configuration
-    nxos_config:
+    cisco.nxos.nxos_config:
       save_when: modified

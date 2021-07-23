@@ -121,3 +121,20 @@ port_channel_list:
     port_id: '48'
     admin_speed: "auto"
     description: "AA16-93180-B:Eth1/24"
+
+# This is the list of unused FC Ports that will be disabled to avoid alerts. Since FC ports
+# must be configure in groups (of 4 on the 6454 FI), some ports may be unused.
+#
+unused_fc_port_list:
+  - fabric_id: "A"
+    slot_id: '1'
+    port_id: '3'
+  - fabric_id: "A"
+    slot_id: '1'
+    port_id: '4'
+  - fabric_id: "B"
+    slot_id: '1'
+    port_id: '3'
+  - fabric_id: "B"
+    slot_id: '1'
+    port_id: '4'

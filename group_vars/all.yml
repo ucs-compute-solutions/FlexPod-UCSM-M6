@@ -4,7 +4,7 @@
 # Commenting out the following two variables will skip the iSCSI and/or FC storage configurations
 configure_iscsi: "yes"
 configure_fc: "yes"
-# FC-NVMe Configuration, only set this to yes if configure_fc is set to yes
+# FC-NVMe Configuration, only define this if configure_fc is defined
 configure_fc_nvme: "yes"
 # Enable VSAN trunking between UCS FI and MDS, only set this to yes if configure_fc is set to yes
 enable_vsan_trunking: "yes"
@@ -133,16 +133,27 @@ fc_nvme_lif_02a: '20:0c:d0:39:ea:17:12:9b'
 fc_nvme_lif_01b: '20:0b:d0:39:ea:17:12:9b'
 fc_nvme_lif_02b: '20:0d:d0:39:ea:17:12:9b'
 #
-# UCS WWPNs (capture from the UCS Service Profiles)
+# UCS FC WWPNs (capture from the UCS Service Profiles)
 #
-ucs_host_01_a: '20:00:00:25:b5:bc:0a:00'
-ucs_host_01_b: '20:00:00:25:b5:bc:0b:00'
+ucs_host_01_a: '20:00:00:25:b5:a1:6a:01'
+ucs_host_01_b: '20:00:00:25:b5:a1:6b:01'
 #
-ucs_host_02_a: '20:00:00:25:b5:bc:0a:01'
-ucs_host_02_b: '20:00:00:25:b5:bc:0b:01'
+ucs_host_02_a: '20:00:00:25:b5:a1:6a:03'
+ucs_host_02_b: '20:00:00:25:b5:a1:6b:03'
 #
-ucs_host_03_a: '20:00:00:25:b5:bc:0a:02'
-ucs_host_03_b: '20:00:00:25:b5:bc:0b:02'
+ucs_host_03_a: '20:00:00:25:b5:a1:6a:05'
+ucs_host_03_b: '20:00:00:25:b5:a1:6b:05'
+#
+# UCS FC-NVMe WWPNs (capture from the UCS Service Profiles)
+#
+ucs_nvme_01_a: '20:00:00:25:b5:a1:6a:00'
+ucs_nvme_01_b: '20:00:00:25:b5:a1:6b:00'
+#
+ucs_nvme_02_a: '20:00:00:25:b5:a1:6a:02'
+ucs_nvme_02_b: '20:00:00:25:b5:a1:6b:02'
+#
+ucs_nvme_03_a: '20:00:00:25:b5:a1:6a:04'
+ucs_nvme_03_b: '20:00:00:25:b5:a1:6b:04'
 #
 # Storage iSCSI Target Interfaces
 #

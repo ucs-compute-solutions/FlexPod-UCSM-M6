@@ -2,37 +2,41 @@
 # This task sets up the interface, their speeds and port-channel
 #
   - name: Enable port-channel interface
-    nxos_interfaces:
+    cisco.nxos.nxos_interfaces:
       config:
         - name: port-channel {{ port_channel_id }}
           enabled: yes
 #
   - name: Configure Port-Channel Settings
-    nxos_config:
+    cisco.nxos.nxos_config:
       lines:
         - channel mode active
         - switchport mode F
+        - switchport trunk mode auto
         - switchport trunk allowed vsan {{ vsan_id }}
         - switchport speed {{ port_channel_speed }}
         - switchport rate-mode dedicated
+        - switchport description {{ port_channel_description }}
       parents: interface port-channel {{ port_channel_id }}
 #
   - name: Set MDS Interfaces for UCS
-    nxos_config:
+    cisco.nxos.nxos_config:
       lines:
         - no shutdown
         - port-license acquire
         - switchport speed {{ item.speed }}
+        - switchport description {{ item.description }}
         - channel-group {{ port_channel_id }} force
       parents: interface {{ item.interface }}
     with_list: "{{ ucs_interface_list }}"
 #
   - name: Set MDS Interfaces for Storage Controllers
-    nxos_config:
+    cisco.nxos.nxos_config:
       lines:
         - no shutdown
         - port-license acquire
         - switchport trunk mode off
         - switchport speed {{ item.speed }}
+        - switchport description {{ item.description }}
       parents: interface {{ item.interface }}
     with_list: "{{ storage_interface_list }}"

@@ -19,7 +19,6 @@ global_settings:
 #
 global_NTP_servers:
   - 192.168.156.254
-  - 192.168.156.1
 ntp_distribution_vlan: '113' # VLAN (IB-MGMT) where NTP distribution interfaces will be placed.
 ntp_distribution_gw: '10.1.156.254' # Default gateway for NTP distribution interfaces.
 #

@@ -1,0 +1,22 @@
+---
+# Disable Unused FC Uplink Ports
+#
+  - name: Disable Unused FC Uplink Ports
+    cisco.ucs.ucs_managed_objects:
+      hostname: "{{ inventory_hostname }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      objects:
+        - {
+            "module": "ucsmsdk.mometa.fabric.FabricFcSanEp",
+            "class": "FabricFcSanEp",
+            "properties": {
+              "parent_mo_or_dn": "fabric/san/{{ item.fabric_id }}",
+              "admin_state": "disabled",
+              "port_id": "{{ item.port_id }}",
+              "slot_id": "{{ item.slot_id }}"
+            },
+          }
+    with_list: "{{ unused_fc_port_list }}"
+    when: unused_fc_port_list is defined 
+    when: configure_fc is defined
