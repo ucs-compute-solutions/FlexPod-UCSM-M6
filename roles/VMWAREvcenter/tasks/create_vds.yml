@@ -2,14 +2,14 @@
   # This task configures VDS on the vCenter
 
   - name: vCenter vDS creation
-    vmware_dvswitch:
+    community.vmware.vmware_dvswitch:
       hostname: '{{ vcenter_hostname }}'
       username: '{{ vcenter_username }}'
       password: '{{ vcenter_password }}'
       validate_certs: no
       datacenter_name: '{{ vcenter_dc }}'
       switch_name: '{{ dvs_name }}'
-      version: '{{ dv_version }}'
+#      version: '{{ dv_version }}' - Use latest version 7.0U2
       #Best practices dictate mtu should always be 9000 therefore the value is hardcoded
       #mtu: '{{ dv_mtu }}'
       mtu: 9000

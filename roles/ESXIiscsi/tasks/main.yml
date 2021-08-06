@@ -8,6 +8,8 @@
   - include_tasks: create_esxi_iscsi_vmk.yml
 # Add iSCSI Targets for Multi Path
   - include_tasks: add_esxi_iscsi_targets.yml
-# Add Coredump for iSCSI Hosts pointing to vCetner
+# Rescan HBA's for the ESXi host and refresh storage system objects
+  - include_tasks: rescan_esxi_iscsi_HBA.yml
+# Add Coredump for iSCSI Hosts pointing to vCenter - not necessary in vSphere 7.0U2
 # vCenter must be setup as a dump Collector
-  - include_tasks: add_esxi_coredump.yml
+#  - include_tasks: add_esxi_coredump.yml

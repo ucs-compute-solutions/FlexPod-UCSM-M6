@@ -2,7 +2,7 @@
 # This task configures datacenter on vCenter
 
   - name: vCenter Datacenter creation
-    vmware_datacenter:
+    community.vmware.vmware_datacenter:
       hostname: '{{ vcenter_hostname }}'
       username: '{{ vcenter_username }}'
       password: '{{ vcenter_password }}'

@@ -19,11 +19,17 @@ configure_nfs: "yes"
 ntp_servers:
   - ip_address: "192.168.156.135"
   - ip_address: "192.168.156.136"
+ib_mgmt_ntp_servers:                # To be used by ESXi hosts and VMs
+  - ip_address: "10.1.156.135"
+  - ip_address: "10.1.156.136"
 
 # Uncomment and update the the following lines to setup DNS Server(s)
 dns_servers:
   - ip_address: "10.1.156.250"
   - ip_address: "10.1.156.251"
+
+# DNS Domain Name
+dns_domain_name: "flexpod.cisco.com"
 
 # Uncomment and update the the following line to setup Timezone
 time_zone: 'America/New_York'
@@ -99,10 +105,16 @@ vds_vlan_list:
     # portgroup name will be configured in VMware
     portgroup_name: "{{ vm_vlan_name }}"
     id: '900'
+    active_uplinks: 
+      - "Uplink 1"
+      - "Uplink 2"
+    standby_uplinks: []
   - name: "{{ vmotion_vlan_name }}"
     # portgroup name will be configured in VMware
     portgroup_name: "{{ vmotion_portgroup }}"
     id: '3000'
+    active_uplinks: "Uplink 2"
+    standby_uplinks: "Uplink 1"
 #
 nfs_portgroup: "VMKernel-Infra-NFS"
 esxi_nfs_vlan: "3050"
@@ -128,10 +140,10 @@ fcp_lif_02b: '20:04:d0:39:ea:17:12:9b'
 #
 # Storage FC-NVMe WWPNs (capture from storage system)
 #
-fc_nvme_lif_01a: '20:0a:d0:39:ea:17:12:9b'
-fc_nvme_lif_02a: '20:0c:d0:39:ea:17:12:9b'
-fc_nvme_lif_01b: '20:0b:d0:39:ea:17:12:9b'
-fc_nvme_lif_02b: '20:0d:d0:39:ea:17:12:9b'
+fc_nvme_lif_01a: '20:06:d0:39:ea:17:12:9b'
+fc_nvme_lif_02a: '20:08:d0:39:ea:17:12:9b'
+fc_nvme_lif_01b: '20:07:d0:39:ea:17:12:9b'
+fc_nvme_lif_02b: '20:09:d0:39:ea:17:12:9b'
 #
 # UCS FC WWPNs (capture from the UCS Service Profiles)
 #
@@ -164,7 +176,12 @@ iscsi_lif_02b: '192.168.20.142'
 #
 # Storage iSCSI Target IQN
 #
-storage_iscsi_IQN: 'iqn.1992-08.com.netapp:sn.e01bbb1de4f911ebac6fd039ea166b8c:vs.3'
+storage_iscsi_IQN: 'iqn.1992-08.com.netapp:sn.50919001efe111ebb785d039ea166b8c:vs.3'
+#
+# Storage NFS Infrastructure LIF Interfaces
+#
+nfs_lif_01: '192.168.50.141'
+nfs_lif_02: '192.168.50.142'
 #
 # VMware Configurations
 # provide the user names and passwords to connect to the ESXi ntp_servers

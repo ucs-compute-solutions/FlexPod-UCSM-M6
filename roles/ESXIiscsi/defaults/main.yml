@@ -15,7 +15,7 @@ iscsi_a_portgroup: "iScsiBootPG"
 iscsi_b_portgroup: "iScsiBootPG-B"
 #
 iscsi_targets:
-    - "{{ storage_node1_iSCSI_a }}"
-    - "{{ storage_node2_iSCSI_a }}"
-    - "{{ storage_node1_iSCSI_b }}"
-    - "{{ storage_node2_iSCSI_b }}"
+    - "{{ iscsi_lif_01a }}"
+    - "{{ iscsi_lif_01b }}"
+    - "{{ iscsi_lif_02a }}"
+    - "{{ iscsi_lif_02b }}"

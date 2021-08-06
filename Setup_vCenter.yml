@@ -26,14 +26,12 @@
   gather_facts: no
   serial: 1
   roles:
-    - role: ESXIhosts
-      when: configure_iscsi is defined
-    - role: ESXIiscsi
+    - role: ESXIpostvC
       when: configure_iscsi is defined
 
 - hosts: esxi_fc
   gather_facts: no
   serial: 1
   roles:
-    - role: ESXIhosts
+    - role: ESXIpostvC
       when: configure_fc is defined

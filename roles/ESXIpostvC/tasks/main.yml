@@ -1,0 +1,9 @@
+# Add ESXi hosts to the vCenter Cluster and the vSphere Distributed Switch
+#
+# Add the ESXi hosts to the vcenter
+  - include_tasks: add_esxi_hosts_to_VC.yml
+# Add the ESXi hosts to VDS 
+  - include_tasks: add_esxi_hosts_to_dvs.yml
+# Create vMotion VMK
+  - include_tasks: add_esxi_vmotion_vmk.yml
+#

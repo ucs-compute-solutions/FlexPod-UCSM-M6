@@ -1,9 +1,9 @@
 ---
-vpc_source: 192.168.156.136
-vpc_destination: 192.168.156.135
+vpc_source: "{{ hostvars['n9kB'].ansible_host }}"
+vpc_destination: "{{ hostvars['n9kA'].ansible_host }}"
 vpc_role_priority: "20"
 # NTP Distribution IP for N9K-B in the IB-MGMT VLAN
-IB_MGMT_ntp_dist_IP: '10.1.156.136/24'
+IB_MGMT_ntp_dist_IP: "{{ ib_mgmt_ntp_servers[1].ip_address }}{{ ntp_distribution_nm_cidr }}"
 # Interface Lists; more interfaces can be added for additional BW
 #
 mgmt_interface_list:

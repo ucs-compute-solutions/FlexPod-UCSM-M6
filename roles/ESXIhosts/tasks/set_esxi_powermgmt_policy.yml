@@ -1,13 +1,10 @@
 ---
-#
-  - name: Create NFS Portgroup
-    community.vmware.vmware_portgroup:
+  - name: Set ESXi Power Management Policy to High-Performance
+    community.vmware.vmware_host_powermgmt_policy:
       hostname: '{{ inventory_hostname }}'
       username: '{{ ansible_user }}'
       password: '{{ ansible_ssh_pass }}'
       validate_certs: no
       esxi_hostname: '{{ inventory_hostname }}'
-      switch: "vSwitch0"
-      portgroup: '{{ nfs_portgroup }}'
-      vlan_id: '{{ esxi_nfs_vlan }}'
+      policy: high-performance
     delegate_to: localhost

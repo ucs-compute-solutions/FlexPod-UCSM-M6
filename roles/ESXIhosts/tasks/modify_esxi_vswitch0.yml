@@ -1,9 +1,9 @@
 ---
   - name: Add redundant uplinks and update MTU to 9000 on vSwitch0
-    vmware_vswitch:
-      hostname: '{{ vcenter_hostname }}'
-      username: '{{ vcenter_username }}'
-      password: '{{ vcenter_password }}'
+    community.vmware.vmware_vswitch:
+      hostname: '{{ inventory_hostname }}'
+      username: '{{ ansible_user }}'
+      password: '{{ ansible_ssh_pass }}'
       validate_certs: no
       esxi_hostname: '{{ inventory_hostname }}'
       switch: "vSwitch0"
@@ -15,10 +15,10 @@
 
 
   - name: Remove default port group from install
-    vmware_portgroup:
-      hostname: '{{ vcenter_hostname }}'
-      username: '{{ vcenter_username }}'
-      password: '{{ vcenter_password }}'
+    community.vmware.vmware_portgroup:
+      hostname: '{{ inventory_hostname }}'
+      username: '{{ ansible_user }}'
+      password: '{{ ansible_ssh_pass }}'
       validate_certs: no
       esxi_hostname: '{{ inventory_hostname }}'
       switch: "vSwitch0"

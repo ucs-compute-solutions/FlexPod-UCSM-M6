@@ -42,9 +42,9 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 # Comment out or delete all the hosts if ESXi hosts with FC connectivity are not present
 # FC host configuration will only take place if the variable configure_fc: "yes" is defined (not commended out)
 #
-10.1.156.21 vmotion=192.168.0.21 vmotion_mask=255.255.255.0 nfs=192.168.50.21 nfs_mask=255.255.255.0
-10.1.156.22 vmotion=192.168.0.22 vmotion_mask=255.255.255.0 nfs=192.168.50.22 nfs_mask=255.255.255.0
-10.1.156.23 vmotion=192.168.0.23 vmotion_mask=255.255.255.0 nfs=192.168.50.23 nfs_mask=255.255.255.0
+nx-esxi-1.flexpod.cisco.com vmotion_ip=192.168.0.21 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.21 nfs_mask=255.255.255.0
+nx-esxi-2.flexpod.cisco.com vmotion_ip=192.168.0.22 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.22 nfs_mask=255.255.255.0
+nx-esxi-3.flexpod.cisco.com vmotion_ip=192.168.0.23 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.23 nfs_mask=255.255.255.0
 
 # e.g. 10.1.1.101  vmotion_ip=192.168.30.101  vmotion_mask=255.255.255.0 nfs_ip=192.168.50.101 nfs_mask=255.255.255.0
 # e.g. 10.1.1.102  vmotion_ip=192.168.30.102  vmotion_mask=255.255.255.0 nfs_ip=192.168.50.102 nfs_mask=255.255.255.0
@@ -54,9 +54,9 @@ ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 # Comment out or delete all the hosts if ESXi hosts with iSCSI connectivity are not present
 # FC host configuration will only take place if the variable configure_fc: "yes" is defined (not commended out)
 #
-10.1.156.24 vmotion=192.168.0.24 vmotion_mask=255.255.255.0 nfs=192.168.50.24 nfs_mask=255.255.255.0
-10.1.156.25 vmotion=192.168.0.25 vmotion_mask=255.255.255.0 nfs=192.168.50.25 nfs_mask=255.255.255.0
-10.1.156.26 vmotion=192.168.0.26 vmotion_mask=255.255.255.0 nfs=192.168.50.26 nfs_mask=255.255.255.0
+nx-esxi-4.flexpod.cisco.com vmotion_ip=192.168.0.24 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.24 nfs_mask=255.255.255.0 iscsi_a_ip=192.168.10.24 iscsi_b_ip=192.168.20.24 iscsi_mask=255.255.255.0
+nx-esxi-5.flexpod.cisco.com vmotion_ip=192.168.0.25 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.25 nfs_mask=255.255.255.0 iscsi_a_ip=192.168.10.25 iscsi_b_ip=192.168.20.25 iscsi_mask=255.255.255.0
+nx-esxi-6.flexpod.cisco.com vmotion_ip=192.168.0.26 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.26 nfs_mask=255.255.255.0 iscsi_a_ip=192.168.10.26 iscsi_b_ip=192.168.20.26 iscsi_mask=255.255.255.0
 
 # e.g. 10.1.1.103  vmotion_ip=192.168.30.103 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.103 nfs_mask=255.255.255.0 iscsi_a_ip=192.168.10.103 iscsi_b_ip=192.168.20.103 iscsi_mask=255.255.255.0
 # e.g. 10.1.1.104  vmotion_ip=192.168.30.104 vmotion_mask=255.255.255.0 nfs_ip=192.168.50.104 nfs_mask=255.255.255.0 iscsi_a_ip=192.168.10.104 iscsi_b_ip=192.168.20.104 iscsi_mask=255.255.255.0

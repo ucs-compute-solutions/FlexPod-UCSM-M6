@@ -1,0 +1,8 @@
+# Variables for ESXi Configuration after vCenter Configuration
+# Adjust the variable values as per your requirements
+#
+# Uplinks to be used by various Switch Configurations
+#
+dv_uplink1: "vmnic2"
+dv_uplink2: "vmnic3"
+#

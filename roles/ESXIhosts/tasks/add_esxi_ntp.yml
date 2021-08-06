@@ -1,20 +1,19 @@
 ---
   - name: Configure ESXi NTP server
-    vmware_host_ntp:
-      hostname: '{{ vcenter_hostname }}'
-      username: '{{ vcenter_username }}'
-      password: '{{ vcenter_password }}'
+    community.vmware.vmware_host_ntp:
+      hostname: '{{ inventory_hostname }}'
+      username: '{{ ansible_user }}'
+      password: '{{ ansible_ssh_pass }}'
       validate_certs: no
       esxi_hostname: '{{ inventory_hostname }}'
-      ntp_servers: '{{ item.ip_address }}'
+      ntp_servers: '{{ ntp_servers_list }}'
     delegate_to: localhost
-    with_list: "{{ ntp_servers }}"
 
   - name: Start ESXi ntpd for the hosts
-    vmware_host_service_manager:
-      hostname: '{{ vcenter_hostname }}'
-      username: '{{ vcenter_username }}'
-      password: '{{ vcenter_password }}'
+    community.vmware.vmware_host_service_manager:
+      hostname: '{{ inventory_hostname }}'
+      username: '{{ ansible_user }}'
+      password: '{{ ansible_ssh_pass }}'
       validate_certs: no
       esxi_hostname: '{{ inventory_hostname }}'
       service_name: ntpd

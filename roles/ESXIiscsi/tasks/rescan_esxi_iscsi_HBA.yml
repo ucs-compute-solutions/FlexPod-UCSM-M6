@@ -1,12 +1,11 @@
 ---
-  - name: Create iSCSI-B Portgroup - '{{ iscsi_b_portgroup }}' on vSwitch '{{ iscsi_b_vswitch }}'
-    community.vmware.vmware_portgroup:
+  - name: Rescan HBA's for the ESXi host and refresh storage system objects
+    community.vmware.vmware_host_scanhba:
       hostname: '{{ inventory_hostname }}'
       username: '{{ ansible_user }}'
       password: '{{ ansible_ssh_pass }}'
       validate_certs: no
       esxi_hostname: '{{ inventory_hostname }}'
-      switch: '{{ iscsi_b_vswitch }}'
-      portgroup: '{{ iscsi_b_portgroup }}'
+      refresh_storage: true
     delegate_to: localhost
     when: configure_iscsi is defined

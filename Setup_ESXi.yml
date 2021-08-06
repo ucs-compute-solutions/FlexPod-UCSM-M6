@@ -1,0 +1,25 @@
+################################################################################
+#
+# Host Setup Section
+# ESXIhosts role configuration is common to both iSCSI and FC hosts
+# ESXIiscsi role configuration is only applied to the iSCSI hosts
+# If configure_fc or configure_iscsi are commented out, the host config will be skipped
+# If inventory does not contain any servers under esxi_fc or esxi_iscsi sections, the config will be skipped
+#
+################################################################################
+#- hosts: localhost
+- hosts: esxi_iscsi
+  gather_facts: no
+  serial: 1
+  roles:
+    - role: ESXIiscsi
+      when: configure_iscsi is defined
+    - role: ESXIhosts
+      when: configure_iscsi is defined
+
+- hosts: esxi_fc
+  gather_facts: no
+  serial: 1
+  roles:
+    - role: ESXIhosts
+      when: configure_fc is defined

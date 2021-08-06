@@ -1,9 +1,9 @@
 ---
   - name: Adjust iSCSI A adapter - set mtu to '{{ iscsi_mtu }}'
-    vmware_vmkernel:
-      hostname: '{{ vcenter_hostname }}'
-      username: '{{ vcenter_username }}'
-      password: '{{ vcenter_password }}'
+    community.vmware.vmware_vmkernel:
+      hostname: '{{ inventory_hostname }}'
+      username: '{{ ansible_user }}'
+      password: '{{ ansible_ssh_pass }}'
       validate_certs: no
       esxi_hostname: '{{ inventory_hostname }}'
       vswitch: '{{ iscsi_a_vswitch }}'
@@ -18,10 +18,10 @@
     when: configure_iscsi is defined
 
   - name: Create iSCSI B adapter - ip address '{{ iscsi_b_ip }}' MTU '{{ iscsi_mtu }}'
-    vmware_vmkernel:
-      hostname: '{{ vcenter_hostname }}'
-      username: '{{ vcenter_username }}'
-      password: '{{ vcenter_password }}'
+    community.vmware.vmware_vmkernel:
+      hostname: '{{ inventory_hostname }}'
+      username: '{{ ansible_user }}'
+      password: '{{ ansible_ssh_pass }}'
       validate_certs: no
       esxi_hostname: '{{ inventory_hostname }}'
       vswitch: '{{ iscsi_b_vswitch }}'

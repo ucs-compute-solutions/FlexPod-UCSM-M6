@@ -1,23 +1,22 @@
-# Add ESXi hosts to the vCenter Cluster and the vSphere Distributed Switch
-# Configure various host settings
+# Configure various ESXi host settings
 #
-# ESXi must have been installed and IP/VLAN/Password configured for mgmt access
+# ESXi must have been installed and IP/Password/DNS/DNS Domain configured for mgmt access
 # SSH must be enabled on the ESXi host
 #
-# Add the ESXi hosts to the vcenter
-  - include_tasks: add_esxi_hosts_to_VC.yml
-# Add the ESXi hosts to VDS by placing the hosts in maintenance mode, adding
-# the host to VDS and then existing the maintenance mode
-  - include_tasks: add_esxi_hosts_to_dvs.yml
 # Add the NTP Server(s) to the ESXi Hosts
   - include_tasks: add_esxi_ntp.yml
 # Modify the vSwitch0 for ESXi Hosts to add redundant NIC and set MTU to 9000
   - include_tasks: modify_esxi_vswitch0.yml
-# Create the NFS and vMotion Portgroups
+# Create the IB-MGMT Network Portgroup
+  - include_tasks: create_esxi_ib_mgmt_PG.yml
+# Create the NFS Portgroup
   - include_tasks: create_esxi_nfs_PG.yml
-# Create vMotion VMK
-  - include_tasks: add_esxi_vmotion_vmk.yml
 # Create NFS VMK
   - include_tasks: add_esxi_nfs_vmk.yml
 # Add NFS Datastores
   - include_tasks: add_esxi_nfs_datastores.yml
+# Set ESXi Power Management Policy to High-Performance
+  - include_tasks: set_esxi_powermgmt_policy.yml
+# Upgrade or Install VIC Drivers, NetApp NFS VAAI Plugin, and UCS Tools
+  - include_tasks: upgrade_ESXi_drivers.yml
+#

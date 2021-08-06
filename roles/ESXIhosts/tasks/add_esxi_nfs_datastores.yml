@@ -5,13 +5,13 @@
 # for the NFS datastore mount
 #
   - name: Add NFS datastore to each host
-    vmware_host_datastore:
-      hostname: '{{ vcenter_hostname }}'
-      username: '{{ vcenter_username }}'
-      password: '{{ vcenter_password }}'
+    community.vmware.vmware_host_datastore:
+      hostname: '{{ inventory_hostname }}'
+      username: '{{ ansible_user }}'
+      password: '{{ ansible_ssh_pass }}'
       esxi_hostname: '{{ inventory_hostname }}'
       datastore_name: '{{ item.mount }}'
-      datastore_type: "nfs"
+      datastore_type: "nfs41"
       nfs_server: '{{ item.server }}'
       nfs_path: '/{{item.mount}}'
       validate_certs: no

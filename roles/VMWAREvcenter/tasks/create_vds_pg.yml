@@ -1,6 +1,6 @@
 ---
   - name: vCenter vDS Portgroup Creation
-    vmware_dvs_portgroup:
+    community.vmware.vmware_dvs_portgroup:
       hostname: '{{ vcenter_hostname }}'
       username: '{{ vcenter_username }}'
       password: '{{ vcenter_password }}'
@@ -11,4 +11,7 @@
       portgroup_type: earlyBinding
       num_ports: 120
       state: present
+      teaming_policy:
+        active_uplinks: "{{ item.active_uplinks }}"
+        standby_uplinks: "{{ item.standby_uplinks }}"
     with_list: "{{ vds_vlan_list }}"

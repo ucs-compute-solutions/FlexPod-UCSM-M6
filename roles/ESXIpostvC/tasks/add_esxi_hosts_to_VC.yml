@@ -4,7 +4,7 @@
 # All the variables are defined under group_vars/all.yml
 #
   - name: Add ESXi Hosts to vCenter
-    vmware_host:
+    community.vmware.vmware_host:
       hostname: '{{ vcenter_hostname }}'
       username: '{{ vcenter_username }}'
       password: '{{ vcenter_password }}'

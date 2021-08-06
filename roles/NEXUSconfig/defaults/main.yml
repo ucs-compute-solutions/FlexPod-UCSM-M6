@@ -20,6 +20,7 @@ global_settings:
 global_NTP_servers:
   - 192.168.156.254
 ntp_distribution_vlan: '113' # VLAN (IB-MGMT) where NTP distribution interfaces will be placed.
+ntp_distribution_nm_cidr: "/24"
 ntp_distribution_gw: '10.1.156.254' # Default gateway for NTP distribution interfaces.
 #
 mgmt_PC:
@@ -68,7 +69,7 @@ storage_B_PC:
     id: "119"
     speed: "auto"
     duplex: "auto"
-    description: "AA16-6454-02"
+    description: "AA16-A400-02"
 #
 all_port_channels: "{{ peerlink_PC + mgmt_PC + FI_A_PC + FI_B_PC + storage_A_PC + storage_B_PC }}"
 #
