@@ -3,7 +3,7 @@
 # to have drivers either updated or installed.
 
   - name: Download nenic driver to tmp directory
-    command: cd /tmp;wget {{ nenic_offline_bundle_url }}
+    command: wget {{ nenic_offline_bundle_url }} -P /tmp
     args:
       warn: false
 
@@ -13,7 +13,7 @@
       warn: false
 
   - name: Download nfnic driver to tmp directory
-    command: cd /tmp;wget {{ nfnic_offline_bundle_url }}
+    command: wget {{ nfnic_offline_bundle_url }} -P /tmp
     args:
       warn: false
 
@@ -23,7 +23,7 @@
       warn: false
 
   - name: Download NetApp NFS VAAI Plugin driver to tmp directory
-    command: cd /tmp;wget {{ NetAppVAAI_offline_bundle_url }}
+    command: wget {{ NetAppVAAI_offline_bundle_url }} -P /tmp
     args:
       warn: false
 
@@ -33,7 +33,7 @@
       warn: false
 
   - name: Download UCS Tools driver to tmp directory
-    command: cd /tmp;wget {{ UCS_Tools_url }}
+    command: wget {{ UCS_Tools_url }} -P /tmp
     args:
       warn: false
 
