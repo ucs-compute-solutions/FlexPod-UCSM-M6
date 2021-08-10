@@ -2,10 +2,26 @@
   ##
   # Configure VLANs on the Nexus Switches
   #
-  - name: Create VLANs
+  - name: Create IB-MGMT VLAN
     cisco.nxos.nxos_vlans:
       config:
         - vlan_id: "{{ item.id }}"
           name: "{{ item.name }}"
       state: merged
-    with_list: "{{ vlan_list }}"
+    with_list: "{{ ib_mgmt_vlan_list }}"
+#
+  - name: Create Storage VLANs
+    cisco.nxos.nxos_vlans:
+      config:
+        - vlan_id: "{{ item.id }}"
+          name: "{{ item.name }}"
+      state: merged
+    with_list: "{{ storage_vlan_list }}"
+#
+  - name: Create Remaining VLANs
+    cisco.nxos.nxos_vlans:
+      config:
+        - vlan_id: "{{ item.id }}"
+          name: "{{ item.name }}"
+      state: merged
+    with_list: "{{ remaining_vlan_list }}"

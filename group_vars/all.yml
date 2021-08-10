@@ -50,17 +50,48 @@ iscsiB_vlan_name: 'Infra-iSCSI-B' # iSCSI-B VLAN (if needed)
 #
 lan_state : 'present'
 #
-vlan_list:
+# The ib_mgmt_vlan_list contains one entry, the IB-MGMT VLAN.
+#
+ib_mgmt_vlan_list:
+  - name: "{{ ib_vlan_name }}"
+    id: '113'
+    native: 'no'
+    state: "{{lan_state}}"
+#
+# The storage_vlan_list contains VLANs that are configured on the storage controllers.
+# These VLANs are also configured in the UCS and in the Nexus switches. This list has
+# two extra fields, storage_protocol, and fabric.
+#
+storage_vlan_list:
+  - name: "{{ nfs_vlan_name }}"
+    id: '3050'
+    native: 'no'
+    storage_protocol: NFS
+    state: "{{lan_state}}"
+    # ISCSI A and B VLANs should be deleted or commended out for Fiber-Channel-Only deployments
+  - name: "{{ iscsiA_vlan_name }}"
+    id: '3010'
+    native: 'no'
+    storage_protocol: iSCSI
+    fabric: A
+    state: "{{lan_state}}"
+  - name: "{{ iscsiB_vlan_name }}"
+    id: '3020'
+    native: 'no'
+    storage_protocol: iSCSI
+    fabric: B
+    state: "{{lan_state}}"
+#
+# The remaining_vlan_list contains all vlans that are not configured on storage,
+# but are configured in Nexus and UCS.
+#
+remaining_vlan_list:
   - name: "{{ native_vlan_name }}"
     id: '2'
     native: 'yes'
     state: "{{lan_state}}"
   - name: "{{ oob_vlan_name }}"
     id: '13'
-    native: 'no'
-    state: "{{lan_state}}"
-  - name: "{{ ib_vlan_name }}"
-    id: '113'
     native: 'no'
     state: "{{lan_state}}"
   - name: "{{ vm_vlan_name }}"
@@ -71,20 +102,7 @@ vlan_list:
     id: '3000'
     native: 'no'
     state: "{{lan_state}}"
-  - name: "{{ nfs_vlan_name }}"
-    id: '3050'
-    native: 'no'
-    state: "{{lan_state}}"
-    # ISCSI A and B VLANs should be deleted or commended out for Fiber-Channel-Only deployments
-  - name: "{{ iscsiA_vlan_name }}"
-    id: '3010'
-    native: 'no'
-    state: "{{lan_state}}"
-  - name: "{{ iscsiB_vlan_name }}"
-    id: '3020'
-    native: 'no'
-    state: "{{lan_state}}"
-#
+
 # VLANs definitions below will be used to setup trunk ports on Nexus Switches
 # all_vlans_list: for vpc_peer_link and UCS FI trunk ports
 # These VLANs must be same or a subset of the vlan_list above

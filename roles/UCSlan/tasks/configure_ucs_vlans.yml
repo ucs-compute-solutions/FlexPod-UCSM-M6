@@ -1,7 +1,7 @@
 ---
 # Configuration of VLANs in UCSM
 
-- name: Configure UCS VLANs
+- name: Configure IB-MGMT VLAN
   cisco.ucs.ucs_vlans:
     hostname: "{{ inventory_hostname }}"
     username: "{{ username }}"
@@ -10,4 +10,26 @@
     id: "{{ item.id }}"
     native: "{{ item.native }}"
     state: "{{ item.state }}"
-  with_list: "{{ vlan_list }}"
+  with_list: "{{ ib_mgmt_vlan_list }}"
+#
+- name: Configure Storage VLANs
+  cisco.ucs.ucs_vlans:
+    hostname: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    name: "{{ item.name }}"
+    id: "{{ item.id }}"
+    native: "{{ item.native }}"
+    state: "{{ item.state }}"
+  with_list: "{{ storage_vlan_list }}"
+#
+- name: Configure Remaining VLANs
+  cisco.ucs.ucs_vlans:
+    hostname: "{{ inventory_hostname }}"
+    username: "{{ username }}"
+    password: "{{ password }}"
+    name: "{{ item.name }}"
+    id: "{{ item.id }}"
+    native: "{{ item.native }}"
+    state: "{{ item.state }}"
+  with_list: "{{ remaining_vlan_list }}"

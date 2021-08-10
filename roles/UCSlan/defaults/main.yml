@@ -26,10 +26,6 @@ iscsi_ip_pool_list:
     last_ip: '192.168.20.216'
     subnet_mask: '255.255.255.0'
 #
-#vlan_list contains all the required VLANs. This list can be modified to add, remove or change the VLANs.
-#The default VLAN IDs and VLAN Names are selected but can be changed.
-#iSCSI VLANs can be removed for FC boot configurations
-#
 # MAC Address Pool information for Fabric-A and B
 #
 mac_pool_list:
