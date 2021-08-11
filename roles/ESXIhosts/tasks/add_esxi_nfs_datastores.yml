@@ -11,7 +11,7 @@
       password: '{{ ansible_ssh_pass }}'
       esxi_hostname: '{{ inventory_hostname }}'
       datastore_name: '{{ item.mount }}'
-      datastore_type: "nfs41"
+      datastore_type: '{{ nfs_datastore_type }}'
       nfs_server: '{{ item.server }}'
       nfs_path: '/{{item.mount}}'
       validate_certs: no

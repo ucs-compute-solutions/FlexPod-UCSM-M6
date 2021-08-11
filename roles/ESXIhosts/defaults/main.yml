@@ -20,6 +20,10 @@ nfs_datastore_list:
   - mount: infra_swap
     server: "{{ nfs_lif_01 }}"
 #
+# NFS Datastore Type: set to nfs3 or nfs41 for how NFS datastores get mounted
+#
+nfs_datastore_type: "nfs41"
+#
 # Variables for ESXi driver installation/update
 #
 nenic_offline_bundle_url: "http://10.1.156.150/software/UCS/Cisco-nenic_1.0.35.0-1OEM.670.0.0.8169922-17305880/Cisco-nenic_1.0.35.0-1OEM.670.0.0.8169922-offline_bundle-17305880.zip"
