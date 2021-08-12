@@ -7,10 +7,25 @@
 # If inventory does not contain any servers under esxi_fc or esxi_iscsi sections, the config will be skipped
 #
 ################################################################################
+---
+#Execute the below ONTAP Role for getting ESXi datastores related info
+- name: Get the ESXi datastores related info
+  hosts: ontap
+  gather_facts: False
+  vars_files:
+    - vars/ontap_main.yml
+  connection: local
+  roles:
+  - { role: ci-ontap-roles/esxi_datastores, tags: [ 'esxi_datastores' ] }
+  tags:
+  - esxi_datastores
+  
 #- hosts: localhost
 - hosts: esxi_iscsi
   gather_facts: no
   serial: 1
+  vars_files:
+    - roles/ci-ontap-roles/esxi_datastores/tasks/main.yml
   roles:
     - role: ESXIiscsi
       when: configure_iscsi is defined

@@ -5,23 +5,10 @@
 ntp_servers_list: "{{ ib_mgmt_ntp_servers[0].ip_address }},{{ ib_mgmt_ntp_servers[1].ip_address }}"
 #
 # Uplinks to be used by various Switch Configurations
-#
 mgmt_uplink1: "vmnic0"
 mgmt_uplink2: "vmnic1"
 #
-# The NFS volumes and mount points as defined on the storage
-# e.g. the mount name infra_swap will try to mount /infra_swap from 192.168.50.251
-#
-nfs_datastore_list:
-  - mount: infra_datastore_01
-    server: "{{ nfs_lif_01 }}"
-  - mount: infra_datastore_02
-    server: "{{ nfs_lif_02 }}"
-  - mount: infra_swap
-    server: "{{ nfs_lif_01 }}"
-#
 # NFS Datastore Type: set to nfs3 or nfs41 for how NFS datastores get mounted
-#
 nfs_datastore_type: "nfs41"
 #
 # Variables for ESXi driver installation/update

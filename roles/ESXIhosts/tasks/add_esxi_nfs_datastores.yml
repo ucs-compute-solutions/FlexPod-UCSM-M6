@@ -10,12 +10,31 @@
       username: '{{ ansible_user }}'
       password: '{{ ansible_ssh_pass }}'
       esxi_hostname: '{{ inventory_hostname }}'
-      datastore_name: '{{ item.mount }}'
+      datastore_name: '{{ item.datastore_name }}'
       datastore_type: '{{ nfs_datastore_type }}'
-      nfs_server: '{{ item.server }}'
-      nfs_path: '/{{item.mount}}'
+      nfs_server: '{{ item.nfs_lif_ip }}'
+      nfs_path: '/{{ item.datastore_name }}'
       validate_certs: no
       state: present
     delegate_to: localhost
-    with_list: '{{ nfs_datastore_list }}'
+    with_items:
+      - "{{ nfs_ds_lif_map }}"
+    when: configure_nfs is defined
+
+# Add swap datastore to ESXi host
+  - name: Add swap datastore to ESXi host
+    community.vmware.vmware_host_datastore:
+      hostname: '{{ inventory_hostname }}'
+      username: '{{ ansible_user }}'
+      password: '{{ ansible_ssh_pass }}'
+      esxi_hostname: '{{ inventory_hostname }}'
+      datastore_name: '{{ item.datastore_name }}'
+      datastore_type: '{{ nfs_datastore_type }}'
+      nfs_server: '{{ item.nfs_lif_ip }}'
+      nfs_path: '/{{ item.datastore_name }}'
+      validate_certs: no
+      state: present
+    delegate_to: localhost
+    with_items:
+      - "{{ swap_ds_lif_map }}"
     when: configure_nfs is defined
