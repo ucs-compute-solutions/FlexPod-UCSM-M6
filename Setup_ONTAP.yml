@@ -8,12 +8,12 @@
     - group_vars/all.yml
   connection: local
   roles:
-  - { role: ci-ontap-roles/ontap_primary_setup, tags: [ 'ontap_primary_setup' ] }
-  - { role: ci-ontap-roles/ontap_network, tags: [ 'ontap_network' ] }
-  - { role: ci-ontap-roles/ontap_svm, tags: [ 'ontap_svm' ] }
-  - { role: ci-ontap-roles/ontap_volumes, tags: [ 'ontap_volumes' ] }
-  - { role: ci-ontap-roles/ontap_lifs, tags: [ 'ontap_lifs' ] }
-  - { role: ci-ontap-roles/esxi_datastores, tags: [ 'esxi_datastores' ] }
+  - { role: ONTAP/ontap_primary_setup, tags: [ 'ontap_primary_setup' ] }
+  - { role: ONTAP/ontap_network, tags: [ 'ontap_network' ] }
+  - { role: ONTAP/ontap_svm, tags: [ 'ontap_svm' ] }
+  - { role: ONTAP/ontap_volumes, tags: [ 'ontap_volumes' ] }
+  - { role: ONTAP/ontap_lifs, tags: [ 'ontap_lifs' ] }
+  - { role: ONTAP/esxi_datastores, tags: [ 'esxi_datastores' ] }
   tags:
   - ontap_config_part_1
   - flexpod_config
@@ -26,7 +26,7 @@
     - vars/ontap_main.yml
   connection: local
   roles:
-  - { role: ci-ontap-roles/ontap_luns, tags: [ 'ontap_luns' ] }
+  - { role: ONTAP/ontap_luns, tags: [ 'ontap_luns' ] }
   tags:
   - ontap_config_part_2
   - flexpod_config
@@ -39,8 +39,8 @@
     - vars/ontap_main.yml
   connection: local
   roles:
-  - { role: ci-ontap-roles/ontap_nvme, tags: [ 'ontap_nvme' ] }
-  - { role: ci-ontap-roles/ontap_finalize_setup, tags: [ 'ontap_finalize_setup' ]}
+  - { role: ONTAP/ontap_nvme, tags: [ 'ontap_nvme' ] }
+  - { role: ONTAP/ontap_finalize_setup, tags: [ 'ontap_finalize_setup' ]}
   tags:
   - ontap_config_part_3
   - flexpod_config
