@@ -8,10 +8,10 @@
 ##################################################################################################################################################
 
 #Name of the ONTAP Cluster
-cluster_name: FAA-4Node
+cluster_name: cluster_name
 
 #Location of the ONTAP Cluster
-cluster_location: RTP-Lab1-F14
+cluster_location: NewYork
 
 #Cluster management LIF already exists (pre-requisite), so note down name of cluster management LIF and enter below.
 cluster_mgmt_interface: cluster_mgmt
@@ -34,8 +34,8 @@ autosupport_vars:
 enable_snmp: true
 #Please make sure to fill out the below details if you have chosen to enable SNMP, leaving it empty will cause the setup to fail
 snmp_contact: "Administrator"
-snmp_location: "RTP"
-traphost_ip: "10.61.185.58"
+snmp_location: "New York"
+traphost_ip: "192.168.10.10"
 snmp_community: "FlexPod"
 
 #SNMPv3 related variables
@@ -46,6 +46,8 @@ privacy_protocol: none   #Privacy protocol for the snmp user (Choices: none, des
 privacy_password: <enter password>   #Password for the privacy protocol
 
 ##################################################################################################################################################
+# Node/ Controller level information
+##################################################################################################################################################
 
 ha_pairs:
   - ha_no: 1										
@@ -55,39 +57,39 @@ ha_pairs:
     fcp_port_speed: "8"
     node_specs:
     - node_name: node-01
-      sp: {ip: 10.61.183.51, mask: 255.255.255.0, gateway: 10.61.183.1}
-      node_mgmt_ip: 10.61.183.60
-      partner_mgmt_ip: 10.61.183.61
+      sp: {ip: 192.168.20.10, mask: 255.255.255.0, gateway: 192.168.20.1}
+      node_mgmt_ip: 192.168.20.11
+      partner_mgmt_ip: 192.168.20.13
       data_aggregates: 
         - {aggr_name: aggr01_node01, disk_type: SSD, diskcount: 5}  #Options for disk_type: SAS, SSD, SSD-NVM 
         - {aggr_name: aggr02_node01_nvme, disk_type: SSD-NVM, diskcount: 5}
-      nfs_lifs: {name: nfs_lif01, address: 172.22.50.162, netmask: 255.255.255.0}  #Fill out this value only if nfs will be mentioned under allowed_protocols in svm_specs
+      nfs_lifs: {name: nfs-lif-01, address: 192.168.30.11, netmask: 255.255.255.0}  #Fill out this value only if nfs will be mentioned under allowed_protocols in svm_specs
       fcp_lifs:    #Fill out this value only if fcp will be mentioned under allowed_protocols in svm_specs
-        - {name: fcp_lif01a, home_port: 0g, fabric: A}  #Do not change the fabric ID
-        - {name: fcp_lif01b, home_port: 0h, fabric: B}  #Do not change the fabric ID
+        - {name: fcp-lif-01a, home_port: 0g, fabric: A}  #Do not change the fabric ID
+        - {name: fcp-lif-01b, home_port: 0h, fabric: B}  #Do not change the fabric ID
       fc-nvme_lifs:    #Fill out this value only if nvme will be mentioned under allowed_protocols in svm_specs
         - {name: fc-nvme-lif-01a, home_port: 5a, fabric: A}  #Do not change the fabric ID
         - {name: fc-nvme-lif-01b, home_port: 5b, fabric: B}  #Do not change the fabric ID
       iscsi_lifs:  #Fill out this value only if iscsi will be mentioned under allowed_protocols in svm_specs. Provide one iSCSI LIF per iSCSI VLAN
-        - {name: iscsi_lif01a, address: 172.22.10.162, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
-        - {name: iscsi_lif01b, address: 172.22.20.162, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
+        - {name: iscsi-lif0-1a, address: 192.168.40.11, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
+        - {name: iscsi-lif-01b, address: 192.168.50.11, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
     - node_name: node-02
-      sp: {ip: 10.61.183.52, mask: 255.255.255.0, gateway: 10.61.183.1}
-      node_mgmt_ip: 10.61.183.61
-      partner_mgmt_ip: 10.61.183.60
+      sp: {ip: 192.168.20.12, mask: 255.255.255.0, gateway: 192.168.20.1}
+      node_mgmt_ip: 192.168.20.13
+      partner_mgmt_ip: 192.168.20.11
       data_aggregates: 
         - {aggr_name: aggr01_node02, disk_type: SSD, diskcount: 5}  #Options for disk_type: SAS, SSD, SSD-NVM 
         - {aggr_name: aggr02_node02_nvme, disk_type: SSD-NVM, diskcount: 5}      
-      nfs_lifs: {name: nfs_lif02, address: 172.22.50.163, netmask: 255.255.255.0}  #Fill out this value only if nfs will be mentioned under allowed_protocols in svm_specs
+      nfs_lifs: {name: nfs-lif-02, address: 192.168.30.13, netmask: 255.255.255.0}  #Fill out this value only if nfs will be mentioned under allowed_protocols in svm_specs
       fcp_lifs:    #Fill out this value only if fcp will be mentioned under allowed_protocols in svm_specs
-        - {name: fcp_lif02a, home_port: 0g, fabric: A}  #Do not change the fabric ID
-        - {name: fcp_lif02b, home_port: 0h, fabric: B}  #Do not change the fabric ID
+        - {name: fcp-lif-02a, home_port: 0g, fabric: A}  #Do not change the fabric ID
+        - {name: fcp-lif-02b, home_port: 0h, fabric: B}  #Do not change the fabric ID
       fc-nvme_lifs:    #Fill out this value only if nvme will be mentioned under allowed_protocols in svm_specs
         - {name: fc-nvme-lif-02a, home_port: 5a, fabric: A}  #Do not change the fabric ID
         - {name: fc-nvme-lif-02b, home_port: 5b, fabric: B}  #Do not change the fabric ID
       iscsi_lifs:  #Fill out this value only if iscsi will be mentioned under allowed_protocols in svm_specs. Provide one iSCSI LIF per iSCSI VLAN
-        - {name: iscsi_lif02a, address: 172.22.10.163, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
-        - {name: iscsi_lif02b, address: 172.22.20.163, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
+        - {name: iscsi-lif-02a, address: 192.168.40.13, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
+        - {name: iscsi-lif-02b, address: 192.168.50.13, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
   - ha_no: 2
     node_port_count: "2"
     node_data_ports: ["e0c","e0d"]
@@ -95,39 +97,39 @@ ha_pairs:
     fcp_port_speed: "16"
     node_specs:
     - node_name: node-03
-      sp: {ip: 10.61.183.53, mask: 255.255.255.0, gateway: 10.61.183.1}
-      node_mgmt_ip: 10.61.183.62
-      partner_mgmt_ip: 10.61.183.63
+      sp: {ip: 192.168.20.14, mask: 255.255.255.0, gateway: 192.168.20.1}
+      node_mgmt_ip: 192.168.20.15
+      partner_mgmt_ip: 192.168.20.17
       data_aggregates: 
         - {aggr_name: aggr01_node03, disk_type: SSD, diskcount: 5}  #Options for disk_type: SAS, SSD, SSD-NVM
         - {aggr_name: aggr02_node03_nvme, disk_type: SSD-NVM, diskcount: 5} 
-      nfs_lifs: {name: nfs_lif03, address: 172.22.50.164, netmask: 255.255.255.0}  #Fill out this value only if nfs will be mentioned under allowed_protocols in svm_specs
+      nfs_lifs: {name: nfs-lif-03, address: 192.168.30.15, netmask: 255.255.255.0}  #Fill out this value only if nfs will be mentioned under allowed_protocols in svm_specs
       fcp_lifs:    #Fill out this value only if fcp will be mentioned under allowed_protocols in svm_specs
-        - {name: fcp_lif03a, home_port: 0a, fabric: A}  #Do not change the fabric ID
-        - {name: fcp_lif03b, home_port: 0b, fabric: B}  #Do not change the fabric ID
+        - {name: fcp-lif-03a, home_port: 0a, fabric: A}  #Do not change the fabric ID
+        - {name: fcp-lif-03b, home_port: 0b, fabric: B}  #Do not change the fabric ID
       fc-nvme_lifs:    #Fill out this value only if nvme will be mentioned under allowed_protocols in svm_specs
         - {name: fc-nvme-lif-03a, home_port: 1a, fabric: A}  #Do not change the fabric ID
         - {name: fc-nvme-lif-03b, home_port: 1b, fabric: B}  #Do not change the fabric ID
       iscsi_lifs:  #Fill out this value only if iscsi will be mentioned under allowed_protocols in svm_specs. Provide one iSCSI LIF per iSCSI VLAN
-        - {name: iscsi_lif03a, address: 172.22.10.164, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
-        - {name: iscsi_lif03b, address: 172.22.20.164, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
+        - {name: iscsi-lif-03a, address: 192.168.40.15, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
+        - {name: iscsi-lif-03b, address: 192.168.50.15, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
     - node_name: node-04
-      sp: {ip: 10.61.183.54, mask: 255.255.255.0, gateway: 10.61.183.1}
-      node_mgmt_ip: 10.61.183.63
-      partner_mgmt_ip: 10.61.183.62
+      sp: {ip: 192.168.20.16, mask: 255.255.255.0, gateway: 192.168.20.1}
+      node_mgmt_ip: 192.168.20.17
+      partner_mgmt_ip: 192.168.20.15
       data_aggregates: 
         - {aggr_name: aggr01_node04, disk_type: SSD, diskcount: 5}  #Options for disk_type: SAS, SSD, SSD-NVM
         - {aggr_name: aggr02_node04_nvme, disk_type: SSD-NVM, diskcount: 5} 
-      nfs_lifs: {name: nfs_lif04, address: 172.22.50.165, netmask: 255.255.255.0}  #Fill out this value only if nfs will be mentioned under allowed_protocols in svm_specs
+      nfs_lifs: {name: nfs-lif-04, address: 192.168.30.17, netmask: 255.255.255.0}  #Fill out this value only if nfs will be mentioned under allowed_protocols in svm_specs
       fcp_lifs:    #Fill out this value only if fcp will be mentioned under allowed_protocols in svm_specs                              
-        - {name: fcp_lif04a, home_port: 0a, fabric: A}  #Do not change the fabric ID
-        - {name: fcp_lif04b, home_port: 0b, fabric: B}  #Do not change the fabric ID
+        - {name: fcp-lif-04a, home_port: 0a, fabric: A}  #Do not change the fabric ID
+        - {name: fcp-lif-04b, home_port: 0b, fabric: B}  #Do not change the fabric ID
       fc-nvme_lifs:    #Fill out this value only if nvme will be mentioned under allowed_protocols in svm_specs
         - {name: fc-nvme-lif-04a, home_port: 1a, fabric: A}  #Do not change the fabric ID
         - {name: fc-nvme-lif-04b, home_port: 1b, fabric: B}  #Do not change the fabric ID
       iscsi_lifs:  #Fill out this value only if iscsi will be mentioned under allowed_protocols in svm_specs. Provide one iSCSI LIF per iSCSI VLAN
-        - {name: iscsi_lif04a, address: 172.22.10.165, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
-        - {name: iscsi_lif04b, address: 172.22.20.165, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
+        - {name: iscsi-lif-04a, address: 192.168.40.17, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
+        - {name: iscsi-lif-04b, address: 192.168.50.17, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
 
 ##################################################################################################################################################
 #SVM specific variables
@@ -136,11 +138,11 @@ ha_pairs:
 svm_specs:
   svm_name: infra_svm
   svm_root_vol: infra_root
-  allowed_protocols:
+  allowed_protocols: #provide the values in lower case only, supported options for this solution are nfs, fcp, iscsi, nvme
     - nfs
     - fcp
     - nvme
-  client_match: 172.21.246.0/24
+  client_match: 192.168.30.0/24
   data_protocol: nfs
   data_volumes:
     - {name: infra_datastore1, size: 500, residing_aggr: aggr01_node01}
@@ -168,13 +170,13 @@ svm_specs:
   fcp_igroups:
     - {name: VM-Host-Infra-01-FCP, wwpn: ["20:00:00:25:B5:32:0A:00","20:00:00:25:B5:32:0B:00"]}
     - {name: VM-Host-Infra-02-FCP, wwpn: ["20:00:00:25:B5:32:0A:01","20:00:00:25:B5:32:0B:01"]}
-  svm_mgmt_lif: {home_node: node-01, home_port: e0M, address: 10.61.181.254, netmask: 255.255.255.0, gateway: 10.61.181.1, lif_name: infra_svm_mgmt}
-  vsadmin_password: NetApp!23
+  svm_mgmt_lif: {home_node: node-01, home_port: e0M, address: 192.168.20.18, netmask: 255.255.255.0, gateway: 192.168.20.1, lif_name: infra_svm_mgmt}
+  vsadmin_password: <password>
   os_type: vmware
   dns_server_svm:
-    - 10.61.184.251
-    - 10.61.184.252
-  dns_domain_svm: "cie.netapp.com"
+    - 192.168.20.20
+    - 192.168.20.21
+  dns_domain_svm: "vmwaresvm.flexpod.com"
 
 ##################################################################################################################################################
 # Default/Best Practice related information - Change only if required
