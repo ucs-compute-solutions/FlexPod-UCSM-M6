@@ -13,7 +13,7 @@ The ONTAP deployment automation is based on the following roles:
 	ontap_nvme
 	ontap_finalize_setup
 
-The ONTAP Tools (previously VSC) deployment is based on the following role:
+The ONTAP Tools for VMware vSphere (previously VSC) deployment is based on the following role and is available in the 'roles' directory of this repository:
 
 	ontap_tools-config
 
@@ -50,10 +50,12 @@ pip3 install -r ~/.ansible/collections/ansible_collections/community/vmware/requ
 1. From the Ansible Control machine Download a ZIP version of this repository or clone it using the below command:
 	
 ```
-git clone https://github.com/NetApp-Automation/FlexPod-Datacenter-with-Cisco-UCS-M6-VMware-7.0-U2-and-NetApp-ONTAP-9.9
+git clone https://github.com/ucs-compute-solutions/FlexPod-UCSM-M6.git
 ```
 
 2. There are two variable files under the vars folder 'ontap_main.yml' for setup of ONTAP and 'ontap_tools_main.yml' for setup of ONTAP tools, that need to be filled out with environment specific parameters prior to executing the playbook.
+
+3. This playbook to setup ONTAP will also use some common parameters defined in the all.yml variable file under group_vars, please ensure that the all.yml file is up to date. 
 
 NOTE: The format of the variable file needs to be maintained as it is, any changes to the structure of the file may lead to failure in execution of the playbook.
 
@@ -79,7 +81,7 @@ Example -
 
 4. Update the Inventory file
 
-Open the 'hosts' file and update it with a record for the ONTAP Cluster Management IP and vCenter IP
+Open the 'inventory' file and update it with a record for the ONTAP Cluster Management IP and vCenter IP
 
 Example -
 
