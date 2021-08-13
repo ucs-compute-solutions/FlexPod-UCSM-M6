@@ -1,0 +1,5 @@
+# This variable file is used by the playbooks for the ontap 
+# These dont have to be explicitly imported by the var_files: they are autopopulated
+# Credentials for connecting to the ONTAP cluster 
+username: admin
+password: NetApp!23
