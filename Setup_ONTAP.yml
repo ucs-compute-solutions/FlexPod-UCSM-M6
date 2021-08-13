@@ -1,0 +1,46 @@
+---
+#Execute the below ONTAP Role after Nexus playbook
+- name: Configure ONTAP for FlexPod
+  hosts: ontap
+  gather_facts: False
+  vars_files:
+    - vars/ontap_main.yml
+    - group_vars/all.yml
+  connection: local
+  roles:
+  - { role: ci-ontap-roles/ontap_primary_setup, tags: [ 'ontap_primary_setup' ] }
+  - { role: ci-ontap-roles/ontap_network, tags: [ 'ontap_network' ] }
+  - { role: ci-ontap-roles/ontap_svm, tags: [ 'ontap_svm' ] }
+  - { role: ci-ontap-roles/ontap_volumes, tags: [ 'ontap_volumes' ] }
+  - { role: ci-ontap-roles/ontap_lifs, tags: [ 'ontap_lifs' ] }
+  - { role: ci-ontap-roles/esxi_datastores, tags: [ 'esxi_datastores' ] }
+  tags:
+  - ontap_config_part_1
+  - flexpod_config
+
+#Execute the below ONTAP Role after UCS playbook
+- name: Configure ONTAP iGroups and LUNs
+  hosts: ontap
+  gather_facts: False
+  vars_files:
+    - vars/ontap_main.yml
+  connection: local
+  roles:
+  - { role: ci-ontap-roles/ontap_luns, tags: [ 'ontap_luns' ] }
+  tags:
+  - ontap_config_part_2
+  - flexpod_config
+
+#Execute the below ONTAP Role after installing and configuring ESXi Hosts
+- name: Configure ONTAP FC NVMe namespace and subsystem
+  hosts: ontap
+  gather_facts: False
+  vars_files:
+    - vars/ontap_main.yml
+  connection: local
+  roles:
+  - { role: ci-ontap-roles/ontap_nvme, tags: [ 'ontap_nvme' ] }
+  - { role: ci-ontap-roles/ontap_finalize_setup, tags: [ 'ontap_finalize_setup' ]}
+  tags:
+  - ontap_config_part_3
+  - flexpod_config

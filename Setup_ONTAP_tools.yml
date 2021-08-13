@@ -1,0 +1,13 @@
+---
+- name: Configure ONTAP tools
+  collections:
+    - community.vmware.vmware_deploy_ovf
+  hosts: vcenter
+  gather_facts: False
+  vars_files:
+    - vars/ontap_tools_main.yml
+  connection: local
+  roles:
+  - { role: ci-ontap_tools-roles/ontap_tools-config, tags: [ 'ontap_tools_config' ] }
+  tags:
+  - ontap_tools_config
