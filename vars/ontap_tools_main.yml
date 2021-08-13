@@ -2,9 +2,9 @@
 # Edit the following variables as necessary according to your environment
 
 # ONTAP Cluster to integrate
-ontap_cluster: 10.61.186.30
+ontap_cluster: 192.168.20.9
 ontap_user: admin
-ontap_password: NetApp!23
+ontap_password: password
 
 #Path to OVF or OVA file to deploy.
 ova_path: "/root/ova/netapp-ontap-tools-for-vmware-vsphere-9.8-7032.ova"
@@ -19,7 +19,7 @@ datacenter: Datacenter
 cluster: Cluster
 
 #Datastore to deploy to
-datastore: veritas_datastore
+datastore: datastore
 
 #The VM Network available in VMware vCenter that should be used by ONTAP Tools
 vm_network: sample_name
@@ -28,28 +28,28 @@ vm_network: sample_name
 vm_port: "443"
 
 #Application User Password
-app_user_passwd: "NetApp!23"
+app_user_passwd: "password"
 
 #Maintenance User Password
-maint_user_passwd: "NetApp!23"
+maint_user_passwd: "password"
 
 #Specify the hostname for the appliance
 ontap_tools_hostname: "ontap-tools"
 
 #IP address for the appliance
-ontap_tools_ip: "172.21.63.217"
+ontap_tools_ip: "192.168.20.25"
 
 #Subnet to use on the deployed network
 ontap_tools_netmask: "255.255.255.0"
 
 #Gateway on the deployed network
-ontap_tools_gateway: "172.21.63.1"
+ontap_tools_gateway: "192.168.20.1"
 
 #NTP Server
-ntp_server: "10.61.185.58"
+ntp_server: "192.168.10.20"
 
 #DNS Server
-dns_server: "10.61.185.58"
+dns_server: "192.168.10.40"
 
 #DNS Domain Name
-dns_domain: "nva.local"
+dns_domain: "ontaptools.netapp.com"
