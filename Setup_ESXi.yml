@@ -16,7 +16,7 @@
     - vars/ontap_main.yml
   connection: local
   roles:
-  - { role: ci-ontap-roles/esxi_datastores, tags: [ 'esxi_datastores' ] }
+  - { role: ONTAP/esxi_datastores, tags: [ 'esxi_datastores' ] }
   tags:
   - esxi_datastores
   
@@ -25,7 +25,7 @@
   gather_facts: no
   serial: 1
   vars_files:
-    - roles/ci-ontap-roles/esxi_datastores/tasks/main.yml
+    - roles/ONTAP/esxi_datastores/tasks/main.yml
   roles:
     - role: ESXIiscsi
       when: configure_iscsi is defined
