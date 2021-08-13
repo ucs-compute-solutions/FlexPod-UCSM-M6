@@ -1,0 +1,223 @@
+---
+# Create the aggr list variable for the infra SVM
+- name: Create the aggr list variable for infra SVM
+  set_fact:
+    aggr_list: "{{aggr_list | default([])}} + ['{{item.aggr_name}}']"
+  with_items:
+    - "{{ ha_pairs | map(attribute='node_specs') | flatten | map(attribute='data_aggregates') | flatten }}"
+  when: item.aggr_name is defined and item.aggr_name != None
+  tags:
+    - ontap_config_svm
+
+# See the aggr list
+- name: See the aggr list
+  debug: var=aggr_list
+  tags:
+    - ontap_config_svm
+
+# Create the infrastructure SVM with required protocols
+- name: Create infrastructure SVM with specified protocols enabled
+  netapp.ontap.na_ontap_svm:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    name: "{{item.svm_name}}"
+    root_volume: "{{item.svm_root_vol}}"
+    root_volume_aggregate: "{{aggr_list[0]}}"
+    root_volume_security_style: unix
+    allowed_protocols: "{{item.allowed_protocols}}"
+    aggr_list: "{{aggr_list}}"
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{svm_specs}}"
+  failed_when: aggr_list == [] or item.allowed_protocols == None
+  tags:
+    - ontap_config_svm
+
+# Enable NFS protocol with vstorage enabled for VAAI plugin. Adding NFSv4.1 attribute as well
+- name: Enable NFS protcol with vstorage 
+  netapp.ontap.na_ontap_nfs: 
+    hostname: "{{inventory_hostname}}" 
+    username: "{{username}}" 
+    password: "{{password}}" 
+    state: present 
+    vserver: "{{svm_specs.svm_name}}" 
+    vstorage_state: enabled 
+    service_state: started 
+    nfsv41: enabled
+    udp: disabled 
+    https: true 
+    validate_certs: false
+  when:
+    - "('nfs' in svm_specs.allowed_protocols)"
+  tags:
+    - ontap_config_svm
+
+# Getting total count of data aggregates created
+- name: Get the total number of data aggregates created across all nodes in the ONTAP Cluster
+  set_fact:
+    total_aggr_count: "{{ aggr_list|length }}"
+  tags:
+    - ontap_ls_mirror_volumes
+
+# See the aggr count
+- name: See the aggr count
+  debug: var=total_aggr_count
+  tags:
+    - ontap_ls_mirror_volumes
+
+# Create mirror volumes for the root volume
+- name: Create the load-sharing mirror volumes for the root volume
+  netapp.ontap.na_ontap_volume: 
+    hostname: "{{inventory_hostname}}" 
+    username: "{{username}}" 
+    password: "{{password}}" 
+    state: present 
+    vserver: "{{svm_specs.svm_name}}" 
+    name: "{{item.1}}"  
+    aggregate_name: "{{item.0.aggr_name}}" 
+    size: 1  
+    type: DP 
+    https: true 
+    validate_certs: false
+  with_together:
+    - "{{ ha_pairs | map(attribute='node_specs') | flatten | map(attribute='data_aggregates') | flatten }}"
+    - "{{ lookup('sequence', 'start=1 end={{ total_aggr_count }} format=rootvol_m0%1x', wantlist=True) }}"
+  when: item.0.aggr_name is defined and item.0.aggr_name != None
+  tags:
+    - ontap_ls_mirror_volumes
+
+# Create Job schedule for the root volume
+- name: Create a job schedule for the snapmirror of root volume
+  netapp.ontap.na_ontap_job_schedule: 
+    hostname: "{{inventory_hostname}}" 
+    username: "{{username}}" 
+    password: "{{password}}" 
+    state: present 
+    name: "{{item.job_name}}" 
+    job_minutes: "{{item.job_minutes}}" 
+    https: true 
+    validate_certs: false
+  with_items:
+    - "{{job_schedule}}"
+  tags:
+    - ontap_config_job_schedule
+
+# Create the SnapMirror relationship
+- name: Create the SnapMirror relationships
+  netapp.ontap.na_ontap_snapmirror:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    source_volume: "{{svm_specs.svm_root_vol}}"
+    destination_volume: "{{item}}"
+    source_vserver: "{{svm_specs.svm_name}}"
+    destination_vserver: "{{svm_specs.svm_name}}"
+    relationship_type: load_sharing
+    schedule: "{{job_schedule.0.job_name}}"
+    https: true
+    validate_certs: false
+  with_sequence: start=1 end="{{ total_aggr_count }}" format=rootvol_m0%1x
+  tags:
+    - ontap_snapmirror_relationship
+
+# Initialize the mirroring relationship
+- name: Initialize the mirroring relationship
+  netapp.ontap.na_ontap_snapmirror:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    source_path: "{{svm_specs.svm_name}}:{{svm_specs.svm_root_vol}}"
+    destination_path: "{{svm_specs.svm_name}}:{{item}}"
+    relationship_state: active
+    https: true
+    validate_certs: false
+  with_sequence: start=1 end="{{ total_aggr_count }}" format=rootvol_m0%1x
+  tags:
+    - ontap_snapmirror_relationship
+    
+# Create and enable iSCSI service
+- name: Create and enable iSCSI service
+  netapp.ontap.na_ontap_iscsi: 
+    hostname: "{{inventory_hostname}}" 
+    username: "{{username}}" 
+    password: "{{password}}" 
+    state: present 
+    vserver: "{{svm_specs.svm_name}}" 
+    service_state: started 
+    https: true 
+    validate_certs: false
+  when: "('iscsi' in svm_specs.allowed_protocols)"
+  tags:
+    - ontap_enable_iscsi_service
+
+# Create and enable FCP service
+- name: Create and enable FCP service
+  netapp.ontap.na_ontap_fcp:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    vserver: "{{svm_specs.svm_name}}"
+    status: up
+    https: true
+    validate_certs: false
+  when: "('fcp' in svm_specs.allowed_protocols)"
+  tags:
+    - ontap_enable_fcp_service
+
+# Create and enable NVMe service
+- name: Create and enable NVMe service
+  netapp.ontap.na_ontap_nvme:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    vserver: "{{svm_specs.svm_name}}"
+    status_admin: true
+    https: true
+    validate_certs: false
+  when: "('nvme' in svm_specs.allowed_protocols)"
+  tags:
+    - ontap_enable_nvme_service
+
+# Set the password for vsadmin first. Account cannot be unlocked without password
+- name: Set password for vsadmin user
+  netapp.ontap.na_ontap_user:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    vserver: "{{svm_specs.svm_name}}"
+    applications: http,ontapi,ssh
+    authentication_method: password
+    role_name: vsadmin
+    lock_user: yes
+    name: vsadmin
+    set_password: "{{svm_specs.vsadmin_password}}"
+    https: true
+    validate_certs: false
+  tags:
+    - ontap_unlock_vsadmin
+
+# Unlock vsadmin user
+- name: Unlock vsadmin user
+  netapp.ontap.na_ontap_user:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    vserver: "{{svm_specs.svm_name}}"
+    applications: http,ontapi,ssh
+    authentication_method: password
+    role_name: vsadmin
+    lock_user: no
+    name: vsadmin
+    https: true
+    validate_certs: false
+  tags:
+    - ontap_unlock_vsadmin
