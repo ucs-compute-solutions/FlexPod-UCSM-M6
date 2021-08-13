@@ -1,0 +1,59 @@
+---
+# Configure DNS for infra_mgmt
+- name: Configure DNS for infrastucture mgmt SVM
+  netapp.ontap.na_ontap_dns:
+    state: present
+    vserver: "{{item.svm_name}}"
+    nameservers: "{{item.dns_server_svm}}"
+    domains: "{{item.dns_domain_svm}}"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{svm_specs}}"
+  tags:
+    - ontap_config_dns_infra
+
+# Waiting for configuration to update
+- name: Waiting for configuration to update
+  pause:
+    seconds: 90 
+
+# Create the HA pairs count variable
+- name: Create the HA pairs count variable
+  set_fact:
+    ha_pairs_count: "{{ha_pairs_count | default([])}} + ['{{item}}']"
+  with_items:
+    - "{{ ha_pairs | map(attribute='ha_no') | flatten  }}"
+  tags:
+    - ontap_ha_pairs_count
+    - ontap_config_delete_residual_broadcast_domain
+
+# Delete the residual Default broadcast domains with ifgroups. This behaviour is observed in 2-node cluster
+- name: Delete the residual default broadcast domains with ifgroups
+  netapp.ontap.na_ontap_broadcast_domain:
+    state: absent
+    name: "{{item}}"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_sequence: start=1 end=2 format=Default-%01x
+  when: ha_pairs_count|length == 1
+  tags:
+    - ontap_config_delete_residual_broadcast_domain
+
+# Invoke a Test AutoSupport
+- name: Send a test to AutoSupport
+  netapp.ontap.na_ontap_command:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+    command: ['autosupport', 'invoke', '-node', '*', '-type', 'all', '-message', '"ONTAP Setup Completed for FlexPod Datacenter with VMware vSphere 7.0U2 and NetApp ONTAP."']
+  tags:
+    - ontap_invoke_autosupport

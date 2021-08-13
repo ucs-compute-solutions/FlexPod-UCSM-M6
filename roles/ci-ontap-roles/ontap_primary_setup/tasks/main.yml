@@ -1,0 +1,451 @@
+---
+# Update the location of the ONTAP Cluster
+- name: Update the location of the ONTAP Cluster
+  netapp.ontap.na_ontap_cluster:
+    state: present
+    cluster_location: "{{cluster_location}}"
+    cluster_name: "{{cluster_name}}"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false 
+  tags:
+    - ontap_cluster_location_update
+
+# Ensure that the auto-revert parameter is set for the cluster management interface
+- name: Ensure auto-revert is set for the cluster management interface
+  netapp.ontap.na_ontap_interface:
+    vserver: "{{cluster_name}}"
+    is_auto_revert: "{{cluster_mgmt_auto_revert}}"
+    interface_name: "{{cluster_mgmt_interface}}"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  tags:
+    - ontap_config_cluster_mgmt
+
+# Getting total number of port count across all nodes in the ONTAP Cluster
+- name: Get the total number of port count across all nodes in the ONTAP Cluster
+  set_fact:
+    total_port_count: "{{ (total_port_count|default(0)|int + item.node_port_count|int)|int }}"
+  with_items:
+    - "{{ha_pairs}}"
+  tags:
+    - ontap_total_port_count
+
+# See the total port count value
+- name: See the total port count value
+  debug: var=total_port_count|int*2
+  tags:
+    - ontap_total_port_count
+
+# Delete the Default broadcast domains with node ports (This does not include Cluster ports and management ports)
+- name: Delete the default broadcast domains with node ports
+  netapp.ontap.na_ontap_broadcast_domain:
+    state: absent
+    name: "{{item}}"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_sequence: start=1 end="{{ total_port_count|int*2 }}" format=Default-%01x
+  tags:
+    - ontap_config_delete_broadcast_domain
+
+# Set up the service processor network interface
+- name: Set the Service processor network interface
+  netapp.ontap.na_ontap_service_processor_network:
+    state: present
+    ip_address: "{{item.sp.ip}}"
+    netmask: "{{item.sp.mask}}"
+    gateway_ip_address: "{{item.sp.gateway}}"
+    node: "{{item.node_name}}"
+    is_enabled: true
+    address_type: ipv4
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{ ha_pairs | map(attribute='node_specs') | flatten }}"
+  tags:
+    - ontap_config_sp_interface
+    
+# Create data aggregates
+- name: Create the data aggregates
+  netapp.ontap.na_ontap_aggregate:
+    state: present
+    name: "{{item.1.aggr_name}}" 
+    disk_count: "{{item.1.diskcount}}"
+    disk_type: "{{item.1.disk_type}}"
+    nodes: "{{item.0.node_name}}"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_subelements:
+    - "{{ ha_pairs | map(attribute='node_specs') | flatten }}"
+    - data_aggregates
+  when:
+    - item.1.aggr_name is defined and item.1.aggr_name != None
+    - item.1.disk_type == "SSD" or item.1.disk_type == "SAS"
+  tags:
+    - ontap_create_data_aggr
+
+# Create NVMe aggregates
+- name: Create NVMe aggregates
+  netapp.ontap.na_ontap_command:
+    command: ['aggregate', 'create', '-aggregate', '{{item.1.aggr_name}}', '-node', '{{item.0.node_name}}', '-diskcount', '{{item.1.diskcount}}', '-disktype', '{{item.1.disk_type}}']
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_together:
+    - "{{ ha_pairs | map(attribute='node_specs') | flatten }}"
+    - "{{ ha_pairs | map(attribute='node_specs') | flatten | map(attribute='data_aggregates') | flatten }}"
+  when:
+    - item.1.aggr_name is defined and item.1.aggr_name != None
+    - item.1.disk_type == "SSD-NVM"
+  tags:
+    - ontap_create_nvme_aggr
+
+# Zero All Spare Disks
+- name: Zero all the spare disks
+  netapp.ontap.na_ontap_command:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+    command: ['disk', 'zerospares']
+  tags:
+    - ontap_disk_zerospares
+
+# Create the HA pairs count variable
+- name: Create the HA pairs count variable
+  set_fact:
+    ha_pairs_count: "{{ha_pairs_count | default([])}} + ['{{item}}']"
+  with_items:
+    - "{{ ha_pairs | map(attribute='ha_no') | flatten  }}"
+  tags:
+    - ontap_ha_pairs_count
+    - ontap_check_cluster_ha
+
+# Ensure the cluster HA status. Only enable HA mode for two-node clusters
+# Note that this task is not applicable for clusters with more than two nodes
+- name: Ensure cluster HA status
+  netapp.ontap.na_ontap_cluster_ha:
+    state: present
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  when: ha_pairs_count|length == 1
+  tags:
+    - ontap_check_cluster_ha
+
+# Disable flow control only on ports that are used for data traffic
+- name: Disable flow control on data ports
+  netapp.ontap.na_ontap_net_port:
+    state: present
+    flowcontrol_admin: none
+    node: "{{item.1.node_name}}"
+    port: "{{item.0.node_data_ports}}"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_subelements:
+    - "{{ ha_pairs }}"
+    - node_specs
+  tags:
+    - ontap_disable_flowcontrol
+
+- debug: msg="This task does not disable flow control on other ports that are currently not being setup for data access"
+  tags:
+    - ontap_disable_flowcontrol
+
+# Enable CDP on the Storage Controller Nodes
+- name: Enable CDP on the Storage Controller Nodes
+  netapp.ontap.na_ontap_command:
+    command: "['node', 'run', '-node', '{{item.node_name}}', 'options', 'cdpd.enable', 'on']"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{ ha_pairs | map(attribute='node_specs') | flatten }}"
+  tags:
+    - ontap_enable_cdp
+
+# Enable LLDP on the Storage Controller Nodes
+- name: Enable LLDP on the Storage Controller Nodes
+  netapp.ontap.na_ontap_command:
+    command: "['node', 'run', '-node', '{{item.node_name}}', 'options', 'lldp.enable', 'on']"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{ ha_pairs | map(attribute='node_specs') | flatten }}"
+  tags:
+    - ontap_enable_lldp
+
+# Configure DNS
+- name: Configure DNS
+  netapp.ontap.na_ontap_dns:
+    state: present
+    vserver: "{{cluster_name}}"
+    nameservers: "{{item.ip_address}}"
+    domains: "{{dns_domain_name}}"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{dns_servers}}"
+  tags:
+    - ontap_config_dns
+
+# Configure NTP server
+- name: Configure NTP
+  netapp.ontap.na_ontap_ntp:
+    state: present
+    server_name: "{{item.ip_address}}"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{ntp_servers}}"
+  tags:
+    - ontap_config_ntp
+
+# Enable Takeover for Storage Failover
+- name: Enable Takeover for Storage Failover
+  netapp.ontap.na_ontap_command:
+    command: "['storage', 'failover', 'modify', '-node', '{{item.node_name}}', '-enabled', 'true']"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{ ha_pairs | map(attribute='node_specs') | flatten }}"
+  tags:
+    - ontap_validate_storage_failover_state
+
+# Set Cluster's Timezone
+- name: Set Cluster's Timezone
+  netapp.ontap.na_ontap_command:
+    command: "['cluster', 'date', 'modify', '-timezone', '{{time_zone}}']"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  tags:
+    - ontap_set_timezone
+
+# Enable Hardware assist failover
+- name: Enable Hardware assist failover
+  netapp.ontap.na_ontap_command:
+    command: "['storage', 'failover', 'modify', '-node', '{{item.node_name}}', '-hwassist', 'true', '-hwassist-partner-ip', '{{item.partner_mgmt_ip}}']"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{ ha_pairs | map(attribute='node_specs') | flatten }}"
+  tags:
+    - ontap_enable_hwassist
+
+# Getting the FCP port list with port speed and node name
+- name: Get the FCP port list with port speed and node name
+  set_fact:
+    fcp_port_list: "{{ fcp_port_list|default([]) + [ {'node_name': item.1.node_name, 'fcp_ports': item.0.node_fcp_ports, 'fcp_port_speed': item.0.fcp_port_speed} ] }}"
+  with_subelements:
+    - "{{ ha_pairs }}"
+    - node_specs
+  tags:
+    - fcp_port_list
+
+# Disable Auto-Negotiate on Fibre Channel Ports
+- name: Disable each FC adapter in the controllers/nodes
+  netapp.ontap.na_ontap_command:
+    command: "['fcp', 'adapter', 'modify', '-node', '{{item.0.node_name}}', '-adapter', '{{item.1}}', '-status-admin', 'down']"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_subelements:
+    - "{{ fcp_port_list }}"
+    - fcp_ports
+  when: "('fcp' in svm_specs.allowed_protocols)"
+  tags:
+    - ontap_fc_adapters
+
+- name: Set the desired speed on the adapter and return it to the online state
+  netapp.ontap.na_ontap_command:
+    command: "['fcp', 'adapter', 'modify', '-node', '{{item.0.node_name}}', '-adapter', '{{item.1}}', '-speed', '{{item.0.fcp_port_speed}}', '-status-admin', 'up']"
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_subelements:
+    - "{{ fcp_port_list }}"
+    - fcp_ports
+  when: "('fcp' in svm_specs.allowed_protocols)"
+  tags:
+    - ontap_fc_adapters
+
+# Configure autosupport
+- name: Configure autosupport
+  netapp.ontap.na_ontap_autosupport:
+    mail_hosts: "{{autosupport_vars.mail_hosts}}"
+    node_name: "{{item.node_name}}"
+    noteto: "{{autosupport_vars.noteto}}"
+    to_addresses: "{{autosupport_vars.to_addresses}}"
+    from_address: "{{autosupport_vars.from_address}}"
+    proxy_url: "{{autosupport_vars.proxy_url | default(omit)}}"
+    transport: https
+    post_url: "{{autosupport_vars.post_url | default(omit)}}"
+    support: yes
+    state: present
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{ ha_pairs | map(attribute='node_specs') | flatten }}"
+  tags:
+    - ontap_config_autosupport
+
+# Add ONTAP Licenses
+- name: Add licenses
+  netapp.ontap.na_ontap_license:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    https: true
+    validate_certs: false
+    license_codes: "{{ ontap_license }}"
+  tags:
+    - ontap_license
+
+# Configure SNMP
+- name: Configure SNMP contact
+  netapp.ontap.na_ontap_command:
+    command: ['snmp', 'contact', '{{snmp_contact}}']
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  when: enable_snmp == true
+  tags:
+    - ontap_config_snmp
+
+- name: Configure SNMP location
+  netapp.ontap.na_ontap_command:
+    command: ['snmp', 'location', '{{snmp_location}}']
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  when: enable_snmp == true
+  tags:
+    - ontap_config_snmp
+
+- name: Configure SNMP init value
+  netapp.ontap.na_ontap_command:
+    command: ['snmp', 'init', '1']
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  when: enable_snmp == true
+  tags:
+    - ontap_config_snmp
+
+- name: Enable SNMP
+  netapp.ontap.na_ontap_command:
+    command: ['options', 'snmp.enable', 'on']
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    https: true
+    validate_certs: false
+  when: enable_snmp == true
+  tags:
+    - ontap_config_snmp
+
+- name: Create SNMP traphost
+  netapp.ontap.na_ontap_snmp_traphosts:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    ip_address: "{{traphost_ip}}"
+    https: true
+    validate_certs: false
+  when: enable_snmp == true
+  tags:
+    - ontap_config_snmp
+
+# Configure SNMPv1 Access
+- name: Configure SNMPv1 Access
+  netapp.ontap.na_ontap_snmp:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    community_name: "{{snmp_community}}"
+    access_control: 'ro'
+    https: true
+    validate_certs: false
+  when: enable_snmp == true
+  tags:
+    - ontap_config_snmpv1_access
+
+# Configure SNMPv3 Access
+- name: Configure SNMPv3 Access
+  netapp.ontap.na_ontap_user:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    vserver: "{{cluster_name}}"
+    name: "{{user}}"
+    state: present
+    role_name: admin
+    applications: snmp
+    authentication_method: usm
+    authentication_protocol: "{{authentication_protocol}}"
+    authentication_password: "{{authentication_password}}"
+    privacy_protocol: "{{privacy_protocol}}"
+    privacy_password: "{{privacy_password}}"
+    https: true
+    validate_certs: false
+  when: enable_snmp == true
+  tags:
+    - ontap_config_snmpv3_access

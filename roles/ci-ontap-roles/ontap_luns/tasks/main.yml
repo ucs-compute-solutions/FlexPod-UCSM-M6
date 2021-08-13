@@ -1,0 +1,100 @@
+---
+# Create the boot LUNs for Servers
+- name: Create the boot LUNs for Servers
+  netapp.ontap.na_ontap_lun:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    vserver: "{{svm_specs.svm_name}}"
+    name: "{{item.name}}"
+    size: "{{item.size}}"
+    flexvol_name: "{{item.residing_vol}}"
+    ostype: "{{svm_specs.os_type}}"
+    space_reserve: false
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{svm_specs.boot_luns}}"
+  tags:
+    - ontap_lun_create
+
+# Create igroups for iSCSI
+- name: Create the igroups for iSCSI
+  netapp.ontap.na_ontap_igroup:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    vserver: "{{svm_specs.svm_name}}"
+    initiator: "{{item.1}}"
+    ostype: "{{svm_specs.os_type}}"
+    initiator_group_type: iscsi
+    name: "{{item.0.name}}"
+    https: true
+    validate_certs: false
+  with_subelements:
+    - "{{svm_specs.iscsi_igroups}}"
+    - iqn
+  when: "('iscsi' in svm_specs.allowed_protocols)"
+  tags:
+    - ontap_iscsi_igroup_create
+
+# Create igroups for FCP
+# For FCP, we need to add multiple WWPN from the single host to an igroup
+- name: Create the igroups for FCP
+  netapp.ontap.na_ontap_igroup:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    vserver: "{{svm_specs.svm_name}}"
+    initiators: "{{item.wwpn}}"
+    ostype: "{{svm_specs.os_type}}"
+    initiator_group_type: fcp
+    name: "{{item.name}}"
+    https: true
+    validate_certs: false
+  with_items:
+    - "{{svm_specs.fcp_igroups}}"
+  when: "('fcp' in svm_specs.allowed_protocols)"
+  tags:
+    - ontap_fcp_igroup_create
+
+# Map the LUNs to iSCSI igroups
+- name: Mapping LUN to iSCSI igroup
+  netapp.ontap.na_ontap_lun_map:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    vserver: "{{svm_specs.svm_name}}"
+    initiator_group_name: "{{item.0.name}}"
+    path: /vol/{{item.1.residing_vol}}/{{item.1.name}}
+    https: true
+    validate_certs: false
+  with_together:
+    - "{{svm_specs.iscsi_igroups}}"
+    - "{{svm_specs.boot_luns}}"
+  when: "('iscsi' in svm_specs.allowed_protocols)"
+  tags:
+    - ontap_map_lun_to_igroup
+
+# Map the LUNs to FCP igroups
+- name: Mapping LUN to FCP igroup
+  netapp.ontap.na_ontap_lun_map:
+    hostname: "{{inventory_hostname}}"
+    username: "{{username}}"
+    password: "{{password}}"
+    state: present
+    vserver: "{{svm_specs.svm_name}}"
+    initiator_group_name: "{{item.0.name}}"
+    path: /vol/{{item.1.residing_vol}}/{{item.1.name}}
+    https: true
+    validate_certs: false
+  with_together:
+    - "{{svm_specs.fcp_igroups}}"
+    - "{{svm_specs.boot_luns}}"
+  when: "('fcp' in svm_specs.allowed_protocols)"
+  tags:
+    - ontap_map_lun_to_igroup

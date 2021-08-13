@@ -1,0 +1,98 @@
+---
+# Set the network name dicttionary
+- name: Set the network name dictionary
+  set_fact:
+    vm_network_dict: '{ "VM Network": "{{ vm_network }}" }'
+  tags:
+    - network_name
+
+# Deploy ONTAP tools in vCenter
+- name: Deploy ONTAP tools in vCenter
+  community.vmware.vmware_deploy_ovf:
+    hostname: '{{ inventory_hostname }}'
+    username: '{{ vcenter_username }}'
+    password: '{{ vcenter_password }}'
+    ovf: '{{ ova_path }}'
+    name: '{{ vm_name }}'
+    datacenter: '{{ datacenter }}'
+    cluster: '{{ cluster }}'
+    datastore: '{{ datastore }}'
+    networks: '{{ vm_network_dict }}'
+    port: '{{ vm_port }}'
+    inject_ovf_env: true
+    fail_on_spec_warnings: false
+    power_on: true
+    wait_for_ip_address: true
+    validate_certs: false
+    properties:
+      vplatform.vpserver.passwd: '{{ app_user_passwd }}'
+      vplatform.maint.passwd: '{{ maint_user_passwd }}'
+      vplatform.vappliance.ntp.servers: '{{ ntp_server }}'
+      vplatform.vcenter.register.ipAddress: '{{ inventory_hostname }}'
+      vplatform.vcenter.register.port: '{{ port }}'
+      vplatform.vcenter.register.username: '{{ vcenter_username }}'
+      vplatform.vcenter.register.passwd: '{{ vcenter_password }}'
+      vplatform.hostName: '{{ ontap_tools_hostname }}'
+      vplatform.ipAddress: '{{ ontap_tools_ip }}'
+      vplatform.netMask: '{{ ontap_tools_netmask }}'
+      vplatform.gateway: '{{ ontap_tools_gateway }}'
+      vplatform.primaryDNS: '{{ dns_server }}'
+      vplatform.searchDomains: '{{ dns_domain }}'
+  tags:
+    - ontap_tools_setup
+
+# Induce a delay to allow for registration
+- name: Wait for ONTAP tools registration to complete
+  pause:
+    minutes: 2
+
+# Build JSON for ONTAP tools Session ID
+- name: Build JSON for ONTAP tools Session ID
+  set_fact:
+    session_id_body: '{ "vcenterPassword": "{{ vcenter_password }}",
+                        "vcenterUserName": "{{ vcenter_username }}" }'
+  tags:
+    - session_json
+
+- name: Debug
+  debug:
+    var: session_id_body
+  tags:
+    - session_json
+
+# Generate Session ID for ONTAP tools with vCenter
+- name: Generate a Session ID for ONTAP tools with vCenter
+  uri:
+    url: "https://{{ ontap_tools_ip }}:8143/api/rest/2.0/security/user/login"
+    validate_certs: false
+    method: POST
+    return_content: yes
+    body_format: json
+    body: "{{ session_id_body }}"
+  register: login
+  tags:
+    - session_id
+
+# Print Session ID
+- debug:
+    msg: "Session Key: {{ login.json.vmwareApiSessionId }}"
+
+# Build JSON to add ONTAP Cluster to ONTAP tools
+- name: Build JSON to add ONTAP Cluster to ONTAP tools
+  set_fact:
+    ontap_register_body: '{ "nameOrIpAddress": "{{ ontap_cluster }}",
+                        "password": "{{ ontap_password }}",
+                        "port": 0,
+                        "username": "{{ ontap_user }}" }'
+
+# Add ONTAP Cluster to ONTAP tools
+- name: Add ONTAP Cluster to ONTAP tools
+  uri:
+    url: "https://{{ ontap_tools_ip }}:8143/api/rest/2.0/storage/clusters"
+    validate_certs: false
+    method: POST
+    return_content: yes
+    body_format: json
+    body: "{{ ontap_register_body }}"
+    headers:
+      vmware-api-session-id: "{{ login.json.vmwareApiSessionId }}"
