@@ -1,0 +1,27 @@
+---
+# This task configures and activates the zoneset on MDS
+#
+  - name: Build and Activate FCP Zoneset
+    cisco.nxos.nxos_zone_zoneset:
+      zone_zoneset_details:
+        - vsan: "{{ vsan_id }}"
+          mode: basic
+          zoneset:
+            - name: "{{ zoneset_name }}"
+              action: activate
+              members:
+                - name: "{{ fcp_zone_name }}"
+    when: not (configure_fc_nvme is defined)
+#
+  - name: Build and Activate FCP and FC-NVMe Zoneset
+    cisco.nxos.nxos_zone_zoneset:
+      zone_zoneset_details:
+        - vsan: "{{ vsan_id }}"
+          mode: basic
+          zoneset:
+            - name: "{{ zoneset_name }}"
+              action: activate
+              members:
+                - name: "{{ fcp_zone_name }}"
+                - name: "{{ fc_nvme_zone_name }}"
+    when: configure_fc_nvme is defined

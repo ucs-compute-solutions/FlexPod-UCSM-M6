@@ -1,0 +1,8 @@
+---
+  # This Task enables MDS Features required for setting up FC configuration
+
+  - name: Enable MDS features
+    cisco.nxos.nxos_feature:
+      feature: "{{ item }}"
+      state: enabled
+    with_items: "{{ enabled_mds_features }}"

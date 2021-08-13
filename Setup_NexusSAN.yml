@@ -1,0 +1,9 @@
+---
+# Example Playbook: VLAN configuration using the [ucs] hosts group
+- hosts: mds
+  connection: network_cli
+  gather_facts: no
+  roles:
+    ### Configure Nexus Switching
+    #
+    - NEXUSSANconfig

@@ -1,0 +1,17 @@
+---
+  # Configuration Role for Nexus 93180YC-FX SAN. 
+  #
+  # Configure Features
+  - include_tasks: configure_mds_features.yml
+  # Configure Interface, Port-Channel and Trunk Settings
+  - include_tasks: configure_mds_interfaces.yml
+  # Configure vsan
+  - include_tasks: configure_mds_vsans.yml
+  # Configure Device Aliases
+  - include_tasks: configure_mds_da.yml
+  # Configure MDS Zone and Zoneset
+  - include_tasks: configure_mds_zones.yml
+  # Activate MDS Zoneset
+  - include_tasks: activate_mds_zoneset.yml
+  # Save Configuration
+  - include_tasks: save_mds_config.yml
