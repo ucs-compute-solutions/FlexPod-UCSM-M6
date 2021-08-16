@@ -29,7 +29,7 @@
       vplatform.maint.passwd: '{{ maint_user_passwd }}'
       vplatform.vappliance.ntp.servers: '{{ ntp_server }}'
       vplatform.vcenter.register.ipAddress: '{{ inventory_hostname }}'
-      vplatform.vcenter.register.port: '{{ port }}'
+      vplatform.vcenter.register.port: '{{ vm_port }}'
       vplatform.vcenter.register.username: '{{ vcenter_username }}'
       vplatform.vcenter.register.passwd: '{{ vcenter_password }}'
       vplatform.hostName: '{{ ontap_tools_hostname }}'
