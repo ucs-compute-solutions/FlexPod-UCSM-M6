@@ -7,7 +7,7 @@
     - data_aggregates
   when:
     - item.1.aggr_name is defined and item.1.aggr_name != None
-    - item.1.disk_type == "SSD" or item.1.disk_type == "SAS"
+    - item.1.disk_type == "SSD" or item.1.disk_type == "SAS" or item.1.disk_type == "SSD-NVM"
   tags:
     - node_aggr_lif_map
 
