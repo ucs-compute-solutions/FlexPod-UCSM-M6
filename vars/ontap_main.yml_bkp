@@ -16,38 +16,40 @@ cluster_location: RTP-FlexPod-Lab1
 #Cluster management LIF already exists (pre-requisite), so note down name of cluster management LIF and enter below.
 cluster_mgmt_interface: cluster_mgmt
 
+#Time zone names are from the L(tz database,https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+timezone: "US/Eastern"
+
 #List the ONTAP Licenses for the different features that you need
 ontap_license:
-  - UZLHJSRQACAAAAAAAAAAAAAAAAAA
-  - ALNYHZXAFDUFZGXBCPBAAAAAAAAA
-  - OQPJHZXAFDUFZGXBCPBAAAAAAAAA
-  - CWRUGZXAFDUFZGXBCPBAAAAAAAAA
-  - GMDBXYXAFDUFZGXBCPBAAAAAAAAA
-  - EBZEYYXAFDUFZGXBCPBAAAAAAAAA
-  - AFQMAZXAFDUFZGXBCPBAAAAAAAAA
-  - URFMWYXAFDUFZGXBCPBAAAAAAAAA
-  - KUGRJZXAFDUFZGXBCPBAAAAAAAAA
-  - KOJFCZXAFDUFZGXBCPBAAAAAAAAA
-  - OKSXZYXAFDUFZGXBCPBAAAAAAAAA
-  - YZICJZXAFDUFZGXBCPBAAAAAAAAA
-  - CQUIZYXAFDUFZGXBCPBAAAAAAAAA
-  - MZNBBZXAFDUFZGXBCPBAAAAAAAAA
-  - SGBQXYXAFDUFZGXBCPBAAAAAAAAA
-  - MLWKVNLQACAAAAXBCPBAAAAAAAAA
-  - ARYVUNLQACAAAAXBCPBAAAAAAAAA
-  - OWAHUNLQACAAAAXBCPBAAAAAAAAA
-  - SMMNKNLQACAAAAXBCPBAAAAAAAAA
-  - QBIRLNLQACAAAAXBCPBAAAAAAAAA
-  - MFZYNNLQACAAAAXBCPBAAAAAAAAA
-  - GSOYJNLQACAAAAXBCPBAAAAAAAAA
-  - WUPDXNLQACAAAAXBCPBAAAAAAAAA
-  - WOSRPNLQACAAAAXBCPBAAAAAAAAA
-  - ALBKNNLQACAAAAXBCPBAAAAAAAAA
-  - KASOWNLQACAAAAXBCPBAAAAAAAAA
-  - OQDVMNLQACAAAAXBCPBAAAAAAAAA
-  - YZWNONLQACAAAAXBCPBAAAAAAAAA
-  - EHKCLNLQACAAAAXBCPBAAAAAAAAA
-
+- UZLHJSRQACAAAAAAAAAAAAAAAAAA
+- ALNYHZXAFDUFZGXBCPBAAAAAAAAA
+- OQPJHZXAFDUFZGXBCPBAAAAAAAAA
+- CWRUGZXAFDUFZGXBCPBAAAAAAAAA
+- GMDBXYXAFDUFZGXBCPBAAAAAAAAA
+- EBZEYYXAFDUFZGXBCPBAAAAAAAAA
+- AFQMAZXAFDUFZGXBCPBAAAAAAAAA
+- URFMWYXAFDUFZGXBCPBAAAAAAAAA
+- KUGRJZXAFDUFZGXBCPBAAAAAAAAA
+- KOJFCZXAFDUFZGXBCPBAAAAAAAAA
+- OKSXZYXAFDUFZGXBCPBAAAAAAAAA
+- YZICJZXAFDUFZGXBCPBAAAAAAAAA
+- CQUIZYXAFDUFZGXBCPBAAAAAAAAA
+- MZNBBZXAFDUFZGXBCPBAAAAAAAAA
+- SGBQXYXAFDUFZGXBCPBAAAAAAAAA
+- MLWKVNLQACAAAAXBCPBAAAAAAAAA
+- ARYVUNLQACAAAAXBCPBAAAAAAAAA
+- OWAHUNLQACAAAAXBCPBAAAAAAAAA
+- SMMNKNLQACAAAAXBCPBAAAAAAAAA
+- QBIRLNLQACAAAAXBCPBAAAAAAAAA
+- MFZYNNLQACAAAAXBCPBAAAAAAAAA
+- GSOYJNLQACAAAAXBCPBAAAAAAAAA
+- WUPDXNLQACAAAAXBCPBAAAAAAAAA
+- WOSRPNLQACAAAAXBCPBAAAAAAAAA
+- ALBKNNLQACAAAAXBCPBAAAAAAAAA
+- KASOWNLQACAAAAXBCPBAAAAAAAAA
+- OQDVMNLQACAAAAXBCPBAAAAAAAAA
+- YZWNONLQACAAAAXBCPBAAAAAAAAA
+- EHKCLNLQACAAAAXBCPBAAAAAAAAA  
 #Details for configuring NetApp AutoSupport
 autosupport_vars:
   mail_hosts: "mailhost"
@@ -71,6 +73,37 @@ authentication_password: <enter password>   #Password for the authentication pro
 privacy_protocol: none   #Privacy protocol for the snmp user (Choices: none, des, aes128)
 privacy_password: <enter password>   #Password for the privacy protocol
 
+#NTP Server across all the components
+#Route to NTP server must exist from each device in the infrastructure
+ntp_server:
+  - 192.168.156.135
+  - 192.168.156.136
+
+#DNS Servers across all the components
+#Route to DNS server must exist from each device in the infrastructure
+dns_server_cluster:
+  - 10.1.156.250
+  - 10.1.156.251
+
+#DNS Domain Name
+dns_domain_cluster: "flexpod.cisco.com"
+
+##################################################################################################################################################
+# VLAN Information
+##################################################################################################################################################
+
+#Management VLANs for all components
+#Add additional rows for vlans as necessary
+#primary_vlans:
+#   - {vlan_id: 113, name: "IB-MGMT"}
+
+#Storage VLANs
+#Add additional rows for vlans as necessary
+#storage_vlans:    #If using iSCSI, enter a VLAN for fabric A and fabric B
+#   - {vlan_id: "3010", name: "iSCSI_A", protocol: "iSCSI", fabric: A}  #Do not change the fabric ID
+#   - {vlan_id: "3020", name: "iSCSI_B", protocol: "iSCSI", fabric: B}  #Do not change the fabric ID
+#   - {vlan_id: "3050", name: "infra_NFS", protocol: "NFS"}
+
 ##################################################################################################################################################
 # Node/ Controller level information
 ##################################################################################################################################################
@@ -82,7 +115,7 @@ ha_pairs:
     node_fcp_ports: ["5a","5b"]
     fcp_port_speed: "32"
     node_specs:
-    - node_name: aa16-a400-01
+    - node_name: aa16-a400-01 
       sp: {ip: 192.168.156.138, mask: 255.255.255.0, gateway: 192.168.156.1}
       node_mgmt_ip: 192.168.156.141
       partner_mgmt_ip: 192.168.156.142
@@ -99,12 +132,12 @@ ha_pairs:
         - {name: iscsi-lif-01a, address: 192.168.10.141, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
         - {name: iscsi-lif-01b, address: 192.168.20.141, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
     
-    - node_name: aa16-a400-02
+    - node_name: aa16-a400-02 
       sp: {ip: 192.168.156.139, mask: 255.255.255.0, gateway: 192.168.156.1}
       node_mgmt_ip: 192.168.156.142
       partner_mgmt_ip: 192.168.156.141
       data_aggregates: 
-        - {aggr_name: aa16_a400_02_NVME_SSD_1, disk_type: SSD-NVM, diskcount: 23}  #Options for disk_type: SAS, SSD, SSD-NVM     
+        - {aggr_name: aa16_a400_02_NVME_SSD_1, disk_type: SSD-NVM, diskcount: 23}  #Options for disk_type: SAS, SSD, SSD-NVM 
       nfs_lifs: {name: nfs-lif-02, address: 192.168.50.142, netmask: 255.255.255.0}  #Fill out this value only if nfs will be mentioned under allowed_protocols in svm_specs
       fcp_lifs:    #Fill out this value only if fcp will be mentioned under allowed_protocols in svm_specs
         - {name: fcp-lif-02a, home_port: 5a, fabric: A}  #Do not change the fabric ID
@@ -116,17 +149,18 @@ ha_pairs:
         - {name: iscsi-lif-02a, address: 192.168.10.142, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
         - {name: iscsi-lif-02b, address: 192.168.20.142, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
 
-##################################################################################################################################################
+###################################################################################################################################################
 #SVM specific variables
 ##################################################################################################################################################
 
 svm_specs:
-  svm_name: Infra_svm
+  svm_name: Infra_SVM
   svm_root_vol: infra_root
-  allowed_protocols: #provide the values in lower case only, supported options for this solution are nfs, fcp, iscsi, nvme
+  allowed_protocols:
     - nfs
     - fcp
     - nvme
+#    - iscsi
   client_match: 192.168.50.0/24
   data_protocol: nfs
   data_volumes:
@@ -143,7 +177,6 @@ svm_specs:
   boot_luns:
     - {name: VM-Host-Infra-01, size: 32, residing_vol: esxi_boot}
     - {name: VM-Host-Infra-02, size: 32, residing_vol: esxi_boot}
-    - {name: VM-Host-Infra-03, size: 32, residing_vol: esxi_boot}
   nvme_namespace:
     - {name: NVMe_namespace_01, size: 50, residing_vol: NVMe_datastore_01}  #Use NVMe datastore as residing volume here
     - {name: NVMe_namespace_02, size: 50, residing_vol: NVMe_datastore_02}
@@ -154,9 +187,8 @@ svm_specs:
 #    - {name: VM-Host-Infra-01-ISCSI, iqn: ["iqn.1992-08.com.cisco:ucs-host:1"]}
 #    - {name: VM-Host-Infra-02-ISCSI, iqn: ["iqn.1992-08.com.cisco:ucs-host:2"]}
   fcp_igroups:
-    - {name: VM-Host-Infra-01-FCP, wwpn: ["20:00:00:25:b5:a1:6a:01","20:00:00:25:b5:a1:6b:01"]}
-    - {name: VM-Host-Infra-02-FCP, wwpn: ["20:00:00:25:B5:A1:6A:03","20:00:00:25:B5:A1:6b:03"]}
-    - {name: VM-Host-Infra-03-FCP, wwpn: ["20:00:00:25:B5:A1:6A:05","20:00:00:25:B5:A1:6b:05"]}
+    - {name: VM-Host-Infra-01-FCP, wwpn: ["20:00:00:25:B5:A1:6A:05","20:00:00:25:B5:A1:6B:05"]}
+    - {name: VM-Host-Infra-02-FCP, wwpn: ["20:00:00:25:B5:A1:6A:03","20:00:00:25:B5:A1:6B:03"]}
   svm_mgmt_lif: {home_node: aa16-a400-02, home_port: a0a-113, address: 10.1.156.140, netmask: 255.255.255.0, gateway: 10.1.156.254, lif_name: svm-mgmt}
   vsadmin_password: H1ghV0lt
   os_type: vmware
@@ -176,6 +208,8 @@ cluster_mgmt_auto_revert: true
 ifgrp_name: a0a
 
 ifgrp_mode: multimode_lacp
+
+ontap_vlan_state: present 
 
 #Job Schedule
 job_schedule:

@@ -97,6 +97,7 @@
         },
           ],
         }
+    when: configure_iscsi is defined
 #
   - name: Set Fabric B iSCSI Boot Parameters for iSCSI SPT
     cisco.ucs.ucs_managed_objects:
@@ -186,6 +187,7 @@
         },
           ],
         }
+    when: configure_iscsi is defined
 #
   - name: Set Fabric A iSCSI Boot Parameters for vMedia iSCSI SPT
     cisco.ucs.ucs_managed_objects:
@@ -281,6 +283,7 @@
         },
           ],
         }
+    when: configure_iscsi is defined
 #
   - name: Set Fabric B iSCSI Boot Parameters for vMedia iSCSI SPT
     cisco.ucs.ucs_managed_objects:
@@ -370,3 +373,4 @@
         },
           ],
         }
+    when: configure_iscsi is defined

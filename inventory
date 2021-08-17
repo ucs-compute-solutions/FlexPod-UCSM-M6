@@ -1,10 +1,10 @@
 #ONTAP Cluster Management IP. List only one ONTAP cluster IP.
 [ontap]
-192.168.3.150
+192.168.156.140
 
 #vCenter Management IP. List only one vCenter IP. This is used by the playbooks for the ONTAP tools.
 [vcenter]
-172.21.63.215
+10.1.156.100
 
 [ucs]
 192.168.156.130 username=admin password=H1ghV0lt

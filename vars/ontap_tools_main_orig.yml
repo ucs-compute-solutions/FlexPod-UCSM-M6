@@ -2,56 +2,54 @@
 # Edit the following variables as necessary according to your environment
 
 # ONTAP Cluster to integrate
-ontap_cluster: 192.168.156.140
+ontap_cluster: 192.168.20.9
 ontap_user: admin
-ontap_password: H1ghV0lt
+ontap_password: password
 
 #Path to OVF or OVA file to deploy.
-ova_path: "/root/FlexPod-M6/FlexPod-UCSM-M6/tools/netapp-ontap-tools-for-vmware-vsphere-9.8-7032.ova"
+ova_path: "/root/ova/netapp-ontap-tools-for-vmware-vsphere-9.8-7032.ova"
 
 #Name of the VM to work with
-vm_name: nx-ontap-tools
+vm_name: netapp-ontap-tools
 
 #Datacenter to deploy to
-datacenter: FlexPod-DC
+datacenter: Datacenter
 
 #Cluster to deploy to
-cluster: FlexPod-Management
-
+cluster: Cluster
 
 #Datastore to deploy to
-datastore: infra_datastore_02
-
+datastore: datastore
 
 #The VM Network available in VMware vCenter that should be used by ONTAP Tools
-vm_network: "IB-MGMT Network"
+vm_network: sample_name
 
 #The port number of the vSphere vCenter or ESXi server (Default value is 443)
 vm_port: "443"
 
 #Application User Password
-app_user_passwd: "H1ghV0lt"
+app_user_passwd: "password"
 
 #Maintenance User Password
-maint_user_passwd: "H1ghV0lt"
+maint_user_passwd: "password"
 
 #Specify the hostname for the appliance
-ontap_tools_hostname: "nx-ontap-tools"
+ontap_tools_hostname: "ontap-tools"
 
 #IP address for the appliance
-ontap_tools_ip: "10.1.156.101"
+ontap_tools_ip: "192.168.20.25"
 
 #Subnet to use on the deployed network
 ontap_tools_netmask: "255.255.255.0"
 
 #Gateway on the deployed network
-ontap_tools_gateway: "10.1.156.254"
+ontap_tools_gateway: "192.168.20.1"
 
 #NTP Server
-ntp_server: "192.168.156.135"
+ntp_server: "192.168.10.20"
 
 #DNS Server
-dns_server: "10.1.156.250"
+dns_server: "192.168.10.40"
 
 #DNS Domain Name
-dns_domain: "nx-ontap-tools.flexpod.cisco.com"
+dns_domain: "ontaptools.netapp.com"
