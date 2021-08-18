@@ -46,13 +46,13 @@
     password: "{{password}}"
     state: present
     vserver: "{{svm_specs.svm_name}}"
-    subsystem: "{{item.0.name}}"
-    paths: /vol/{{item.1.residing_vol}}/{{item.1.name}}
+    subsystem: "{{item.1.name}}"
+    paths: /vol/{{item.0.residing_vol}}/{{item.0.name}}
     https: true
     validate_certs: false
-  with_together:
-    - "{{svm_specs.nvme_subsystem}}"
+  with_nested:
     - "{{svm_specs.nvme_namespace}}"
+    - "{{svm_specs.nvme_subsystem}}"
   when: "('nvme' in svm_specs.allowed_protocols)"
   tags:
     - ontap_map_namespace_to_subsystem
