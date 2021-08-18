@@ -84,7 +84,7 @@
     validate_certs: false
   with_together:
     - "{{ ha_pairs | map(attribute='node_specs') | flatten | map(attribute='data_aggregates') | flatten }}"
-    - "{{ lookup('sequence', 'start=1 end={{ total_aggr_count }} format=rootvol_m0%1x', wantlist=True) }}"
+    - "{{ lookup('sequence', 'start=1 end={{ total_aggr_count }} format={{ svm_specs.svm_root_vol }}_m0%1x', wantlist=True) }}"
   when: item.0.aggr_name is defined and item.0.aggr_name != None
   tags:
     - ontap_ls_mirror_volumes
@@ -120,7 +120,7 @@
     schedule: "{{job_schedule.0.job_name}}"
     https: true
     validate_certs: false
-  with_sequence: start=1 end="{{ total_aggr_count }}" format=rootvol_m0%1x
+  with_sequence: start=1 end="{{ total_aggr_count }}" format={{ svm_specs.svm_root_vol }}_m0%1x
   tags:
     - ontap_snapmirror_relationship
 
@@ -136,7 +136,7 @@
     relationship_state: active
     https: true
     validate_certs: false
-  with_sequence: start=1 end="{{ total_aggr_count }}" format=rootvol_m0%1x
+  with_sequence: start=1 end="{{ total_aggr_count }}" format={{ svm_specs.svm_root_vol }}_m0%1x
   tags:
     - ontap_snapmirror_relationship
     
