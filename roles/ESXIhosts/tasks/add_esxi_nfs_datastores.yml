@@ -1,9 +1,10 @@
 ---
-#
-# All the NFS datastores defined in ESXihosts/defaults/main.yml
-# are added to all the ESXi hosts. configure_nfs variable must be present
-# for the NFS datastore mount
-#
+# Import ONTAP/esxi_datastores role to get NFS and swap datastores related info
+  - name: Import esxi_datastores role to get NFS and swap datastores related info
+    import_role:
+      name: ONTAP/esxi_datastores
+
+# Add NFS datastore to ESXi hosts. configure_nfs variable must be present for the NFS datastore mount
   - name: Add NFS datastore to each host
     community.vmware.vmware_host_datastore:
       hostname: '{{ inventory_hostname }}'
@@ -21,7 +22,7 @@
       - "{{ nfs_ds_lif_map }}"
     when: configure_nfs is defined
 
-# Add swap datastore to ESXi host
+# Add swap datastore to ESXi hosts
   - name: Add swap datastore to ESXi host
     community.vmware.vmware_host_datastore:
       hostname: '{{ inventory_hostname }}'
