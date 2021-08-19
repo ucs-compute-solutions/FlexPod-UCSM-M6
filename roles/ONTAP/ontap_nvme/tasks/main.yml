@@ -50,7 +50,7 @@
     paths: /vol/{{item.0.residing_vol}}/{{item.0.name}}
     https: true
     validate_certs: false
-  with_nested:
+  with_together:
     - "{{svm_specs.nvme_namespace}}"
     - "{{svm_specs.nvme_subsystem}}"
   when: "('nvme' in svm_specs.allowed_protocols)"
