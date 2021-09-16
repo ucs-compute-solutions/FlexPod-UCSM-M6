@@ -36,7 +36,7 @@ The Converged Infrastructure setup takes place in the steps covered below. For m
 6. Setup VMware vCenter and ESXi host configurations using: "ansible-playbook Setup_VMware.yml -i inventory".
 7. Setup ONTAP Tools for VMware using: "ansible-playbook Setup_ONTAP_tools.yml -i inventory"
 
-<Add reference to AIQUM automated installation>
+Add reference here to AIQUM automated installation
   
 # Setting up Variables
 
