@@ -1,30 +1,21 @@
-[![published](https://static.production.devnetcloud.com/codeexchange/assets/images/devnet-published.svg)](https://developer.cisco.com/codeexchange/github/repo/ucs-compute-solutions/Config_Converged_Infrastructure)
 
 # FlexPod Converged Infrastructure setup using Ansible
 
-This repository for FlexPod contains Ansible playbooks to configure Cisco Nexus, Cisco UCS, Cisco MDS, NetApp ONTAP, NetApp ONTAP Tools for VMware, VMware ESXi and VMware vCenter. This repository can be used for setting up Cisco devices, NetApp ONTAP and associated NetApp tools as well as VMware ESXi and vCenter as covered in following Cisco Validated Design (CVD): https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flexpod_datacenter_vmware_netappaffa_u2.html (with minor changes).
+This repository for FlexPod contains Ansible playbooks to configure Cisco Nexus, Cisco UCS, Cisco MDS, NetApp ONTAP, NetApp ONTAP Tools for VMware, VMware ESXi and VMware vCenter. This repository can be used for setting up Cisco devices, NetApp ONTAP and associated NetApp tools as well as VMware ESXi and vCenter as covered in the following Cisco Validated Design (CVD): https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flexpod_datacenter_vmware_netappaffa_u2.html (with minor changes). The CVD lays out the complete process for configuring the FlexPod using Ansible.
 
-![block-diagram](https://user-images.githubusercontent.com/67762449/136589578-ea3c1b6b-220d-42e6-96be-ee3517c96e60.jpg)
-
-## Differences
-
-The CVD used during this automation utilizes a dedicated set of vNICs for vMotion VMK. The new CVDs have moved away from using a dedicated vNIC pair and the vMotion VMK is now defined on the VMware distributed switch (VDS). This automation defines the vMotion VMK on the VDS.  
+![block-diagram](https://github.com/ucs-compute-solutions/FlexPod-UCSM-M6/blob/master/ReadmePics/Main-Topology.jpg)  
 
 # Set up the execution environment
 
-To execute various ansible playbooks, a linux based system will need to be setup with the packages listed at the following pages:
+To execute various ansible playbooks, a linux based system will need to be setup as shown in the CVD with the packages listed at the following pages:
 
 - Cisco UCS: https://galaxy.ansible.com/cisco/ucs
 - Cisco NxOS: https://galaxy.ansible.com/cisco/nxos
 - NetApp ONTAP: https://galaxy.ansible.com/netapp/ontap
-- VMware: https://docs.ansible.com/ansible/latest/scenario_guides/vmware_scenarios/vmware_intro.html
-
-For more information: https://youtu.be/0oO3jgQ65Ss
+- VMware: https://galaxy.ansible.com/community/vmware
 
 # How to execute these playbooks?
 
-The Converged Infrastructure setup takes place in the steps covered below. For more information, watch: https://youtu.be/tr3n-WeRo4g
-[Image needs to be updated to include ONTAP]
 ![Block-Diagram](https://user-images.githubusercontent.com/60270001/111256914-867e4700-85f0-11eb-9dfe-62e54909610b.jpg)
 
 1. Physically set up the equipment, perform the initial device configuration to allow management connectivity to devices. For more information: https://youtu.be/9V6rJF_gLwM
