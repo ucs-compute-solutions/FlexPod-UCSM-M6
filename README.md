@@ -4,8 +4,7 @@
 
 This repository for FlexPod contains Ansible playbooks to configure Cisco Nexus, Cisco UCS, Cisco MDS, NetApp ONTAP, NetApp ONTAP Tools for VMware, VMware ESXi and VMware vCenter. This repository can be used for setting up Cisco devices, NetApp ONTAP and associated NetApp tools as well as VMware ESXi and vCenter as covered in following Cisco Validated Design (CVD): https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flexpod_datacenter_vmware_netappaffa_u2.html (with minor changes).
 
-![block-diagram](https://user-images.githubusercontent.com/60270001/110512605-59530580-80d3-11eb-9642-9f89a851d902.jpg)
-[Image to be updated]
+![block-diagram](https://user-images.githubusercontent.com/67762449/136589578-ea3c1b6b-220d-42e6-96be-ee3517c96e60.jpg)
 
 ## Differences
 
