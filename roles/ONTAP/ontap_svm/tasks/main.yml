@@ -61,12 +61,14 @@
     total_aggr_count: "{{ aggr_list|length }}"
   tags:
     - ontap_ls_mirror_volumes
+    - ontap_snapmirror_relationship
 
 # See the aggr count
 - name: See the aggr count
   debug: var=total_aggr_count
   tags:
     - ontap_ls_mirror_volumes
+    - ontap_snapmirror_relationship
 
 # Create mirror volumes for the root volume
 - name: Create the load-sharing mirror volumes for the root volume
