@@ -4,8 +4,8 @@
 
 # UCS Server Bundles for Default Host Firmware Package
 # These bundles need to already be installed on the FIs
-blade_bundle_version: '4.2(1d)B'
-rack_bundle_version: '4.2(1d)C'
+blade_bundle_version: '4.2(1f)B'
+rack_bundle_version: '4.2(1f)C'
 
 # Assignment order for various pool parameters
 server_assign_order: 'sequential'
@@ -95,6 +95,12 @@ intel_m6_virt_bios_setting_list:
   - name: 'Enable XPT Prefetch'
     mo_token: 'tokn-featr-Processor Prefetch Config/tokn-param-XPTPrefetch'
     mo_setting: 'Enabled'
+  - name: 'Set UPI Link Enablement to 1'
+    mo_token: 'tokn-featr-UPI Link Enablement/tokn-param-UPILinkEnablement'
+    mo_setting: '1'
+  - name: 'Set UPI Power Management to Enabled'
+    mo_token: 'tokn-featr-UPI Power Manangement/tokn-param-UPIPowerManagement'
+    mo_setting: 'Enabled'
   - name: 'Set UPI Link Frequency Select to Auto'
     mo_token: 'tokn-featr-Processor Prefetch Config/tokn-param-QpiLinkSpeed'
     mo_setting: 'Auto'
@@ -110,6 +116,9 @@ intel_m6_virt_bios_setting_list:
   - name: 'Disable Patrol Scrub'
     mo_token: 'tokn-featr-Scrub Policies/tokn-param-PatrolScrub'
     mo_setting: 'Disabled'
+  - name: 'Set Enhanced CPU Performance to Auto'
+    mo_token: 'tokn-featr-CpuPerfEnhancement/tokn-param-CpuPerfEnhancement'
+    mo_setting: 'Auto'
   - name: 'Enable Energy Efficient Turbo'
     mo_token: 'tokn-featr-Intel Turbo Boost Tech/tokn-param-EnergyEfficientTurbo'
     mo_setting: 'Enabled'
@@ -138,7 +147,14 @@ amd_c125_virt_bios_setting_list:
   - name: 'Disable Quiet Boot'
     mo_token: 'tokn-featr-Quiet Boot/tokn-param-QuietBoot'
     mo_setting: 'Disabled'
+  - name: 'Set Determinism Slider to Power'
+    mo_token: 'tokn-featr-Processor/tokn-param-CbsCmnDeterminismSlider'
+    mo_setting: 'Power'
 #
+# BIOS Policy to Use in Service Profile Templates - Populate with either "{{ intel_m6_virt_bios_policy_name }}",
+# "{{ intel_m5_virt_bios_policy_name }}", or "{{ amd_c125_virt_bios_policy_name }}"
+bios_policy_to_use: "{{ intel_m6_virt_bios_policy_name }}"
+#  
 # vMedia Policy - Mount CD ISO via HTTP
 # For Mounting http://{{ vmedia_server_ip }}/{{ vmedia_iso_path }}/{{ vmedia_iso_filename }}
 # i.e http://10.1.156.150/software/vSphere-7-Update-2/VMware_ESXi_7.0.2_17867351_Custom_Cisco_4.1.3_a.iso

@@ -1,7 +1,10 @@
 ---
 # Variables for SAN configurations of UCSM
 # Adjust the variable values as per your requirements
-
+#
+# Enable VSAN trunking between UCS FI and MDS. Comment out if not using VSAN trunking.
+enable_vsan_trunking: "yes"
+#
 # Assignment order for various pool parameters
 san_assign_order: 'sequential'
 # To add or remove certain parameters

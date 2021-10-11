@@ -123,7 +123,7 @@ port_channel_list:
     description: "AA16-93180-B:Eth1/24"
 
 # This is the list of unused FC Ports that will be disabled to avoid alerts. Since FC ports
-# must be configure in groups (of 4 on the 6454 FI), some ports may be unused.
+# must be configured in groups (of 4 on the 6454 FI), some ports may be unused.
 #
 unused_fc_port_list:
   - fabric_id: "A"

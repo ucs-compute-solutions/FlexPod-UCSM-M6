@@ -19,7 +19,6 @@ cluster_mgmt_interface: cluster_mgmt
 #List the ONTAP Licenses for the different features that you need
 ontap_license:
   - UZLHJSRQACAAAAAAAAAAAAAAAAAA
-  - ALNYHZXAFDUFZGXBCPBAAAAAAAAA
   - OQPJHZXAFDUFZGXBCPBAAAAAAAAA
   - CWRUGZXAFDUFZGXBCPBAAAAAAAAA
   - GMDBXYXAFDUFZGXBCPBAAAAAAAAA
@@ -33,7 +32,6 @@ ontap_license:
   - CQUIZYXAFDUFZGXBCPBAAAAAAAAA
   - MZNBBZXAFDUFZGXBCPBAAAAAAAAA
   - SGBQXYXAFDUFZGXBCPBAAAAAAAAA
-  - MLWKVNLQACAAAAXBCPBAAAAAAAAA
   - ARYVUNLQACAAAAXBCPBAAAAAAAAA
   - OWAHUNLQACAAAAXBCPBAAAAAAAAA
   - SMMNKNLQACAAAAXBCPBAAAAAAAAA
@@ -96,8 +94,8 @@ ha_pairs:
         - {name: fc-nvme-lif-01a, home_port: 5a, fabric: A}  #Do not change the fabric ID
         - {name: fc-nvme-lif-01b, home_port: 5b, fabric: B}  #Do not change the fabric ID
       iscsi_lifs:  #Fill out this value only if iscsi will be mentioned under allowed_protocols in svm_specs. Provide one iSCSI LIF per iSCSI VLAN
-        - {name: iscsi-lif-01a, address: 192.168.10.141, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
-        - {name: iscsi-lif-01b, address: 192.168.20.141, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
+        - {name: }  #Do not change the fabric ID
+        - {name: }  #Do not change the fabric ID
     
     - node_name: aa16-a400-02
       sp: {ip: 192.168.156.139, mask: 255.255.255.0, gateway: 192.168.156.1}
@@ -113,16 +111,16 @@ ha_pairs:
         - {name: fc-nvme-lif-02a, home_port: 5a, fabric: A}  #Do not change the fabric ID
         - {name: fc-nvme-lif-02b, home_port: 5b, fabric: B}  #Do not change the fabric ID
       iscsi_lifs:  #Fill out this value only if iscsi will be mentioned under allowed_protocols in svm_specs. Provide one iSCSI LIF per iSCSI VLAN
-        - {name: iscsi-lif-02a, address: 192.168.10.142, netmask: 255.255.255.0, fabric: A}  #Do not change the fabric ID
-        - {name: iscsi-lif-02b, address: 192.168.20.142, netmask: 255.255.255.0, fabric: B}  #Do not change the fabric ID
+        - {name: }  #Do not change the fabric ID
+        - {name: }  #Do not change the fabric ID
 
 ##################################################################################################################################################
 #SVM specific variables
 ##################################################################################################################################################
 
 svm_specs:
-  svm_name: Infra_svm
-  svm_root_vol: infra_root
+  svm_name: Infra_SVM
+  svm_root_vol: Infra_SVM_root
   allowed_protocols: #provide the values in lower case only, supported options for this solution are nfs, fcp, iscsi, nvme
     - nfs
     - fcp
@@ -146,13 +144,8 @@ svm_specs:
     - {name: VM-Host-Infra-03, size: 32, residing_vol: esxi_boot}
   nvme_namespace:
     - {name: NVMe_namespace_01, size: 50, residing_vol: NVMe_datastore_01}  #Use NVMe datastore as residing volume here
-    - {name: NVMe_namespace_02, size: 50, residing_vol: NVMe_datastore_02}
   nvme_subsystem:
-    - {name: nvme_infra_host_01, nqn: ["nqn.2014-08.com.cisco.flexpod:nvme:nx-esxi-1"]}  #Obtain the NQN from the host
-    - {name: nvme_infra_host_02, nqn: ["nqn.2014-08.com.cisco.flexpod:nvme:nx-esxi-2"]}
-#  iscsi_igroups:
-#    - {name: VM-Host-Infra-01-ISCSI, iqn: ["iqn.1992-08.com.cisco:ucs-host:1"]}
-#    - {name: VM-Host-Infra-02-ISCSI, iqn: ["iqn.1992-08.com.cisco:ucs-host:2"]}
+    - {name: nvme_infra_host_01_02_03, nqn: ["nqn.2014-08.com.cisco.flexpod:nvme:nx-esxi-1,nqn.2014-08.com.cisco.flexpod:nvme:nx-esxi-2,nqn.2014-08.com.cisco.flexpod:nvme:nx-esxi-3"]}  #Obtain the NQN from the host
   fcp_igroups:
     - {name: VM-Host-Infra-01-FCP, wwpn: ["20:00:00:25:b5:a1:6a:01","20:00:00:25:b5:a1:6b:01"]}
     - {name: VM-Host-Infra-02-FCP, wwpn: ["20:00:00:25:B5:A1:6A:03","20:00:00:25:B5:A1:6b:03"]}

@@ -18,5 +18,4 @@
             },
           }
     with_list: "{{ unused_fc_port_list }}"
-    when: unused_fc_port_list is defined 
-    when: configure_fc is defined
+    when: unused_fc_port_list is defined and configure_fc is defined

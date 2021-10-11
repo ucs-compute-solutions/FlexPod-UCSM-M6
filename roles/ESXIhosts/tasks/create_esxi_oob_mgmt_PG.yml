@@ -1,0 +1,13 @@
+---
+# Create OOB-MGMT Portgroup on vSwitch0
+  - name: Create OOB-MGMT Portgroup
+    community.vmware.vmware_portgroup:
+      hostname: '{{ inventory_hostname }}'
+      username: '{{ ansible_user }}'
+      password: '{{ ansible_ssh_pass }}'
+      validate_certs: no
+      esxi_hostname: '{{ inventory_hostname }}'
+      switch: "vSwitch0"
+      portgroup: "{{ oob_mgmt_portgroup }}"
+      vlan_id: "{{ oob_mgmt_vlan }}"
+    delegate_to: localhost

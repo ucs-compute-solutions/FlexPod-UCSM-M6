@@ -4,10 +4,6 @@
 # are added to all the ESXi hosts. configure_nfs variable must be present
 # for the NFS datastore mount
 #
-  - name: Import esxi_datastores role to get NFS and swap datastores related info
-    import_role:
-      name: ONTAP/esxi_datastores
-
   - name: Add NFS datastore to each host
     community.vmware.vmware_host_datastore:
       hostname: '{{ inventory_hostname }}'

@@ -20,7 +20,7 @@
       power_control_policy: "{{ power_policy_name }}"
       local_disk_policy: "{{ local_disk_policy_name }}"
       server_pool: "{{ server_pool_name }}"
-      bios_policy: "{{ intel_m6_virt_bios_policy_name }}"
+      bios_policy: "{{ bios_policy_to_use }}"
       host_firmware_package: 'default'
       ipmi_access_profile: "{{ ipmi_pol_name }}"
       power_state: 'down'
@@ -42,7 +42,7 @@
       power_control_policy: "{{ power_policy_name }}"
       local_disk_policy: "{{ local_disk_policy_name }}"
       server_pool: "{{ server_pool_name }}"
-      bios_policy: "{{ intel_m6_virt_bios_policy_name }}"
+      bios_policy: "{{ bios_policy_to_use }}"
       host_firmware_package: 'default'
       ipmi_access_profile: "{{ ipmi_pol_name }}"
       power_state: 'down'
@@ -67,7 +67,7 @@
       local_disk_policy: "{{ local_disk_policy_name }}"
       server_pool: "{{ server_pool_name }}"
       san_connectivity_policy: "{{ san_policy_name }}"
-      bios_policy: "{{ intel_m6_virt_bios_policy_name }}"
+      bios_policy: "{{ bios_policy_to_use }}"
       host_firmware_package: 'default'
       ipmi_access_profile: "{{ ipmi_pol_name }}"
       power_state: 'down'
@@ -89,7 +89,7 @@
       local_disk_policy: "{{ local_disk_policy_name }}"
       server_pool: "{{ server_pool_name }}"
       san_connectivity_policy: "{{ san_policy_name }}"
-      bios_policy: "{{ intel_m6_virt_bios_policy_name }}"
+      bios_policy: "{{ bios_policy_to_use }}"
       host_firmware_package: 'default'
       ipmi_access_profile: "{{ ipmi_pol_name }}"
       power_state: 'down'

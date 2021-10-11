@@ -12,15 +12,15 @@
 #
 # The zone names and zoneset name used in the configuration
   zoneset_name: FlexPod-Fabric-A
-  fcp_zone_name: FCP-Infra-SVM-A
-  fc_nvme_zone_name: FC-NVMe-Infra-SVM-A
+  fcp_zone_name: "FCP-{{ svm_specs.svm_name }}-A"
+  fc_nvme_zone_name: "FC-NVMe-{{ svm_specs.svm_name }}-A"
 #
 # Device alias lists using device names and PWWNs from CVD.  Update the PWWNs to match your deployment
   fcp_device_alias_list:
-    - device_name: "Infra-SVM-fcp-lif-01a"
+    - device_name: "{{ svm_specs.svm_name }}-fcp-lif-01a"
       pwwn: "{{ fcp_lif_01a }}"
       dev_type: target
-    - device_name: "Infra-SVM-fcp-lif-02a"
+    - device_name: "{{ svm_specs.svm_name }}-fcp-lif-02a"
       pwwn: "{{ fcp_lif_02a }}"
       dev_type: target
     - device_name: "VM-Host-Infra-FCP-01-A"
@@ -34,10 +34,10 @@
       dev_type: initiator
 #
   fc_nvme_device_alias_list:
-    - device_name: "Infra-SVM-fc-nvme-lif-01a"
+    - device_name: "{{ svm_specs.svm_name }}-fc-nvme-lif-01a"
       pwwn: "{{ fc_nvme_lif_01a }}"
       dev_type: target
-    - device_name: "Infra-SVM-fc-nvme-lif-02a"
+    - device_name: "{{ svm_specs.svm_name }}-fc-nvme-lif-02a"
       pwwn: "{{ fc_nvme_lif_02a }}"
       dev_type: target
     - device_name: "VM-Host-Infra-FC-NVMe-01-A"

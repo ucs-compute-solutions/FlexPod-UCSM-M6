@@ -9,6 +9,8 @@
   - include_tasks: modify_esxi_vswitch0.yml
 # Create the IB-MGMT Network Portgroup
   - include_tasks: create_esxi_ib_mgmt_PG.yml
+# Create the IB-MGMT Network Portgroup
+  - include_tasks: create_esxi_oob_mgmt_PG.yml
 # Create the NFS Portgroup
   - include_tasks: create_esxi_nfs_PG.yml
 # Create NFS VMK
