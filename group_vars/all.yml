@@ -220,7 +220,7 @@ vcenter_hostname: "10.1.156.100"
 # e.g. vcenter_hostname: 10.50.160.100
 vcenter_username: "administrator@vsphere.local"
 # e.g. vcenter_username: administrator@vsphere.local
-vcenter_password: "H!ghV0lt"
+vcenter_password: <password>
 # e.g. vcenter_password: "cisco!23"
 #
 # DVS Parameters; use version 7.0.2 for VMware 7.0U2 or above
