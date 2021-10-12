@@ -151,7 +151,7 @@ svm_specs:
     - {name: VM-Host-Infra-02-FCP, wwpn: ["20:00:00:25:B5:A1:6A:03","20:00:00:25:B5:A1:6b:03"]}
     - {name: VM-Host-Infra-03-FCP, wwpn: ["20:00:00:25:B5:A1:6A:05","20:00:00:25:B5:A1:6b:05"]}
   svm_mgmt_lif: {home_node: aa16-a400-02, home_port: a0a-113, address: 10.1.156.140, netmask: 255.255.255.0, gateway: 10.1.156.254, lif_name: svm-mgmt}
-  vsadmin_password: H1ghV0lt
+  vsadmin_password: <password>
   os_type: vmware
   dns_server_svm:
     - 10.1.156.250
