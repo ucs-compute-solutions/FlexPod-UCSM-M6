@@ -8,8 +8,8 @@
   when:
     - item.1.aggr_name is defined and item.1.aggr_name != None
     - item.1.disk_type == "SSD" or item.1.disk_type == "SAS" or item.1.disk_type == "SSD-NVM"
-#  tags:
-#    - node_aggr_lif_map
+  tags:
+    - node_aggr_lif_map
 
 # Getting the NFS datastore and NFS LIF map list
 - name: Get the NFS datastore and NFS LIF map list
@@ -19,8 +19,8 @@
     - "{{ node_aggr_lif_map }}"
     - "{{ svm_specs.data_volumes }}"
   when: item.0.aggr_name == item.1.residing_aggr
-#  tags:
-#    - nfs_ds_lif_map
+  tags:
+    - nfs_ds_lif_map
 
 # Getting the swap datastore and NFS LIF map list
 - name: Get the swap datastore and NFS LIF map list
@@ -30,5 +30,6 @@
     - "{{ node_aggr_lif_map }}"
     - "{{ svm_specs.swap_volumes }}"
   when: item.0.aggr_name == item.1.residing_aggr
-#  tags:
-#    - swap_ds_lif_map
+  tags:
+    - swap_ds_lif_map
+    
