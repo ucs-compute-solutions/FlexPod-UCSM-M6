@@ -4,24 +4,24 @@
 
 #vCenter Management IP. List only one vCenter IP. This is used by the playbooks for the ONTAP tools.
 [vcenter]
-192.168.3.100
+10.1.156.100
 
 [ucs]
-192.168.156.130 username=admin password=H1ghV0lt
+192.168.156.130 username=admin password=<password>
 
 # e.g. 192.168.1.1 username=admin password=cisco!23
 
 [nexus]
 
-n9kA ansible_host=192.168.156.135 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
-n9kB ansible_host=192.168.156.136 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
+n9kA ansible_host=192.168.156.135 ansible_user=admin ansible_password=<password> ansible_network_os=nxos
+n9kB ansible_host=192.168.156.136 ansible_user=admin ansible_password=<password> ansible_network_os=nxos
 
 # e.g. n9kA ansible_host=192.168.1.2 ansible_user=admin ansible_password=cisco!23 ansible_network_os=nxos
 # e.g. n9kB ansible_host=192.168.1.3 ansible_user=admin ansible_password=cisco!23 ansible_network_os=nxos
 
 [mds]
-mdsA ansible_host=192.168.156.133 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
-mdsB ansible_host=192.168.156.134 ansible_user=admin ansible_password=H1ghV0lt ansible_network_os=nxos
+mdsA ansible_host=192.168.156.133 ansible_user=admin ansible_password=<password> ansible_network_os=nxos
+mdsB ansible_host=192.168.156.134 ansible_user=admin ansible_password=<password> ansible_network_os=nxos
 
 # e.g. mdsA ansible_host=192.168.1.4 ansible_user=admin ansible_password=cisco!23 ansible_network_os=nxos
 # e.g. mdsB ansible_host=192.168.1.5 ansible_user=admin ansible_password=cisco!23 ansible_network_os=nxos
@@ -42,7 +42,7 @@ esxi_iscsi
 [vmware:vars]
 ansible_connection=ssh
 ansible_user=root
-ansible_ssh_pass=H1ghV0lt
+ansible_ssh_pass=<password>
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 [esxi_fc]
