@@ -4,7 +4,7 @@
 # ONTAP Cluster to integrate
 ontap_cluster: 192.168.156.140
 ontap_user: admin
-ontap_password: H1ghV0lt
+ontap_password: <password>
 
 #Path to OVF or OVA file to deploy.
 ova_path: "/root/FlexPod-M6/FlexPod-UCSM-M6/tools/netapp-ontap-tools-for-vmware-vsphere-9.8-7032.ova"
@@ -18,10 +18,8 @@ datacenter: FlexPod-DC
 #Cluster to deploy to
 cluster: FlexPod-Management
 
-
 #Datastore to deploy to
 datastore: infra_datastore_02
-
 
 #The VM Network available in VMware vCenter that should be used by ONTAP Tools
 vm_network: "IB-MGMT Network"
@@ -30,7 +28,7 @@ vm_network: "IB-MGMT Network"
 vm_port: "443"
 
 #Application User Password
-app_user_passwd: "H1ghV0lt"
+app_user_passwd: "password"
 
 #Maintenance User Password
 maint_user_passwd: "H1ghV0lt"
