@@ -9,7 +9,7 @@
 organization: 'FlexPod-VMware'
 #UCS Alternate User to admin
 ucs_alt_user: 'flexadmin'
-ucs_alt_passwd: 'H1ghV0lt'
+ucs_alt_passwd: <password>
 # VMware High Traffic Adapter Policy
 adapter_policy_name: 'VMware-HighTrf'
 # IQN Pool Name
