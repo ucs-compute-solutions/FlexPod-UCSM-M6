@@ -22,7 +22,7 @@ cluster: Cluster
 datastore: Datastore
 
 #The VM Network available in VMware vCenter that should be used by ONTAP Tools
-vm_network: "sample_name"
+vm_network: sample_name
 
 #The port number of the vSphere vCenter or ESXi server (Default value is 443)
 vm_port: "443"
@@ -34,7 +34,7 @@ app_user_passwd: "password"
 maint_user_passwd: "password"
 
 #Specify the hostname for the appliance
-ontap_tools_hostname: "nx-ontap-tools"
+ontap_tools_hostname: "ontap-tools"
 
 #IP address for the appliance
 ontap_tools_ip: "192.168.20.25"
