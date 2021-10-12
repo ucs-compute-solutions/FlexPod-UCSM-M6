@@ -1,5 +1,6 @@
-#
-#This is the list of all the VLANs that will be defined on Nexus, UCS and VMware
+# This is the top-level variable file that will be used for the FlexPod setup. It is setup in this case to have Fibre Channel SAN boot with
+# FC-NVMe and NFS storage protocols. Notice that the configure_iscsi variable is commented out, meaning iSCSI boot will not be configured.
+# iSCSI variable parameters are left in for guidance and commented out where necessary. If iSCSI boot is configured, uncomment all iSCSI variables.
 #
 # Commenting out the following two variables will skip the iSCSI and/or FC storage configurations
 #configure_iscsi: "yes"
@@ -12,16 +13,16 @@ configure_fc_nvme: "yes"
 #
 configure_nfs: "yes"
 #
-# Uncomment and update the the following lines to setup NTP Server(s)
+# Update the the following lines to setup NTP Server(s)
 # Note that we are setting up NTP Distribution on the Nexus switches and these are the two Nexus mgmt0 IP addresses that will be used for the other FlexPod equipment.
 ntp_servers:
   - ip_address: "192.168.156.135"
   - ip_address: "192.168.156.136"
-ib_mgmt_ntp_servers:                # To be used by ESXi hosts and VMs
+ib_mgmt_ntp_servers:                # InBand Management NTP Addresses to be used by ESXi hosts and VMs
   - ip_address: "10.1.156.135"
   - ip_address: "10.1.156.136"
 
-# Uncomment and update the the following lines to setup DNS Server(s)
+# Update the the following lines to setup DNS Server(s)
 dns_servers:
   - ip_address: "10.1.156.250"
   - ip_address: "10.1.156.251"
@@ -29,9 +30,10 @@ dns_servers:
 # DNS Domain Name
 dns_domain_name: "flexpod.cisco.com"
 
-# Uncomment and update the the following line to setup Timezone
+# Update the the following line to setup Timezone
 time_zone: 'America/New_York'
 
+# This is the list of all the VLANs that will be defined on Nexus, Storage, UCS, and VMware
 # VLAN Names are adjustable and can be modified in here
 #
 native_vlan_name: 'Native-Vlan' # Native VLAN
