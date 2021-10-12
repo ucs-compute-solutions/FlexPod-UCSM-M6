@@ -10,16 +10,16 @@ ontap_password: <password>
 ova_path: "/root/FlexPod-M6/FlexPod-UCSM-M6/tools/netapp-ontap-tools-for-vmware-vsphere-9.8-7032.ova"
 
 #Name of the VM to work with
-vm_name: nx-ontap-tools
+vm_name: netapp-ontap-tools
 
 #Datacenter to deploy to
-datacenter: FlexPod-DC
+datacenter: Datacenter
 
 #Cluster to deploy to
-cluster: FlexPod-Management
+cluster: Cluster
 
 #Datastore to deploy to
-datastore: infra_datastore_02
+datastore: Datastore
 
 #The VM Network available in VMware vCenter that should be used by ONTAP Tools
 vm_network: "sample_name"
