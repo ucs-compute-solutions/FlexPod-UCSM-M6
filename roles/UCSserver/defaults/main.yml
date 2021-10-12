@@ -166,7 +166,7 @@ vmedia_iso_filename: 'VMware_ESXi_7.0.2_17867351_Custom_Cisco_4.1.3_a.iso'
 # IPMI/Redfish Access Profile
 ipmi_pol_name: 'IPMI-Profile'
 ipmi_user_id: 'ipmiadmin'
-ipmi_password: "{{ password }}"
+ipmi_password: <password>
 #
 # iSCSI Boot Policy
 iscsi_boot_policy_name: 'Boot-iSCSI'
