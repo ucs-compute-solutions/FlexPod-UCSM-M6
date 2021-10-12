@@ -1,7 +1,7 @@
 ---
 # Variables for Equipment related configurations of UCSM
 #
-# chassis_links options: 1-link, 2-link, 4-link, 8-link, platform-max
+# chassis_links options: 2-link, 4-link, 8-link, platform-max - set to minimum for your chassis
 # chassis_link_aggr options: port-channel , none (check UCSM version)
 #
 chassis_links: 4-link
