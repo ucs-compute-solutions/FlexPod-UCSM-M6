@@ -31,5 +31,4 @@
     - "{{ svm_specs.swap_volumes }}"
   when: item.0.aggr_name == item.1.residing_aggr
   tags:
-    - swap_ds_lif_map
-    
+    - swap_ds_lif_map  
