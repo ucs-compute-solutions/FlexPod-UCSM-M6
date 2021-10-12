@@ -1,6 +1,8 @@
 
 # FlexPod Converged Infrastructure setup using Ansible for FlexPod Datacenter with Cisco UCS 4.2(1) in UCS Managed Mode, VMware vSphere 7.0 U2, and NetApp ONTAP 9.9
 
+This repository for FlexPod contains Ansible playbooks to configure Cisco Nexus, Cisco UCS, Cisco MDS, NetApp ONTAP, NetApp ONTAP Tools for VMware, VMware ESXi and VMware vCenter. This repository can be used for setting up Cisco devices, NetApp ONTAP and associated NetApp tools as well as VMware ESXi and vCenter as covered in the following Cisco Validated Design (CVD): https://www.cisco.com/c/en/us/td/docs/unified_computing/ucs/UCS_CVDs/flexpod_m6_esxi7u2.html.
+
 The CVD lays out the complete process for configuring the FlexPod using Ansible.
 
 ![block-diagram](https://github.com/ucs-compute-solutions/FlexPod-UCSM-M6/blob/master/ReadmePics/Main-Topology.jpg)  
