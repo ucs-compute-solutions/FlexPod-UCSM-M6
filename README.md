@@ -50,7 +50,7 @@ The steps for setting up a FlexPod with Fibre Channel boot and FC-NVMe and NFS s
 24.  Execute the manual steps in the CVD to complete the FC-NVMe setup.
 25.  Execute the manual steps in the CVD to add the Cisco UCS Manager Plug-in for VMware vSphere Web Client.
 26.  Execute the NetApp ONTAP tools playbook with "ansible-playbook -i inventory Setup_ONTAP_tools.yml" to install the ONTAP Tools VM.
-27.  Follow the manual steps in the CVD to finish setting up ONTAP tools and the rest of the FlexPod management cluster, including an option Ansible setup of NetApp AIQUM.
+27.  Follow the manual steps in the CVD to finish setting up ONTAP tools and the rest of the FlexPod management cluster, including an optional Ansible setup of NetApp AIQUM.
 
 The Ansible playbooks and CVD are structured in a way that a Fibre Channel Boot, Fibre Channel Boot with FC-NVMe, or an iSCSI Boot FlexPod configuration can be setup by adjusting the variables. Also, the playbooks can be used to setup the following alternative FlexPod Topologies: first a Fibre Channel topology using Nexus 93180YC-FX switches for both LAN and SAN switching and second a high-bandwidth topology with 100GE core networking.
 
