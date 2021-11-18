@@ -121,6 +121,9 @@ svm_specs:
     - {name: NVMe_namespace_01, size: 50, residing_vol: NVMe_datastore_01}  #Use NVMe datastore as residing volume here
   nvme_subsystem:
     - {name: nvme_infra_host_01_02_03, nqn: ["nqn.2014-08.com.cisco.flexpod:nvme:nx-esxi-1,nqn.2014-08.com.cisco.flexpod:nvme:nx-esxi-2,nqn.2014-08.com.cisco.flexpod:nvme:nx-esxi-3"]}  #Obtain the NQN from the host
+  iscsi_igroups:
+    - {name: VM-Host-Infra-01-ISCSI, iqn: ["iqn.1992-08.com.cisco:ucs-host:1"]}
+    - {name: VM-Host-Infra-02-ISCSI, iqn: ["iqn.1992-08.com.cisco:ucs-host:2"]}
   fcp_igroups:
     - {name: VM-Host-Infra-01-FCP, wwpn: ["20:00:00:25:b5:a1:6a:01","20:00:00:25:b5:a1:6b:01"]}
     - {name: VM-Host-Infra-02-FCP, wwpn: ["20:00:00:25:B5:A1:6A:03","20:00:00:25:B5:A1:6b:03"]}
