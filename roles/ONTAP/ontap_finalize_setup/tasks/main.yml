@@ -26,7 +26,7 @@
   set_fact:
     ha_pairs_count: "{{ha_pairs_count | default([])}} + ['{{item}}']"
   with_items:
-    - "{{ ha_pairs | map(attribute='ha_no') | flatten  }}"
+    - "{{ ha_pairs | map(attribute='ha_no') | flatten }}"
   tags:
     - ontap_ha_pairs_count
     - ontap_config_delete_residual_broadcast_domain
