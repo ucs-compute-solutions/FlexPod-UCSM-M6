@@ -35,12 +35,14 @@
     - "{{ha_pairs}}"
   tags:
     - ontap_total_port_count
+    - ontap_config_delete_broadcast_domain
 
 # See the total port count value
 - name: See the total port count value
   debug: var=total_port_count|int*2
   tags:
     - ontap_total_port_count
+    - ontap_config_delete_broadcast_domain
 
 # Delete the Default broadcast domains with node ports (This does not include Cluster ports and management ports)
 - name: Delete the default broadcast domains with node ports
@@ -133,7 +135,7 @@
   set_fact:
     ha_pairs_count: "{{ha_pairs_count | default([])}} + ['{{item}}']"
   with_items:
-    - "{{ ha_pairs | map(attribute='ha_no') | flatten  }}"
+    - "{{ ha_pairs | map(attribute='ha_no') | flatten }}"
   tags:
     - ontap_ha_pairs_count
     - ontap_check_cluster_ha
@@ -283,6 +285,7 @@
     - node_specs
   tags:
     - fcp_port_list
+    - ontap_fc_adapters
 
 # Disable Auto-Negotiate on Fibre Channel Ports
 - name: Disable each FC adapter in the controllers/nodes
