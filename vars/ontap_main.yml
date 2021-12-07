@@ -117,10 +117,12 @@ svm_specs:
     - {name: VM-Host-Infra-01, size: 32, residing_vol: esxi_boot}
     - {name: VM-Host-Infra-02, size: 32, residing_vol: esxi_boot}
     - {name: VM-Host-Infra-03, size: 32, residing_vol: esxi_boot}
-  nvme_namespace:
-    - {name: NVMe_namespace_01, size: 50, residing_vol: NVMe_datastore_01}  #Use NVMe datastore as residing volume here. Enter size values in gb
-  nvme_subsystem:
-    - {name: nvme_infra_host_01_02_03, nqn: ["nqn.2014-08.com.cisco.flexpod:nvme:nx-esxi-1,nqn.2014-08.com.cisco.flexpod:nvme:nx-esxi-2,nqn.2014-08.com.cisco.flexpod:nvme:nx-esxi-3"]}  #Obtain the NQN from the host
+  nvme_specs:
+    subsystem: 
+      - {name: nvme_infra_host_01_02_03_04, nqn: ["nqn.2014-08.com.cisco.flexpod:nvme:bb04-esxi-1","nqn.2014-08.com.cisco.flexpod:nvme:bb04-esxi-2","nqn.2014-08.com.cisco.flexpod:nvme:bb04-esxi-3","nqn.2014-08.com.cisco.flexpod:nvme:bb04-esxi-4"]}  #Name of the subsystem and obtain all the NQNs from the host
+    namespaces:  #Mention the namespaces that you want to create and map to this subsystem
+      - {name: NVMe_namespace_01, size: 50, residing_vol: NVMe_datastore_01}  #Use NVMe datastore as residing volume here
+      - {name: NVMe_namespace_02, size: 50, residing_vol: NVMe_datastore_02}  #Enter size values in gb
   iscsi_igroups:
     - {name: VM-Host-Infra-01-ISCSI, iqn: ["iqn.1992-08.com.cisco:ucs-host:1"]}
     - {name: VM-Host-Infra-02-ISCSI, iqn: ["iqn.1992-08.com.cisco:ucs-host:2"]}
