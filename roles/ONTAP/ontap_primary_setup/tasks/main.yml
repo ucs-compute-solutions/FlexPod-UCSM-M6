@@ -204,20 +204,29 @@
   tags:
     - ontap_enable_lldp
 
+# Create the DNS server list variable
+- name: Create the DNS server list
+  set_fact:
+    dns_server_list: "{{dns_server_list | default([])}} + ['{{item.ip_address}}']"
+  with_items:
+    - "{{dns_servers}}"
+  when:
+    - item.ip_address is defined and item.ip_address != None
+  tags:
+    - ontap_config_dns
+
 # Configure DNS
 - name: Configure DNS
   netapp.ontap.na_ontap_dns:
     state: present
     vserver: "{{cluster_name}}"
-    nameservers: "{{item.ip_address}}"
+    nameservers: "{{ dns_server_list }}"
     domains: "{{dns_domain_name}}"
     hostname: "{{inventory_hostname}}"
     username: "{{username}}"
     password: "{{password}}"
     https: true
     validate_certs: false
-  with_items:
-    - "{{dns_servers}}"
   tags:
     - ontap_config_dns
 
