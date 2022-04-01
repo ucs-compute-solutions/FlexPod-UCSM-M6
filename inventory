@@ -34,7 +34,7 @@ mdsB ansible_host=192.168.156.134 ansible_user=admin ansible_password=<password>
 # The VMware vCenter connectivity information is defined in group_vars/all.yml using following variables:
 # vcenter_hostname, vcenter_username, vcenter_password
 #
-# The ESXi host username and password is also defined (copied) in roup_vars/all.yml esxi_username and esxi_password
+# The ESXi host username and password is also defined (copied) in group_vars/all.yml esxi_username and esxi_password
 #
 esxi_fc
 esxi_iscsi
