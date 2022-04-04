@@ -61,7 +61,7 @@ NOTE: The format of the variable file needs to be maintained as it is, any chang
 
 NOTE: Sample values are pre-populated against some variables in order to provide the user additional clarity on how the variable needs to be filled out. Please replace the sample values with your environment specific information.
 
-3. Update the credentials for the ONTAP Cluster and VMware vCenter
+4. Update the credentials for the ONTAP Cluster and VMware vCenter
 
 Navigate to the 'ontap' file within the 'group_vars' directory and update it with the admin credentials for the ONTAP cluster 
 
@@ -79,7 +79,7 @@ Example -
 	vcenter_username: "administrator@vsphere.local"
 	vcenter_password: "password"
 
-4. Update the Inventory file
+5. Update the Inventory file
 
 Open the 'inventory' file and update it with a record for the ONTAP Cluster Management IP and vCenter IP
 
@@ -94,7 +94,7 @@ Example -
 	# vCenter Management IP. List only one vCenter IP. This is used by the playbooks for ONTAP tools.
 	192.168.10.10
 
-5. Executing the Playbook
+6. Executing the Playbook
 
 A playbook by name 'Setup_ONTAP.yml' is available at the root of this repository. It calls all the required roles to complete the setup of the ONTAP storage system.
 
