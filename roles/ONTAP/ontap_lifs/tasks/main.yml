@@ -140,11 +140,11 @@
     vserver: "{{svm_specs.svm_name}}" 
     role: data 
     protocols: none 
-    home_node: "{{item.home_node}}" 
-    home_port: "{{item.home_port}}" 
-    address: "{{item.address}}" 
-    netmask: "{{item.netmask}}" 
-    interface_name: "{{item.lif_name}}" 
+    home_node: "{{svm_specs.svm_mgmt_lif.home_node}}" 
+    home_port: "{{ifgrp_name}}-{{item.id}}"
+    address: "{{svm_specs.svm_mgmt_lif.address}}" 
+    netmask: "{{svm_specs.svm_mgmt_lif.netmask}}" 
+    interface_name: "{{svm_specs.svm_mgmt_lif.lif_name}}" 
     admin_status: up 
     failover_policy: broadcast-domain-wide 
     firewall_policy: mgmt 
@@ -152,7 +152,7 @@
     https: true 
     validate_certs: false
   with_items:
-    - "{{svm_specs.svm_mgmt_lif}}"
+    - "{{ ib_mgmt_vlan_list }}"
   tags:
     - ontap_svm_mgmt_lif
 
