@@ -24,7 +24,7 @@ These roles are developed as per the best practices prescribed in the Cisco Vali
 As the automation solution is specifically build for the above mentioned CVD, the current roles and playbooks support the following components:
 
 	Storage Operating System: ONTAP 9.8 and 9.9
-	Storage Protocols: iSCSI, NFS and NVMe
+	Storage Protocols: iSCSI, NFS, FCP, and NVMe
 	VMware vSphere: 7.0 U2
 
 ### Prerequisite
